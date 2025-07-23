@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { withAuth } from "../components/auth/withAuth";
-import BillReviewModal from "../components/modals/BillReviewModal";
+import BillReviewModal from "../components/modals/BillDetailsModal";
 
 const mockBillingData = [
   {
@@ -137,7 +137,7 @@ function BillingPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-1">
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-white rounded-xl shadow-sm border p-6 flex flex-col">

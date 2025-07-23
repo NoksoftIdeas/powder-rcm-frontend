@@ -51,7 +51,7 @@ export default function LoginPage() {
               <label className="text-sm font-medium">Email</label>
               <input
                 type="email"
-                className="w-full border rounded px-4 py-2 mt-1"
+                className="w-full border rounded px-4 py-1 mt-1"
                 placeholder="admin@domain.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -62,7 +62,7 @@ export default function LoginPage() {
               <label className="text-sm font-medium">Password</label>
               <input
                 type="password"
-                className="w-full border rounded px-4 py-2 mt-1"
+                className="w-full border rounded px-4 py-1 mt-1"
                 placeholder="********"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -71,12 +71,12 @@ export default function LoginPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#0086A8] hover:bg-[#007090] text-white py-2 rounded font-semibold text-lg shadow transition"
+              className="w-full bg-[#0086A8] hover:bg-[#007090] text-white py-1 rounded font-semibold text-lg shadow transition"
               disabled={isLoading}
             >
               {isLoading ? "Loading..." : "Continue"}
             </button>
-            <p className="text-xs text-gray-500 text-center mt-4">
+            <p className="text-xs text-gray-500 text-center mt-1">
               By continuing, you agree to this <a href="/terms" className="underline">Terms & Usage Policy</a> and acknowledge the <a href="/privacy" className="underline">Privacy Policy</a>.
             </p>
           </form>

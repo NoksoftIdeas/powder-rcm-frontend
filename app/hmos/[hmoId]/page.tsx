@@ -2,8 +2,8 @@
 import React from "react";
 import Link from "next/link";
 
-export default function HmoDetailsPage({ params }: { params: any }) {
-  const { hmoId } = React.use(params);
+export default function HmoDetailsPage({ params }: { params: { hmoId: string } }) {
+  const { hmoId } = params;
   // In a real app, fetch HMO details by hmoId
   const hmo = {
     id: hmoId,

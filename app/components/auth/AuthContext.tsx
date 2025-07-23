@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
@@ -20,13 +19,22 @@ interface AuthContextType {
   logout: () => void;
 }
 
+// Create a logout function that can be used both inside and outside the context
+const logout = () => {
+  localStorage.removeItem('auth_token');
+  localStorage.removeItem('user');
+  window.location.href = '/login';
+};
+
+export { logout };
+
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   isLoading: true,
   user: null,
   login: async () => false,
   signup: async () => false,
-  logout: () => {},
+  logout,
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -63,18 +71,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkSession();
   }, []);
 
-  const login = async (email: string, _password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
       // Simulated login - replace with actual backend authentication
       await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
 
-      // Allow any email and password for demo
+      // Check for admin credentials
+      const isAdmin = email === 'admin@demo.com' && password === 'admin123';
+      
+      // Only allow login for admin users
+      if (!isAdmin) {
+        return false;
+      }
+
       const mockUser = {
         id: Date.now().toString(),
         email: email,
-        name: email.split('@')[0],
-        role: 'user'
+        name: 'Admin User',
+        role: 'admin'
       };
 
       // Set authentication state

@@ -1,103 +1,312 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
+import { 
+  LineChart, 
+  Line, 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip as RechartsTooltip, 
+  ResponsiveContainer,
+  TooltipProps as RechartsTooltipProps
+} from "recharts";
+import { Payload } from 'recharts/types/component/DefaultTooltipContent';
 
-const chartData = [
-  { label: "Jul", value: 12000 },
-  { label: "Aug", value: 32000, highlight: true, tooltip: "Aug, 23: 1,390" },
-  { label: "Sep", value: 34000 },
-  { label: "Oct", value: 22000 },
-  { label: "Nov", value: 14000 },
-  { label: "Dec", value: 14000 },
-  { label: "Jan", value: 19000 },
-  { label: "Feb", value: 23000 },
-  { label: "Mar", value: 31000 },
-  { label: "Apr", value: 26000 },
-  { label: "May", value: 17000 },
-  { label: "Jun", value: 25000 },
+type ChartData = {
+  label: string;
+  claims: number;
+  average: number;
+};
+
+const chartData: ChartData[] = [
+  { label: "Jul", claims: 12000, average: 10500 },
+  { label: "Aug", claims: 32000, average: 28500 },
+  { label: "Sep", claims: 34000, average: 29500 },
+  { label: "Oct", claims: 22000, average: 24000 },
+  { label: "Nov", claims: 14000, average: 18000 },
+  { label: "Dec", claims: 14000, average: 16000 },
+  { label: "Jan", claims: 19000, average: 21000 },
+  { label: "Feb", claims: 23000, average: 25000 },
+  { label: "Mar", claims: 31000, average: 28000 },
+  { label: "Apr", claims: 26000, average: 24000 },
+  { label: "May", claims: 17000, average: 21000 },
+  { label: "Jun", claims: 25000, average: 23000 },
 ];
 
+// Custom Tooltip component for the charts
+interface CustomTooltipProps extends RechartsTooltipProps<number, string> {
+  active?: boolean;
+  payload?: Payload<number, string>[];
+  label?: string;
+}
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
+        <p className="font-medium">{label}</p>
+        {payload.map((entry, index) => (
+          <p 
+            key={`tooltip-${index}`} 
+            className="text-sm" 
+            style={{ color: entry.color }}
+          >
+            {entry.name}: {entry.value?.toLocaleString()}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
+// Simple Card component
+const Card = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div 
+    className={`bg-white rounded-lg border border-gray-200 shadow-sm p-4 ${className}`}
+    {...props}
+  >
+    {children}
+  </div>
+);
+
+// Simple CardHeader component
+const CardHeader = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={`flex justify-between items-center mb-4 ${className}`} {...props}>
+    {children}
+  </div>
+);
+
+// Simple CardTitle component
+const CardTitle = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+  <h3 className={`text-lg font-semibold text-gray-900 ${className}`} {...props}>
+    {children}
+  </h3>
+);
+
+// Simple CardContent component
+const CardContent = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={className} {...props}>
+    {children}
+  </div>
+);
+
+// Simple Select component
+const Select = ({
+  value,
+  onChange,
+  children,
+  className = "",
+  ...props
+}: React.SelectHTMLAttributes<HTMLSelectElement>) => (
+  <select
+    className={`h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 ${className}`}
+    value={value}
+    onChange={onChange}
+    {...props}
+  >
+    {children}
+  </select>
+);
+
+
+
 export default function ClaimsChartSection() {
-  const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+  const [timeRange, setTimeRange] = useState('6m');
+  const [activeTab, setActiveTab] = useState<'claims' | 'average'>('claims');
+
+  const filteredData = timeRange === '6m' ? chartData.slice(-6) : chartData;
+  
+  const handleTimeRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setTimeRange(e.target.value);
+  };
+  const totalClaims = filteredData.reduce((sum, item) => sum + item.claims, 0);
+  const avgClaims = Math.round(totalClaims / filteredData.length);
+  const trend = ((filteredData[filteredData.length - 1].claims - filteredData[0].claims) / filteredData[0].claims) * 100;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-4 sm:p-6 mt-2 flex flex-col lg:flex-row gap-6 lg:gap-8">
-      <div className="flex-1">
-        <div className="flex items-center gap-4 mb-4">
-          <span className="text-gray-500 font-semibold text-lg">Claims by Period</span>
-          <select className="ml-2 bg-gray-50 border border-gray-200 rounded px-2 py-1 text-sm text-gray-700">
-            <option>This Month</option>
-          </select>
-        </div>
-        <div className="flex items-center gap-4 mb-2">
-          <span className="text-2xl font-bold text-gray-900">4,556</span>
-          <span className="text-blue-500 font-semibold text-sm">+5.2%</span>
-        </div>
-        {/* Area Chart */}
-        <div className="relative h-48 w-full">
-          <svg viewBox="0 0 480 192" className="absolute left-0 top-0 w-full h-full">
-            
-            <polyline
-              fill="#06b6d4"
-              fillOpacity="0.18"
-              stroke="#06b6d4"
-              strokeWidth="1"
-              points="0,160 40,80 80,70 120,110 160,90 200,160 240,140 280,120 320,150 360,120 400,140 440,100 480,160"
-            />
-            {chartData.map((d, i) => (
-              <circle
-                key={i}
-                cx={40 * i}
-                cy={160 - d.value / 250}
-                r={hoverIdx === i || d.highlight ? 7 : 5}
-                fill={d.highlight ? "#06b6d4" : "#bae6fd"}
-                stroke="#06b6d4"
-                strokeWidth={d.highlight ? 3 : 2}
-                onMouseEnter={() => setHoverIdx(i)}
-                onMouseLeave={() => setHoverIdx(null)}
-              />
-            ))}
-            {/* Tooltip */}
-            {hoverIdx !== null && (
-              <g>
-                <rect x={40 * hoverIdx - 30} y={40} width="60" height="32" rx="8" fill="#fff" stroke="#06b6d4" />
-                <text x={40 * hoverIdx} y={60} textAnchor="middle" fill="#06b6d4" fontWeight="bold" fontSize="13">
-                  {chartData[hoverIdx].tooltip || `${chartData[hoverIdx].label}, 23: ${chartData[hoverIdx].value.toLocaleString()}`}
-                </text>
-              </g>
-            )}
-          </svg>
-          {/* X Axis Labels */}
-          <div className="absolute bottom-0 left-0 w-full flex space-x-6  ml-20 text-xs text-gray-400 px-2">
-            {chartData.map((d, i) => (
-              <span key={i}>{d.label}</span>
-            ))}
+    <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+            <CardTitle>Claims Overview</CardTitle>
+            <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+              <div className="flex space-x-1 rounded-md bg-gray-100 p-1">
+                <button
+                  onClick={() => setActiveTab('claims')}
+                  className={`rounded px-3 py-1.5 text-sm font-medium transition-colors ${
+                    activeTab === 'claims' 
+                      ? 'bg-white shadow-sm text-gray-900' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Claims
+                </button>
+                <button
+                  onClick={() => setActiveTab('average')}
+                  className={`rounded px-3 py-1.5 text-sm font-medium transition-colors ${
+                    activeTab === 'average' 
+                      ? 'bg-white shadow-sm text-gray-900' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  Average
+                </button>
+              </div>
+              <div className="w-48">
+                <Select value={timeRange} onChange={handleTimeRangeChange}>
+                  <option value="6m">Last 6 months</option>
+                  <option value="12m">Last 12 months</option>
+                </Select>
+              </div>
+            </div>
           </div>
-          {/* Y Axis Labels */}
-          <div className="absolute left-0 top-0 h-full flex flex-col justify-between text-xs text-gray-400">
-            <span>40k</span>
-            <span>30k</span>
-            <span>20k</span>
-            <span>10k</span>
-            <span>0</span>
-          </div>
-        </div>
-      </div>
-      {/* Mini summary card */}
-      <div className="w-full max-w-xs lg:w-48 bg-cyan-50 rounded-xl flex flex-col items-center justify-center p-4 shadow-sm border-[1px] border-gray-200 h-56 self-center mt-6 lg:mt-0">
-        <span className="text-gray-600 text-sm font-semibold mb-2">Average Claims</span>
-        <span className="text-3xl font-bold text-gray-900 mb-2">2,387</span>
-        {/* Bar chart background */}
-        <svg width="100" height="40" className="mt-2">
-          <rect x="5" y="25" width="10" height="10" rx="3" fill="#bae6fd" />
-          <rect x="20" y="10" width="10" height="25" rx="3" fill="#38bdf8" />
-          <rect x="35" y="20" width="10" height="15" rx="3" fill="#bae6fd" />
-          <rect x="50" y="5" width="10" height="30" rx="3" fill="#38bdf8" />
-          <rect x="65" y="15" width="10" height="20" rx="3" fill="#bae6fd" />
-          <rect x="80" y="20" width="10" height="15" rx="3" fill="#38bdf8" />
-
-          
-        </svg>
+        </CardHeader>
+        <CardContent className="pt-4">
+          {/* <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-2xl font-bold">{totalClaims.toLocaleString()}</p>
+              <p className="text-sm text-gray-800">
+                {trend >= 0 ? '↑' : '↓'} {Math.abs(trend).toFixed(1)}% from last period
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-medium">Avg. Claims</p>
+              <p className="text-xl font-semibold">{avgClaims.toLocaleString()}</p>
+            </div>
+          </div> */}
+          {activeTab === 'claims' ? (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart 
+                      data={filteredData}
+                      margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis 
+                        dataKey="label" 
+                        tick={{ fill: '#6b7280' }}
+                        axisLine={{ stroke: '#e5e7eb' }}
+                        tickLine={{ stroke: '#e5e7eb' }}
+                      />
+                      <YAxis 
+                        tick={{ fill: '#6b7280' }}
+                        axisLine={{ stroke: '#e5e7eb' }}
+                        tickLine={{ stroke: '#e5e7eb' }}
+                        tickFormatter={(value) => value.toLocaleString()}
+                      />
+                      <RechartsTooltip content={<CustomTooltip />} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="claims" 
+                        name="Claims"
+                        stroke="#3b82f6" 
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={{ r: 6, stroke: '#2563eb', strokeWidth: 2 }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart 
+                      data={filteredData}
+                      margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                      <XAxis 
+                        dataKey="label" 
+                        tick={{ fill: '#6b7280' }}
+                        axisLine={{ stroke: '#e5e7eb' }}
+                        tickLine={{ stroke: '#e5e7eb' }}
+                      />
+                      <YAxis 
+                        tick={{ fill: '#6b7280' }}
+                        axisLine={{ stroke: '#e5e7eb' }}
+                        tickLine={{ stroke: '#e5e7eb' }}
+                        tickFormatter={(value) => value.toLocaleString()}
+                      />
+                      <RechartsTooltip content={<CustomTooltip />} />
+                      <Bar 
+                        dataKey="average" 
+                        name="Average Claims"
+                        fill="#3b82f6" 
+                        radius={[4, 4, 0, 0]}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </CardContent>
+      </Card>
+      
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {/* <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Claims
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalClaims.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">
+              {trend >= 0 ? '+' : ''}{trend.toFixed(1)}% from last period
+            </p>
+          </CardContent>
+        </Card> */}
+        {/* <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Average Claims
+            </CardTitle>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              className="h-4 w-4 text-muted-foreground"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{avgClaims.toLocaleString()}</div>
+            <p className="text-xs text-muted-foreground">
+              Monthly average claims
+            </p>
+          </CardContent>
+        </Card> */}
       </div>
     </div>
   );

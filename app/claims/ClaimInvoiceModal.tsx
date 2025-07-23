@@ -51,7 +51,7 @@ export default function ClaimInvoiceModal({
     >
       <div className="absolute right-[180px] top-9 flex flex-col gap-2">
         <button
-          className="px-4 py-2 rounded bg-blue-50 text-blue-700 font-semibold text-xs border hover:bg-blue-100"
+          className="px-4 py-2 rounded bg-blue-50 text-gray-700 font-semibold text-xs border hover:bg-blue-100"
           onClick={() => {
             // Print only modal content
             const printContents = document.getElementById(
@@ -81,7 +81,9 @@ export default function ClaimInvoiceModal({
             if (typeof html2pdf === "function") {
               html2pdf(document.getElementById("claim-invoice-modal-content"));
             } else {
-              alert("PDF download requires html2pdf.js to be loaded on this page.");
+              alert(
+                "PDF download requires html2pdf.js to be loaded on this page."
+              );
             }
           }}
         >
@@ -91,16 +93,16 @@ export default function ClaimInvoiceModal({
 
       <div
         id="claim-invoice-modal-content"
-        className="bg-white w-full max-w-2xl shadow-xl relative animate-fade-in md:max-h-[90vh] md:min-w-[32rem]"
+        className="bg-white w-full max-w-2xl shadow-xl rounded-xl relative animate-fade-in md:max-h-[90vh] md:min-w-[32rem]"
         style={{ maxHeight: "90vh" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b-[1px] border-gray-200 px-8 py-2">
-          <div className="flex items-center w-[10%] gap-4">
+        <div className="flex  items-center justify-between border-b-[1px] border-gray-200 px-8">
+          <div className="flex mt-1 items-center w-[10%] gap-4">
             <Logo />
           </div>
           <div className="flex flex-col items-end">
-            <div className="font-semibold text-blue-700">
+            <div className="font-semibold text-[#027FA3]">
               {claim.patientName}
             </div>
             <div className="text-xs text-gray-500">
@@ -111,7 +113,7 @@ export default function ClaimInvoiceModal({
         </div>
 
         {/* Invoice Table */}
-        <div className="p-8">
+        <div className="p-8  ">
           <table className="w-full mb-8 min-w-full divide-y divide-gray-100">
             <thead className="">
               <tr className="text-gray-900 capitalize text-xs font-bold">
@@ -120,11 +122,11 @@ export default function ClaimInvoiceModal({
                 <th className="text-left text-sm pb-4">Price</th>
               </tr>
             </thead>
-            <tbody className="text-sm text-gray-700 bg-white divide-y divide-gray-100">
+            <tbody className="text-sm text-gray-500 py-2 bg-white divide-y divide-gray-100">
               {groupedLineItems.map((group: GroupType, gIdx: number) => (
                 <React.Fragment key={gIdx}>
                   <tr className={gIdx % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-                    <td>{group.code}</td>
+                    <td className=" mr-[-160%] text-gray-900 font-semibold flex justify-center  ">{group.code}</td>
                     <td colSpan={2}></td>
                   </tr>
                   {group.items.map(
@@ -134,7 +136,7 @@ export default function ClaimInvoiceModal({
                     ) => (
                       <tr key={iIdx}>
                         <td>{item.sn}</td>
-                        <td>{item.desc}</td>
+                        <td>{item.desc} </td>
                         <td>{item.price}</td>
                       </tr>
                     )
@@ -143,23 +145,6 @@ export default function ClaimInvoiceModal({
               ))}
             </tbody>
           </table>
-          {/* Summary Section */}
-          <div className="flex flex-col items-end gap-1 mb-8">
-            <div className="flex gap-12">
-              <span className="text-gray-500">Subtotal</span>
-              <span className="text-gray-700 font-semibold">₦96,320</span>
-            </div>
-            <div className="flex gap-12">
-              <span className="text-gray-500">Tax (10%)</span>
-              <span className="text-gray-700 font-semibold">₦9,632</span>
-            </div>
-            <div className="flex gap-12 mt-2">
-              <span className="text-blue-700 font-bold">Total due</span>
-              <span className="text-blue-700 font-bold text-lg">
-                ₦86,686.00
-              </span>
-            </div>
-          </div>
           {/* Optional Signature */}
           <div className="flex justify-end">
             <Image
@@ -168,6 +153,24 @@ export default function ClaimInvoiceModal({
               width={80}
               height={32}
             />
+          </div>
+
+          {/* Summary Section */}
+          <div className="flex flex-col justify-between rounded-sm py-2 px-3 bg-gray-100 gap-1 mb-2">
+            <div className="flex justify-between">
+              <span className="text-gray-500">Subtotal</span>
+              <span className="text-gray-700 font-semibold">₦96,320</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-gray-500">Tax (10%)</span>
+              <span className="text-gray-700 font-semibold">₦9,632</span>
+            </div>
+            <div className="flex justify-between   mt-2">
+              <span className="text-[#027FA3] font-bold">Total due</span>
+              <span className="text-[#027FA3] font-bold text-lg">
+                ₦86,686.00
+              </span>
+            </div>
           </div>
         </div>
       </div>

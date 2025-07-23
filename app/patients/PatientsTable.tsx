@@ -1,65 +1,19 @@
 import React from "react";
 
-const patients = [
-  {
-    patientId: "13/OJ/WTE27O",
-    name: "Muhammad Sahab",
-    enrolleeId: "13/OJ/WTE27O",
-    hmo: "Songhai Health Trust",
-    plan: "Basic",
-    role: "Principal",
-  },
-  {
-    patientId: "13/OJ/9JR42N",
-    name: "Chidinma Isaac",
-    enrolleeId: "13/OJ/9JR42N",
-    hmo: "Ally Healthcare",
-    plan: "Family Plan",
-    role: "Spouse",
-  },
-  {
-    patientId: "13/OJ/WTE27O",
-    name: "Muhammad Sahab",
-    enrolleeId: "13/OJ/WTE27O",
-    hmo: "Songhai Health Trust",
-    plan: "Basic",
-    role: "Principal",
-  },
-  {
-    patientId: "13/OJ/9JR42N",
-    name: "Chidinma Isaac",
-    enrolleeId: "13/OJ/9JR42N",
-    hmo: "Ally Healthcare",
-    plan: "Family Plan",
-    role: "Spouse",
-  },
-  {
-    patientId: "13/OJ/WTE27O",
-    name: "Muhammad Sahab",
-    enrolleeId: "13/OJ/WTE27O",
-    hmo: "Songhai Health Trust",
-    plan: "Basic",
-    role: "Principal",
-  },
-  {
-    patientId: "13/OJ/9JR42N",
-    name: "Chidinma Isaac",
-    enrolleeId: "13/OJ/9JR42N",
-    hmo: "Ally Healthcare",
-    plan: "Family Plan",
-    role: "Spouse",
-  },
-  {
-    patientId: "13/OJ/WTE27O",
-    name: "Muhammad Sahab",
-    enrolleeId: "13/OJ/WTE27O",
-    hmo: "Songhai Health Trust",
-    plan: "Basic",
-    role: "Principal",
-  },
-];
+interface Patient {
+  patientId: string;
+  name: string;
+  enrolleeId: string;
+  hmo: string;
+  plan: string;
+  role: string;
+}
 
-export default function PatientsTable() {
+interface PatientsTableProps {
+  patients: Patient[];
+}
+
+export default function PatientsTable({ patients }: PatientsTableProps) {
   return (
     <div className="overflow-x-auto bg-white rounded-xl shadow border-[1px] border-gray-200  mt-6">
       <table className="min-w-full divide-y divide-gray-200">

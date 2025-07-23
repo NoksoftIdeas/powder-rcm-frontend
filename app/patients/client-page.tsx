@@ -1,9 +1,11 @@
-"use client";
-import React, { useState } from "react";
-import PatientsTable from "./PatientsTable";
-import Pagination from "./Pagination";
-import AddPatientModal from "../components/modals/AddPatientModal";
-import { withAuth } from "../components/auth/withAuth";
+
+'use client';
+
+import React, { useState } from 'react';
+import PatientsTable from './PatientsTable';
+import Pagination from './Pagination';
+import AddPatientModal from '../components/modals/AddPatientModal';
+import { withAuth } from '../components/auth/withAuth';
 
 interface Patient {
   patientId: string;
@@ -51,7 +53,7 @@ function PatientsPage() {
   return (
     <div className="p-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
-        <h1 className="text-2xl font-bold mb-2 sm:mb-0">You have {patients.length.toLocaleString()} patients</h1>
+        <h1 className="text-2xl font-bold mb-2 sm:mb-0">You have 5,395 patients</h1>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <div className="relative flex-1 max-w-xs">
             <input
