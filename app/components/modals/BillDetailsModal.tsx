@@ -8,12 +8,25 @@ interface BillDetailsModalProps {
   open: boolean;
   onClose: () => void;
   bill: any;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  onPrint: () => void;
+  onDownload: () => void;
+  pageNumber: string;
 }
 
 const tabs = ["Services", "Drugs"];
 
-export default function BillDetailsModal({ open, onClose, bill }: BillDetailsModalProps) {
-  const [activeTab, setActiveTab] = useState("Services");
+export default function BillDetailsModal({ 
+  open, 
+  onClose, 
+  bill, 
+  activeTab, 
+  setActiveTab, 
+  onPrint, 
+  onDownload, 
+  pageNumber 
+}: BillDetailsModalProps) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#014C654D] backdrop-blur-[0.3px]" onClick={onClose}>

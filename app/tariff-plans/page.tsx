@@ -1,3 +1,5 @@
+"use client";
+
 import { withAuth } from "../components/auth/withAuth";
 
 function TariffPlans() {
