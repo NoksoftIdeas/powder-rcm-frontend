@@ -97,16 +97,16 @@ type BillDetails = {
   approvedBy: { name: string; role: string; date: string };
 };
 
-interface BillReviewModalProps {
-  bill: BillDetails | null;
-  open: boolean;
-  onClose: () => void;
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-  onPrint: () => void;
-  onDownload: () => void;
-  pageNumber: string;
-}
+// interface BillReviewModalProps {
+//   bill: BillDetails | null;
+//   open: boolean;
+//   onClose: () => void;
+//   activeTab: string;
+//   setActiveTab: (tab: string) => void;
+//   onPrint: () => void;
+//   onDownload: () => void;
+//   pageNumber: string;
+// }
 
 function BillingPage() {
   const [filter, setFilter] = useState({
