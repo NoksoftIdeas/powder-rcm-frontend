@@ -13,19 +13,19 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
   }
 
   return (
-    <div className="flex items-center justify-between py-4 px-2">
+    <div className="flex justify-center items-center py-4 gap-2">
       <button
-        className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
+        className="px-4 py-2 rounded-xl border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
         Previous
       </button>
-      <div className="flex items-center gap-1">
+      <div className="flex gap-1 ">
         {pages.map((page) => (
           <button
             key={page}
-            className={`px-3 py-1.5 rounded-md font-semibold text-sm ${
+            className={`px-3 py-1.5 rounded-xl font-semibold text-sm ${
               page === currentPage
                 ? "bg-gray-300 text-white shadow"
                 : "bg-white text-gray-700 hover:bg-gray-100"
@@ -37,7 +37,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         ))}
       </div>
       <button
-        className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
+        className="px-4 py-2 rounded-xl border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >

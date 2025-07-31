@@ -140,9 +140,9 @@ function HMOsPage() {
   };
 
   return (
-    <div>
+    <div className="py-4 px-2 border-[1px] border-gray-200 rounded-xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+        <h2 className="text-xl ml-4 sm:text-2xl font-bold text-gray-800">
           You have <span className="font-extrabold">{hmos.length}</span> partner HMOs
         </h2>
         <div className="flex gap-1 w-full sm:w-auto">
@@ -167,11 +167,11 @@ function HMOsPage() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase">HMO</th>
-              <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Plans</th>
-              <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Tariff Update</th>
-              <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Channels</th>
-              <th className="px-3 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Action</th>
+              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">HMO</th>
+              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Plans</th>
+              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Tariff Update</th>
+              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Channels</th>
+              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Action</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
@@ -201,8 +201,8 @@ function HMOsPage() {
                     <span className="font-semibold text-gray-800">{hmo.name}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{hmo.plans}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-3 py-3 whitespace-nowrap">{hmo.plans}</td>
+                <td className="px-3 py-3 whitespace-nowrap">
                   {hmo.tariffUpdate === "Set up tariff" ? (
                     <WarningBadge>Set up tariff</WarningBadge>
                   ) : (

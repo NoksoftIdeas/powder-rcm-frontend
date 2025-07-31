@@ -36,7 +36,7 @@ export default function TariffPlansPage() {
   const router = useRouter();
 
   return (
-    <div className="p-6">
+    <div className="py-4 px-5 border-[1px] border-gray-200 rounded-xl">
       {/* Breadcrumb */}
       <nav className="text-xs text-gray-400 mb-2 flex items-center gap-2">
         <span className="hover:underline cursor-pointer" onClick={() => router.push('/hmos')}>HMOs</span>

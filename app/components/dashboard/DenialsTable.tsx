@@ -36,13 +36,13 @@ export default function DenialsTable({ denials, onReprocess }: DenialsTableProps
         <tbody className="bg-white divide-y divide-gray-100">
           {denials.map((denial, idx) => (
             <tr key={denial.sn} className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}>
-              <td className="px-4 py-3 text-sm whitespace-nowrap">{denial.sn}</td>
-              <td className="px-4 py-3 text-sm whitespace-nowrap">{denial.time ? denial.time : denial.date}</td>
-              <td className="px-4 py-3 text-sm font-bold whitespace-nowrap">{denial.enrolleeId}</td>
-              <td className="px-4 py-3 text-sm whitespace-nowrap">{denial.daysOpened}</td>
-              <td className="px-4 py-3 text-sm whitespace-nowrap">{denial.hmo}</td>
-              <td className="px-4 py-3 text-sm whitespace-nowrap">{denial.reason}</td>
-              <td className="px-4 py-3 text-sm whitespace-nowrap text-center">
+              <td className="px-4 py-5 text-sm whitespace-nowrap">{denial.sn}</td>
+              <td className="px-4 py-5 text-sm whitespace-nowrap">{denial.time ? denial.time : denial.date}</td>
+              <td className="px-4 py-5 text-sm font-bold whitespace-nowrap">{denial.enrolleeId}</td>
+              <td className="px-4 py-5 text-sm whitespace-nowrap">{denial.daysOpened}</td>
+              <td className="px-4 py-5 text-sm whitespace-nowrap">{denial.hmo}</td>
+              <td className="px-4 py-5 text-sm whitespace-nowrap">{denial.reason}</td>
+              <td className="px-4 py-5 text-sm whitespace-nowrap text-center">
                 {denial.action === "Reprocess" ? (
                   <button
                     className="text-sky-600 font-semibold hover:underline"

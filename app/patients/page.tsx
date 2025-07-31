@@ -31,6 +31,78 @@ const initialPatients = [
     plan: "Family Plan",
     role: "Spouse",
   },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
+  {
+    patientId: "13/OJ/9JR42N",
+    name: "Chidinma Isaac",
+    enrolleeId: "13/OJ/9JR42N",
+    hmo: "Ally Healthcare",
+    plan: "Family Plan",
+    role: "Spouse",
+  },
 ];
 
 function PatientsPage() {
@@ -49,9 +121,9 @@ function PatientsPage() {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
-        <h1 className="text-2xl font-bold mb-2 sm:mb-0">You have {patients.length.toLocaleString()} patients</h1>
+    <div className="py-4 px-5 border-[1px] border-gray-200 rounded-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-3">
+        <h1 className="text-2xl font-bold mb-2  sm:mb-0">You have {patients.length.toLocaleString()} patients</h1>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <div className="relative flex-1 max-w-xs">
             <input

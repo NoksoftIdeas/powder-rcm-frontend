@@ -31,12 +31,12 @@ export default function DenialsFilters({
       <input
         type="text"
         placeholder="Search denials"
-        className="border rounded px-4 py-2 w-full md:w-64 text-sm"
+        className="border-[1px] border-gray-300 rounded-xl px-4 py-2 w-full md:w-64 text-sm"
         value={search}
         onChange={e => onChange({ search: e.target.value, hmo, status, dateRange })}
       />
       <select
-        className="border rounded px-4 py-2 text-sm"
+        className="border-[1px] border-gray-300 rounded-xl px-4 py-2 text-sm"
         value={hmo}
         onChange={e => onChange({ search, hmo: e.target.value, status, dateRange })}
       >
@@ -46,7 +46,7 @@ export default function DenialsFilters({
         ))}
       </select>
       <select
-        className="border rounded px-4 py-2 text-sm"
+        className="border-[1px] border-gray-300 rounded-xl px-4 py-2 text-sm"
         value={status}
         onChange={e => onChange({ search, hmo, status: e.target.value, dateRange })}
       >
@@ -58,7 +58,7 @@ export default function DenialsFilters({
       <input
         type="text"
         placeholder="Date range"
-        className="border rounded px-4 py-2 text-sm w-full md:w-40"
+        className="border-[1px] border-gray-300 rounded-xl px-4 py-2 text-sm w-full md:w-40"
         value={dateRange}
         onChange={e => onChange({ search, hmo, status, dateRange: e.target.value })}
       />

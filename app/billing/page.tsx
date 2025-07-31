@@ -21,6 +21,82 @@ const mockBillingData = [
     total: '₦2,500,000',
     status: 'Paid',
   },
+  {
+    id: 3,
+    date: '12 Dec 2024',
+    hmo: 'Ally Healthcare',
+    claims: 2572,
+    total: '₦2,500,000',
+    status: 'Paid',
+  },
+  {
+    id: 4,
+    date: '12 Dec 2024',
+    hmo: 'Ally Healthcare',
+    claims: 2572,
+    total: '₦2,500,000',
+    status: 'Paid',
+  },
+  {
+    id: 5,
+    date: '12 Dec 2024',
+    hmo: 'Ally Healthcare',
+    claims: 2572,
+    total: '₦2,500,000',
+    status: 'Paid',
+  },
+
+   {
+    id: 6,
+    date: '12 Dec 2024',
+    hmo: 'Reliance HMO',
+    claims: 4871,
+    total: '₦5,000,000',
+    status: 'Unpaid',
+  },
+
+   {
+    id: 7,
+    date: '12 Dec 2024',
+    hmo: 'Ally Healthcare',
+    claims: 2572,
+    total: '₦2,500,000',
+    status: 'Paid',
+  },
+
+    {
+    id: 8,
+    date: '12 Dec 2024',
+    hmo: 'Reliance HMO',
+    claims: 4871,
+    total: '₦5,000,000',
+    status: 'Unpaid',
+  },
+
+    {
+    id: 9,
+    date: '12 Dec 2024',
+    hmo: 'Ally Healthcare',
+    claims: 2572,
+    total: '₦2,500,000',
+    status: 'Paid',
+  },
+    {
+    id: 10,
+    date: '12 Dec 2024',
+    hmo: 'Ally Healthcare',
+    claims: 2572,
+    total: '₦2,500,000',
+    status: 'Paid',
+  },
+    {
+    id: 11,
+    date: '12 Dec 2024',
+    hmo: 'Ally Healthcare',
+    claims: 2572,
+    total: '₦2,500,000',
+    status: 'Paid',
+  },
   // ...more rows as needed
 ];
 
@@ -137,28 +213,27 @@ function BillingPage() {
   };
 
   return (
-    <div className="p-1">
-      {/* Summary Cards */}
+    <div className=" py-4 px-5 border-[1px] border-gray-300 rounded-xl">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl shadow-sm border p-6 flex flex-col">
+        <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-6 flex flex-col">
           <span className="text-gray-500 text-sm mb-2">Bills due</span>
           <span className="text-2xl font-bold text-red-600">₦21.4m</span>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border p-6 flex flex-col">
+        <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-6 flex flex-col">
           <span className="text-gray-500 text-sm mb-2">Bills paid</span>
           <span className="text-2xl font-bold text-black">₦4.6m</span>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border p-6 flex flex-col">
+        <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-6 flex flex-col">
           <span className="text-gray-500 text-sm mb-2">Total number of bills</span>
           <span className="text-2xl font-bold text-black">17</span>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border p-6 flex flex-col">
+        <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-6 flex flex-col">
           <span className="text-gray-500 text-sm mb-2">Total amount of bills</span>
           <span className="text-2xl font-bold text-black">₦40.9m</span>
         </div>
       </div>
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow border p-4 flex flex-col md:flex-row md:items-center gap-4 mb-4">
+      <div className="bg-white rounded-xl shadow border-[1px] border-gray-200 p-4 flex flex-col md:flex-row md:items-center gap-4 mb-4">
         <input
           type="text"
           placeholder="Search"
@@ -200,7 +275,7 @@ function BillingPage() {
         />
       </div>
       {/* Table */}
-      <div className="bg-white rounded-xl shadow border overflow-x-auto">
+      <div className="bg-white rounded-xl shadow border-[1px] border-gray-200 overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>

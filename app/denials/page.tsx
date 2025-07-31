@@ -48,8 +48,7 @@ export default function DenialsPage() {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Denial Management</h1>
+    <div className=" py-4 px-5 border-[1px] border-gray-300 rounded-xl">
       <DenialsSummaryCards
         totalAmount="₦21.4m"
         unresolved={23}
@@ -66,7 +65,7 @@ export default function DenialsPage() {
         onChange={setFilters}
       />
       <DenialsTable denials={paginatedDenials} onReprocess={handleReprocess} />
-      <div className="mt-4 flex justify-end">
+      <div className="mt-4 flex justify-center">
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

@@ -7,6 +7,7 @@ const routeNameMap: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/pa-code": "PA Code",
   "/claims": "Claims",
+  "/denials": "Denial Management",
   "/billing": "Billing",
   "/hmos": "HMOs",
   "/patients": "Patients",

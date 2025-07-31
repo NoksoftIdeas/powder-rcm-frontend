@@ -13,30 +13,16 @@ type Patient = {
   insurance: string;
   policyNumber: string;
   nextAppointment: string;
-  lastVisit: string;
   status: 'active' | 'inactive' | 'pending';
   phone: string;
   email: string;
-  address: string;
   doctor: string;
   diagnosis: string;
-  gender: string;
-  dob: string;
-  bloodGroup: string;
-  allergies: string[];
-  medications: string[];
 };
 
 type PAStatus = 'Active' | 'Pending' | 'Expired' | 'Rejected' | 'Approved';
 
-interface PAHistory {
-  code: string;
-  date: string;
-  status: string;
-  approvedBy: string;
-}
-
-interface PARequest {
+type PARequest = {
   id: number;
   patientId: number;
   code: string;
@@ -48,44 +34,28 @@ interface PARequest {
   requestedBy: string;
   diagnosis: string;
   requestedProcedures: string[];
-  history: {
-    date: string;
-    status: PAStatus;
-    notes: string;
-    updatedBy: string;
-  }[];
-  updatedBy: string;
-}
+};
 
 export default function PaCodePage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState('overview');
-  const [showFilters, setShowFilters] = useState(false);
-  const [paCode, setPaCode] = useState('');
-  const [status, setStatus] = useState<PAStatus>('Active');
-  const [notes, setNotes] = useState('');
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+  const [paCode, setPaCode] = useState('');
+  const [status, setStatus] = useState<PAStatus>('Pending');
+  const [notes, setNotes] = useState('');
   
-  // Initialize patients state with sample data
-  const [patients, setPatients] = useState<Patient[]>([
+  // Sample patient data
+  const patients: Patient[] = [
     {
       id: 1,
       name: 'Adebayo Ogunlesi',
       insurance: 'Axa Mansard',
       policyNumber: 'AXA-7890-4567-1234',
       nextAppointment: 'Tomorrow, 10:00 AM',
-      lastVisit: '2023-06-15',
       status: 'active',
       phone: '+234 812 345 6789',
       email: 'adebayo.ogunlesi@example.com',
-      address: '123 Medical Drive, Lagos, Nigeria',
       doctor: 'Dr. Sarah Johnson',
       diagnosis: 'Hypertension Stage 2',
-      gender: 'Male',
-      dob: '15/03/1985',
-      bloodGroup: 'O+',
-      allergies: ['Penicillin', 'Sulfa'],
-      medications: ['Lisinopril 10mg', 'Amlodipine 5mg']
     },
     {
       id: 2,
@@ -93,128 +63,36 @@ export default function PaCodePage() {
       insurance: 'Hygeia HMO',
       policyNumber: 'HYG-1234-5678',
       nextAppointment: 'Next Monday, 2:00 PM',
-      lastVisit: '2023-06-10',
       status: 'active',
       phone: '+234 813 456 7890',
       email: 'chioma.o@example.com',
-      address: '456 Health Avenue, Lagos, Nigeria',
       doctor: 'Dr. James Wilson',
       diagnosis: 'Type 2 Diabetes',
-      gender: 'Female',
-      dob: '22/07/1978',
-      bloodGroup: 'A+',
-      allergies: [],
-      medications: ['Metformin 500mg', 'Gliclazide 60mg']
     }
-  ]);
-  
-  // PA Requests data
-  const [paRequests, setPaRequests] = useState<PARequest[]>([
-    {
-      id: 1,
-      patientId: 1,
-      code: 'PA-2023-001234',
-      status: 'Pending',
-      notes: 'Patient requires urgent procedure approval',
-      requestedDate: '2023-06-20',
-      requestedBy: 'Dr. Sarah Johnson',
-      diagnosis: 'Hypertension Stage 2',
-      requestedProcedures: ['Echocardiogram', 'Stress Test'],
-      updatedBy: 'Dr. Sarah Johnson',
-      history: [
-        {
-          date: '2023-06-20 10:30 AM',
-          status: 'Pending',
-          notes: 'Initial request submitted',
-          updatedBy: 'Dr. Sarah Johnson'
-        }
-      ]
-    },
-    {
-      id: 2,
-      patientId: 2,
-      code: 'PA-2023-001233',
-      status: 'Approved',
-      notes: 'Routine procedure approval',
-      requestedDate: '2023-06-15',
-      approvedDate: '2023-06-17',
-      approvedBy: 'Dr. James Wilson',
-      requestedBy: 'Dr. Amina Yusuf',
-      diagnosis: 'Type 2 Diabetes',
-      requestedProcedures: ['HbA1c Test', 'Fundoscopy'],
-      updatedBy: 'Dr. James Wilson',
-      history: [
-        {
-          date: '2023-06-17 02:15 PM',
-          status: 'Approved',
-          notes: 'Approved with standard coverage',
-          updatedBy: 'Dr. James Wilson'
-        },
-        {
-          date: '2023-06-15 09:45 AM',
-          status: 'Pending',
-          notes: 'Initial request submitted',
-          updatedBy: 'Dr. Amina Yusuf'
-        }
-      ]
-    }
-  ]);
-  
-  // Set the first patient as selected by default
+  ];
+
+  // Set first patient as selected by default
   useEffect(() => {
-    if (patients.length > 0) {
+    if (patients.length > 0 && !selectedPatient) {
       setSelectedPatient(patients[0]);
     }
-  }, [patients]);
-  
-  const currentPARequest = selectedPatient 
-    ? paRequests.find(req => req.patientId === selectedPatient.id)
-    : null;
-  
-  const statusColors = {
-    Active: 'bg-green-100 text-green-800',
-    Pending: 'bg-yellow-100 text-yellow-800',
-    Expired: 'bg-gray-100 text-gray-800',
-    Rejected: 'bg-red-100 text-red-800',
-    Approved: 'bg-green-100 text-green-800'
-  };
-
-
-  const [paHistory] = useState<PAHistory[]>([
-    {
-      code: 'PA-7890-4567',
-      date: 'June 15, 2023',
-      status: 'Active',
-      approvedBy: 'Dr. Sarah Johnson'
-    },
-    {
-      code: 'PA-1234-5678',
-      date: 'March 2, 2023',
-      status: 'Expired',
-      approvedBy: 'Dr. James Wilson'
-    }
-  ]);
+  }, [patients, selectedPatient]);
 
   const filteredPatients = patients.filter(patient =>
     patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    patient.insurance.toLowerCase().includes(searchTerm.toLowerCase()) ||
     patient.policyNumber.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSavePACode = () => {
     console.log('Saving PA Code:', { paCode, status, notes });
-    // Here you would typically make an API call to save the PA Code
-    // For example:
-    // await savePACode({
-    //   patientId: selectedPatient.id,
-    //   paCode,
-    //   status,
-    //   notes
-    // });
+    // API call would go here
   };
+
+  if (!selectedPatient) return <div>Loading...</div>;
 
   return (
     <div className="flex h-screen bg-gray-50">
+      {/* Patient List */}
       <div className="w-80 border-r bg-white">
         <div className="p-4 border-b">
           <div className="relative mb-4">
@@ -246,37 +124,54 @@ export default function PaCodePage() {
         </div>
       </div>
       
-      {selectedPatient && (
-        <div className="w-96 border-r bg-white p-4">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">
-              {selectedPatient.name.split(' ').map(n => n[0]).join('')}
-            </div>
-            <div>
-              <h2 className="text-lg font-semibold">{selectedPatient.name}</h2>
-              <p className="text-sm text-gray-500">ID: {selectedPatient.policyNumber}</p>
-            </div>
+      {/* Patient Details */}
+      <div className="w-96 border-r bg-white p-4">
+        <div className="flex items-center space-x-4 mb-6">
+          <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium">
+            {selectedPatient.name.split(' ').map(n => n[0]).join('')}
           </div>
-          
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-sm font-medium mb-2">Contact</h3>
-              <div className="space-y-2">
-                <div className="flex items-center">
-                  <Phone className="h-4 w-4 text-gray-400 mr-2" />
-                  <span className="text-sm">{selectedPatient.phone}</span>
-                </div>
-                <div className="flex items-center">
-                  <Mail className="h-4 w-4 text-gray-400 mr-2" />
-                  <span className="text-sm">{selectedPatient.email}</span>
-                </div>
+          <div>
+            <h2 className="text-lg font-semibold">{selectedPatient.name}</h2>
+            <p className="text-sm text-gray-500">ID: {selectedPatient.policyNumber}</p>
+          </div>
+        </div>
+        
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-sm font-medium mb-2">Contact</h3>
+            <div className="space-y-2">
+              <div className="flex items-center">
+                <Phone className="h-4 w-4 text-gray-400 mr-2" />
+                <span className="text-sm">{selectedPatient.phone}</span>
+              </div>
+              <div className="flex items-center">
+                <Mail className="h-4 w-4 text-gray-400 mr-2" />
+                <span className="text-sm">{selectedPatient.email}</span>
               </div>
             </div>
           </div>
+          
+          <div>
+            <h3 className="text-sm font-medium mb-2">Appointment</h3>
+            <div className="flex items-center text-sm text-gray-600">
+              <Calendar className="h-4 w-4 mr-2" />
+              {selectedPatient.nextAppointment}
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="text-sm font-medium mb-2">Diagnosis</h3>
+            <p className="text-sm text-gray-600">{selectedPatient.diagnosis}</p>
+          </div>
+          
+          <div>
+            <h3 className="text-sm font-medium mb-2">Doctor</h3>
+            <p className="text-sm text-gray-600">{selectedPatient.doctor}</p>
+          </div>
         </div>
-      )}
+      </div>
       
-      {/* Right Column - PA Code Form */}
+      {/* PA Code Form */}
       <div className="flex-1 p-6 bg-white">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-2xl font-bold mb-6">PA Code Update</h1>
@@ -303,10 +198,10 @@ export default function PaCodePage() {
                   value={status}
                   onChange={(e) => setStatus(e.target.value as PAStatus)}
                 >
-                  <option>Active</option>
-                  <option>Pending</option>
-                  <option>Expired</option>
-                  <option>Rejected</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                  <option value="Expired">Expired</option>
                 </select>
               </div>
               
@@ -326,7 +221,7 @@ export default function PaCodePage() {
                   className="px-4 py-2 border rounded-md text-sm font-medium"
                   onClick={() => {
                     setPaCode('');
-                    setStatus('Active');
+                    setStatus('Pending');
                     setNotes('');
                   }}
                 >

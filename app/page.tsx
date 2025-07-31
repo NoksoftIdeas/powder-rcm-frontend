@@ -13,7 +13,6 @@ export default function HomePage() {
       if (isAuthenticated && user?.role === 'admin') {
         router.push("/dashboard");
       } else if (isAuthenticated) {
-        // If authenticated but not admin, log them out
         logout();
         router.push("/login");
       } else {
@@ -23,7 +22,6 @@ export default function HomePage() {
     }
   }, [isAuthenticated, isLoading, router, user]);
 
-  // Show loading state while checking authentication
   if (isLoading ) {
     return (
       <div className="min-h-screen flex items-center justify-center">

@@ -145,14 +145,8 @@ export default function ClaimInvoiceModal({
               ))}
             </tbody>
           </table>
-          {/* Optional Signature */}
-          <div className="flex justify-end">
-            <Image
-              src="/signature.png"
-              alt="Signature"
-              width={80}
-              height={32}
-            />
+          <div className="flex justify-end p-5">
+            <p>Signature</p>
           </div>
 
           {/* Summary Section */}

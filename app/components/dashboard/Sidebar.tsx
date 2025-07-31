@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Logo from "../Logo";
 
 const menu = [
   { name: "Dashboard", icon: "dashboard", href: "/dashboard" },
@@ -69,10 +70,8 @@ export default function Sidebar() {
             />
           </svg>
         </button>
-        <div className="flex items-center justify-center mb-10">
-          <span className="font-bold text-lg tracking-widest text-gray-400">
-            POWDER
-          </span>
+        <div className="flex items-center justify-center mb-5">
+           <Logo/>
         </div>
 
         <nav className="flex-1 flex flex-col gap-1">

@@ -74,10 +74,10 @@ function ClaimsPage() {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <main className="flex-1 min-h-screen bg-gray-50 px-2 sm:px-8 py-6">
+    <div className="flex  py-2 border-[1px] border-gray-300 rounded-xl">
+      <main className="flex-1 min-h-screen bg-gray-50 px-1 sm:px-8 py-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-1xl font-bold text-gray-800 mb-8">
+          <div className="text-1xl font-bold mb-4 text-gray-800 ">
             {totalClaims.toLocaleString()} Claims
           </div>
           <div className="mb-6">
@@ -87,7 +87,7 @@ function ClaimsPage() {
             <ClaimsTable onView={handleViewClaim} claims={paginatedClaims} />
           </div>
 
-          <div className="mt-6 flex justify-end">
+          <div className="mt-6 flex item-center bottom-2 justify-center">
             <nav
               className="inline-flex rounded-md shadow-sm"
               aria-label="Pagination"
@@ -98,7 +98,7 @@ function ClaimsPage() {
                 disabled={page === 1}
                 aria-label="Previous Page"
               >
-                &lt;
+                &lt;Previous
               </button>
               {Array.from({ length: totalPages }, (_, idx) => (
                 <button
@@ -112,13 +112,14 @@ function ClaimsPage() {
                   {idx + 1}
                 </button>
               ))}
+
               <button
                 className="px-3 py-2 border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 rounded-r-md disabled:opacity-50"
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page === totalPages}
                 aria-label="Next Page"
               >
-                &gt;
+                Next &gt;
               </button>
             </nav>
           </div>
