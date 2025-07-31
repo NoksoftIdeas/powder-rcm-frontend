@@ -26,18 +26,19 @@ export default function TariffPlansPage() {
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState<number | null>(null);
   const [tariffs, setTariffs] = useState(initialTariffs);
+
   const [pendingTariffs, setPendingTariffs] = useState([
     { name: "Admission - Private Room", cost: "₦60,000" },
     { name: "MRI Test", cost: "₦110,000" },
     { name: "Thyroid Test", cost: "₦35,500" },
     { name: "Stool Test", cost: "₦4,900" },
   ]);
+  
   const menuRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
   return (
     <div className="py-4 px-5 border-[1px] border-gray-200 rounded-xl">
-      {/* Breadcrumb */}
       <nav className="text-xs text-gray-400 mb-2 flex items-center gap-2">
         <span className="hover:underline cursor-pointer" onClick={() => router.push('/hmos')}>HMOs</span>
         <span>/</span>
@@ -45,14 +46,12 @@ export default function TariffPlansPage() {
         <span>/</span>
         <span className="text-gray-700 hover:underline cursor-pointer" onClick={() => setVerifyModalOpen(true)}>Tariff Plans</span>
       </nav>
-      {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100">
           <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#2563eb"><circle cx="12" cy="12" r="10" strokeWidth="2" /><path d="M8 12l2 2 4-4" strokeWidth="2" strokeLinecap="round" /></svg>
         </span>
         <h1 className="text-2xl font-bold text-gray-800">Reliance HMO</h1>
       </div>
-      {/* Filters */}
       <div className="bg-white rounded-xl shadow border border-gray-100 p-4 flex flex-col md:flex-row md:items-center gap-4 mb-4">
         <input
           type="text"
@@ -88,7 +87,6 @@ export default function TariffPlansPage() {
           + Add Item
         </button>
       </div>
-      {/* Table */}
       <div className="bg-white rounded-xl shadow border border-gray-100 overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">

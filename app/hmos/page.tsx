@@ -98,6 +98,38 @@ const initialHMOs: HMO[] = [
     tariffUpdate: "1 month ago",
     channels: "Web Portal",
   },
+  {
+    id: 11,
+    logo: null,
+    name: "AXA Mansard",
+    plans: 3,
+    tariffUpdate: "1 month ago",
+    channels: "Web Portal",
+  },
+  {
+    id: 12,
+    logo: null,
+    name: "AXA Mansard",
+    plans: 3,
+    tariffUpdate: "1 month ago",
+    channels: "Web Portal",
+  },
+  {
+    id: 13,
+    logo: null,
+    name: "AXA Mansard",
+    plans: 3,
+    tariffUpdate: "1 month ago",
+    channels: "Web Portal",
+  },
+  {
+    id: 14,
+    logo: null,
+    name: "AXA Mansard",
+    plans: 3,
+    tariffUpdate: "1 month ago",
+    channels: "Web Portal",
+  },
 ];
 
 const PAGE_SIZE = 10;
