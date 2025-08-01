@@ -6,6 +6,7 @@ import Logo from "../Logo";
 
 const menu = [
   { name: "Dashboard", icon: "dashboard", href: "/dashboard" },
+  { name: "Requests", icon: "inbox", href: "/requests" },
   { name: "PA Code", icon: "key", badge: 8, href: "/pa-code" },
   { name: "Claims", icon: "document", href: "/claims" },
   { name: "Denials", icon: "alert", href: "/denials" },

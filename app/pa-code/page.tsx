@@ -27,34 +27,13 @@ type Patient = {
   medications: string[];
 };
 
-type PAStatus = 'Active' | 'Pending' | 'Expired' | 'Rejected' | 'Approved';
+type PAStatus = 'Active' | 'Expired';
 
 interface PAHistory {
   code: string;
   date: string;
   status: string;
   approvedBy: string;
-}
-
-interface PARequest {
-  id: number;
-  patientId: number;
-  code: string;
-  status: PAStatus;
-  notes: string;
-  requestedDate: string;
-  approvedDate?: string;
-  approvedBy?: string;
-  requestedBy: string;
-  diagnosis: string;
-  requestedProcedures: string[];
-  history: {
-    date: string;
-    status: PAStatus;
-    notes: string;
-    updatedBy: string;
-  }[];
-  updatedBy: string;
 }
 
 export default function PaCodePage() {
@@ -108,58 +87,6 @@ export default function PaCodePage() {
     }
   ]);
   
-  // PA Requests data
-  const [paRequests, setPaRequests] = useState<PARequest[]>([
-    {
-      id: 1,
-      patientId: 1,
-      code: 'PA-2023-001234',
-      status: 'Pending',
-      notes: 'Patient requires urgent procedure approval',
-      requestedDate: '2023-06-20',
-      requestedBy: 'Dr. Sarah Johnson',
-      diagnosis: 'Hypertension Stage 2',
-      requestedProcedures: ['Echocardiogram', 'Stress Test'],
-      updatedBy: 'Dr. Sarah Johnson',
-      history: [
-        {
-          date: '2023-06-20 10:30 AM',
-          status: 'Pending',
-          notes: 'Initial request submitted',
-          updatedBy: 'Dr. Sarah Johnson'
-        }
-      ]
-    },
-    {
-      id: 2,
-      patientId: 2,
-      code: 'PA-2023-001233',
-      status: 'Approved',
-      notes: 'Routine procedure approval',
-      requestedDate: '2023-06-15',
-      approvedDate: '2023-06-17',
-      approvedBy: 'Dr. James Wilson',
-      requestedBy: 'Dr. Amina Yusuf',
-      diagnosis: 'Type 2 Diabetes',
-      requestedProcedures: ['HbA1c Test', 'Fundoscopy'],
-      updatedBy: 'Dr. James Wilson',
-      history: [
-        {
-          date: '2023-06-17 02:15 PM',
-          status: 'Approved',
-          notes: 'Approved with standard coverage',
-          updatedBy: 'Dr. James Wilson'
-        },
-        {
-          date: '2023-06-15 09:45 AM',
-          status: 'Pending',
-          notes: 'Initial request submitted',
-          updatedBy: 'Dr. Amina Yusuf'
-        }
-      ]
-    }
-  ]);
-  
   // Set the first patient as selected by default
   useEffect(() => {
     if (patients.length > 0) {
@@ -167,16 +94,9 @@ export default function PaCodePage() {
     }
   }, [patients]);
   
-  const currentPARequest = selectedPatient 
-    ? paRequests.find(req => req.patientId === selectedPatient.id)
-    : null;
-  
   const statusColors = {
     Active: 'bg-green-100 text-green-800',
-    Pending: 'bg-yellow-100 text-yellow-800',
-    Expired: 'bg-gray-100 text-gray-800',
-    Rejected: 'bg-red-100 text-red-800',
-    Approved: 'bg-green-100 text-green-800'
+    Expired: 'bg-gray-100 text-gray-800'
   };
 
 
