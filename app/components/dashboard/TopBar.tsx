@@ -6,6 +6,7 @@ import { useAuth } from "../auth/AuthContext";
 const routeNameMap: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/pa-code": "PA Code",
+  "/requests": "EMR Requests",
   "/claims": "Claims",
   "/denials": "Denial Management",
   "/billing": "Billing",

@@ -172,7 +172,7 @@ function HMOsPage() {
   };
 
   return (
-    <div className="py-4 px-2 border-[1px] border-gray-200 rounded-xl">
+    <div className="py-4 border-[1px] border-gray-200 rounded-xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
         <h2 className="text-xl ml-4 sm:text-2xl font-bold text-gray-800">
           You have <span className="font-extrabold">{hmos.length}</span> partner HMOs
