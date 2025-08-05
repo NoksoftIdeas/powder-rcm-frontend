@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import React from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import Image from "next/image";
 
 interface HmoDetailsProps {
   id: string;
@@ -12,45 +13,55 @@ interface HmoDetailsProps {
 
 export default function HmoDetails() {
   const params = useParams();
-  const hmoId = Array.isArray(params.hmoId) ? params.hmoId[0] : params.hmoId || '';
-  
+  const hmoId = Array.isArray(params.hmoId)
+    ? params.hmoId[0]
+    : params.hmoId || "";
+
   // In a real app, you would fetch the HMO details using the hmoId
   const hmo: HmoDetailsProps = {
     id: hmoId,
     name: "Reliance HMO",
-    logo: null,
+    logo: "/Avatar.png",
   };
 
   return (
     <div className="p-6">
-      {/* Breadcrumb */}
       <nav className="text-xs text-gray-400 mb-2 flex items-center gap-2">
-        <Link href="/hmos" className="hover:underline cursor-pointer">HMOs</Link>
+        <Link href="/hmos" className="hover:underline cursor-pointer">
+          HMOs
+        </Link>
         <span>/</span>
         <span className="text-gray-700 font-semibold">{hmo.name}</span>
       </nav>
-      
-      {/* Header */}
+
       <div className="flex items-center gap-4 mb-6">
-        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100">
-          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#2563eb">
-            <circle cx="12" cy="12" r="10" strokeWidth="2" />
-            <path d="M8 12l2 2 4-4" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        </span>
-        <h1 className="text-2xl font-bold text-gray-800">{hmo.name}</h1>
-      </div>
       
-      {/* Actions */}
+        <h1 className="text-2xl font-bold flex gap-1 text-gray-800">
+          <Image
+            className=" object-cover"
+            src={hmo.logo || "/Avatar.png"}
+            alt={hmo.name}
+            width={32}
+            height={32}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = "/Avatar.png";
+            }}
+          />
+          {hmo.name}
+        </h1>
+      </div>
+
       <div className="flex gap-4">
-        <Link 
-          href={`/hmos/${hmo.id}/tariff-plans`} 
+        <Link
+          href={`/hmos/${hmo.id}/tariff-plans`}
           className="px-6 py-3 bg-cyan-700 text-white rounded-lg font-semibold hover:bg-cyan-800 transition"
         >
           Tariff Plans
         </Link>
-        <Link 
-          href={`/hmos/${hmo.id}/channels`} 
+        <Link
+          href={`/hmos/${hmo.id}/channels`}
           className="px-6 py-3 bg-cyan-700 text-white rounded-lg font-semibold hover:bg-cyan-800 transition"
         >
           Channels

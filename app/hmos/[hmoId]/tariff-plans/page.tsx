@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { EditTariffModal } from "./components/modals/EditTariffModal";
+import { DeleteTariffModal } from "./components/modals/DeleteTariffModal";
 
 const initialTariffs = [
   { id: 1, service: "Consultation - Orthopaedic Doctor", category: "Service", cost: "₦30,000", status: "Approved" },
@@ -17,15 +20,57 @@ const initialTariffs = [
 
 export default function TariffPlansPage() {
   const [search, setSearch] = useState("");
-  const [cost, setCost] = useState("");
-  const [status, setStatus] = useState("Approved");
+  const [costFilter, setCostFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
   const [modalOpen, setModalOpen] = useState(false);
   const [verifyModalOpen, setVerifyModalOpen] = useState(false);
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [editingTariff, setEditingTariff] = useState<{id: number; service: string; category: string; cost: string; status: string} | null>(null);
+  const [deletingTariff, setDeletingTariff] = useState<{id: number; service: string} | null>(null);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState<number | null>(null);
   const [tariffs, setTariffs] = useState(initialTariffs);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const handleEditTariff = useCallback((tariff: {id: number; service: string; category: string; cost: string; status: string}) => {
+    setEditingTariff(tariff);
+  }, []);
+
+  const handleDeleteTariff = useCallback((tariff: {id: number; service: string; status?: string}) => {
+    setDeletingTariff(tariff);
+  }, []);
+
+  const handleSaveEdit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingTariff) return;
+    
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    const updatedTariff: typeof initialTariffs[0] = {
+      id: editingTariff.id,
+      service: formData.get('service') as string,
+      category: formData.get('category') as string,
+      cost: formData.get('cost') as string,
+      status: editingTariff.status,
+    };
+
+    setTariffs(prev => 
+      prev.map(tariff => 
+        tariff.id === updatedTariff.id ? updatedTariff : tariff
+      )
+    );
+    
+    setEditingTariff(null);
+  }, [editingTariff]);
+
+  const handleConfirmDelete = useCallback(() => {
+    if (deletingTariff) {
+      // Here you would typically make an API call to delete the tariff
+      setTariffs(prev => prev.filter(t => t.id !== deletingTariff.id));
+      setDeletingTariff(null);
+    }
+  }, [deletingTariff]);
 
   const [pendingTariffs, setPendingTariffs] = useState([
     { name: "Admission - Private Room", cost: "₦60,000" },
@@ -33,7 +78,7 @@ export default function TariffPlansPage() {
     { name: "Thyroid Test", cost: "₦35,500" },
     { name: "Stool Test", cost: "₦4,900" },
   ]);
-  
+
   const menuRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
 
@@ -47,10 +92,20 @@ export default function TariffPlansPage() {
         <span className="text-gray-700 hover:underline cursor-pointer" onClick={() => setVerifyModalOpen(true)}>Tariff Plans</span>
       </nav>
       <div className="flex items-center gap-4 mb-6">
-        <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100">
-          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#2563eb"><circle cx="12" cy="12" r="10" strokeWidth="2" /><path d="M8 12l2 2 4-4" strokeWidth="2" strokeLinecap="round" /></svg>
-        </span>
-        <h1 className="text-2xl font-bold text-gray-800">Reliance HMO</h1>
+        <h1 className="text-2xl flex flex-row gap-1.5 font-bold text-gray-800">
+           <Image
+                                className=" object-cover w-8 h-8 rounded-full"
+                                src={'/Avatar.png'}
+                                alt={"Reliance HMO"}
+                                width={32}
+                                height={32}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.onerror = null;
+                                  target.src = '/Avatar.png';
+                                }}
+                              />
+          Reliance HMO</h1>
       </div>
       <div className="bg-white rounded-xl shadow border border-gray-100 p-4 flex flex-col md:flex-row md:items-center gap-4 mb-4">
         <input
@@ -58,24 +113,34 @@ export default function TariffPlansPage() {
           placeholder="Search for tariff"
           className="border rounded px-4 py-2 text-sm w-full md:w-64"
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => {
+            setSearch(e.target.value);
+            setCurrentPage(1); // Reset to first page when searching
+          }}
         />
         <select
           className="border rounded px-4 py-2 text-sm w-full md:w-40"
-          value={cost}
-          onChange={e => setCost(e.target.value)}
+          value={costFilter}
+          onChange={e => {
+            setCostFilter(e.target.value);
+            setCurrentPage(1); // Reset to first page when filters change
+          }}
         >
-          <option value="">Min-Max</option>
-          <option value="low">Low</option>
-          <option value="high">High</option>
+          <option value="">All Costs</option>
+          <option value="low">Low (Below ₦50,000)</option>
+          <option value="high">High (₦50,000 and above)</option>
         </select>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-500">Status</span>
           <select
             className="border rounded px-4 py-2 text-sm w-full md:w-40"
-            value={status}
-            onChange={e => setStatus(e.target.value)}
+            value={statusFilter}
+            onChange={e => {
+              setStatusFilter(e.target.value);
+              setCurrentPage(1); // Reset to first page when filters change
+            }}
           >
+            <option value="All">All Status</option>
             <option value="Approved">Approved</option>
             <option value="Pending">Pending</option>
           </select>
@@ -99,7 +164,30 @@ export default function TariffPlansPage() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
-            {initialTariffs.map((item) => (
+            {tariffs
+              .filter(item => {
+                // Filter by search term (service name)
+                const matchesSearch = item.service.toLowerCase().includes(search.toLowerCase()) ||
+                                   item.category.toLowerCase().includes(search.toLowerCase());
+                
+                // Filter by status
+                const matchesStatus = statusFilter === "All" || item.status === statusFilter;
+                
+                // Filter by cost range
+                let matchesCost = true;
+                if (costFilter) {
+                  const numericCost = parseFloat(item.cost.replace(/[^0-9.]/g, ''));
+                  if (costFilter === 'low') {
+                    matchesCost = numericCost < 50000; // Example threshold for low cost
+                  } else if (costFilter === 'high') {
+                    matchesCost = numericCost >= 50000; // Example threshold for high cost
+                  }
+                }
+                
+                return matchesSearch && matchesStatus && matchesCost;
+              })
+              .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+              .map((item) => (
               <tr key={item.id}>
                 <td className="px-6 py-4 whitespace-nowrap">{item.service}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{item.category}</td>
@@ -118,13 +206,19 @@ export default function TariffPlansPage() {
                     <div ref={menuRef} className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">
                       <button
                         className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        onClick={() => { setEditModalOpen(true); setActiveRow(item.id); setMenuOpen(null); }}
+                        onClick={() => { 
+                          handleEditTariff(item); 
+                          setMenuOpen(null); 
+                        }}
                       >
                         <span className="inline-flex items-center gap-2"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#38bdf8"><path d="M15.232 5.232l3.536 3.536M9 11l6 6M3 21h6l11-11a2.828 2.828 0 00-4-4L5 17v4z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>Edit</span>
                       </button>
                       <button
                         className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                        onClick={() => { setDeleteModalOpen(true); setActiveRow(item.id); setMenuOpen(null); }}
+                        onClick={() => { 
+                          handleDeleteTariff({id: item.id, service: item.service, status: item.status}); 
+                          setMenuOpen(null); 
+                        }}
                       >
                         <span className="inline-flex items-center gap-2"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#f87171"><path d="M6 18L18 6M6 6l12 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>Delete</span>
                       </button>
@@ -138,16 +232,38 @@ export default function TariffPlansPage() {
       </div>
       {/* Pagination */}
       <div className="flex justify-between items-center mt-6">
-        <button className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50">Previous</button>
+        <button 
+          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
+          onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
         <div className="flex items-center gap-1">
-          <button className="px-3 py-1.5 rounded-md font-semibold text-sm bg-gray-300 text-white shadow">1</button>
-          <button className="px-3 py-1.5 rounded-md font-semibold text-sm bg-white text-gray-700 hover:bg-gray-100">2</button>
-          <button className="px-3 py-1.5 rounded-md font-semibold text-sm bg-white text-gray-700 hover:bg-gray-100">3</button>
+          {Array.from({ length: Math.ceil(tariffs.length / itemsPerPage) }, (_, i) => (
+            <button 
+              key={i + 1}
+              className={`px-3 py-1.5 rounded-md font-semibold text-sm ${
+                currentPage === i + 1 
+                  ? 'bg-cyan-700 text-white' 
+                  : 'bg-white text-gray-700 hover:bg-gray-100'
+              }`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
         </div>
-        <button className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50">Next</button>
+        <button 
+          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
+          onClick={() => setCurrentPage(p => p + 1)}
+          disabled={currentPage * itemsPerPage >= tariffs.length}
+        >
+          Next
+        </button>
       </div>
       {modalOpen && (
-    <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/30" onClick={() => setModalOpen(false)}>
+    <div className="fixed inset-0 z-50 flex items-center justify-end bg-[#014C654D] backdrop-blur-[0.3px]" onClick={() => setModalOpen(false)}>
       <div
         className="bg-white w-full max-w-md h-full shadow-2xl p-8 relative animate-fade-in flex flex-col"
         onClick={e => e.stopPropagation()}
@@ -254,85 +370,18 @@ export default function TariffPlansPage() {
       </div>
     </div>
   )}
-      {editModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/30" onClick={() => setEditModalOpen(false)}>
-          <div
-            className="bg-white w-full max-w-md h-full shadow-2xl p-8 relative animate-fade-in flex flex-col"
-            onClick={e => e.stopPropagation()}
-          >
-            <button
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
-              onClick={() => setEditModalOpen(false)}
-              aria-label="Close"
-            >
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <h2 className="text-2xl font-bold mb-1">Edit Item</h2>
-            <form className="flex flex-col gap-4 flex-1 overflow-y-auto mt-6">
-              <label className="block text-sm font-medium mb-1">Service</label>
-              <input type="text" className="w-full rounded-md border px-4 py-2 border-gray-300 focus:border-cyan-500" placeholder="Orthopaedic Doctor" />
-              <label className="block text-sm font-medium mb-1">Service Type</label>
-              <select className="w-full rounded-md border px-4 py-2 border-gray-300 focus:border-cyan-500">
-                <option>Consultation</option>
-                <option>Service</option>
-                <option>Drug</option>
-                <option>Laboratory</option>
-                <option>Radiology</option>
-                <option>Nursing</option>
-              </select>
-              <label className="block text-sm font-medium mb-1">Amount</label>
-              <input type="text" className="w-full rounded-md border px-4 py-2 border-gray-300 focus:border-cyan-500" placeholder="N 20,500" />
-              <div className="text-xs text-gray-500 mt-4 mb-2">
-                By submitting this form, I confirm that the information provided is accurate and true. I understand that providing false information may result in legal consequences and termination of services. I agree to the <a href="/terms" className="underline">Terms and Conditions</a>.
-              </div>
-              <div className="flex gap-2 mt-6">
-                <button
-                  type="button"
-                  className="flex-1 px-4 py-2 rounded-lg border bg-gray-50 text-gray-700 font-semibold hover:bg-gray-100"
-                  onClick={() => setEditModalOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 px-4 py-2 rounded-lg bg-cyan-700 text-white font-semibold shadow hover:bg-cyan-800 transition"
-                >
-                  Update
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-      {deleteModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-end bg-black/30" onClick={() => setDeleteModalOpen(false)}>
-          <div
-            className="bg-white w-full max-w-md h-full shadow-2xl p-8 relative animate-fade-in flex flex-col justify-center"
-            onClick={e => e.stopPropagation()}
-          >
-            <h2 className="text-xl font-bold mb-4">Delete Item</h2>
-            <p className="text-gray-600 mb-6">Are you sure you want to delete this item? This action cannot be undone.</p>
-            <div className="flex gap-2 mt-6">
-              <button
-                type="button"
-                className="flex-1 px-4 py-2 rounded-lg border bg-gray-50 text-gray-700 font-semibold hover:bg-gray-100"
-                onClick={() => setDeleteModalOpen(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="flex-1 px-4 py-2 rounded-lg bg-red-600 text-white font-semibold shadow hover:bg-red-700 transition"
-                onClick={() => setDeleteModalOpen(false)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <EditTariffModal
+        isOpen={!!editingTariff}
+        onClose={() => setEditingTariff(null)}
+        onSave={handleSaveEdit}
+        tariff={editingTariff || undefined}
+      />
+      <DeleteTariffModal
+        isOpen={!!deletingTariff}
+        onClose={() => setDeletingTariff(null)}
+        onDelete={handleConfirmDelete}
+        serviceName={deletingTariff?.service}
+      />
     </div>
   );
 } 

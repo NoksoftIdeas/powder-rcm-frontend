@@ -109,27 +109,56 @@ function PatientsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [patients, setPatients] = useState<Patient[]>(initialPatients);
-  const totalPages = 10;
+  const [searchTerm, setSearchTerm] = useState('');
+  const itemsPerPage = 10;
+  
+  // Filter patients based on search term (name or ID)
+  const filteredPatients = patients.filter(patient => {
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      patient.name.toLowerCase().includes(searchLower) ||
+      patient.patientId.toLowerCase().includes(searchLower) ||
+      patient.enrolleeId.toLowerCase().includes(searchLower)
+    );
+  });
+  
+  const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPatients = filteredPatients.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleAddPatient = (newPatient: Omit<Patient, 'patientId'>) => {
     console.log('Adding new patient:', newPatient);
-    const patientId = `PT${Math.floor(10000 + Math.random() * 90000)}`;
+    // Use the enrolleeId as patientId if provided, otherwise generate a random one
+    const patientId = newPatient.enrolleeId || `PT${Math.floor(10000 + Math.random() * 90000)}`;
     const updatedPatients = [...patients, { ...newPatient, patientId }];
     console.log('Updated patients list:', updatedPatients);
     setPatients(updatedPatients);
+    // Calculate the page where the new patient will be and navigate to it
+    const newPatientPage = Math.ceil((patients.length + 1) / itemsPerPage);
+    setCurrentPage(newPatientPage);
     setModalOpen(false);
   };
 
   return (
     <div className="py-4 px-5 border-[1px] border-gray-200 rounded-xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-3">
-        <h1 className="text-2xl font-bold mb-2  sm:mb-0">You have {patients.length.toLocaleString()} patients</h1>
+        <h1 className="text-2xl font-bold mb-2 sm:mb-0">
+        {searchTerm 
+          ? `Found ${filteredPatients.length} ${filteredPatients.length === 1 ? 'patient' : 'patients'}`
+          : `You have ${patients.length.toLocaleString()} patients`}
+      </h1>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <div className="relative flex-1 max-w-xs">
             <input
               type="text"
-              placeholder="Search Patients"
-              className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm bg-gray-200"
+              placeholder="Search by name or ID..."
+              className="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm bg-gray-200"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1); // Reset to first page when searching
+              }}
             />
             <span className="absolute left-3 top-2.5 text-gray-400">
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="11" cy="11" r="7" strokeWidth="2"/><path d="M21 21l-4.35-4.35" strokeWidth="2" strokeLinecap="round"/></svg>
@@ -143,7 +172,7 @@ function PatientsPage() {
           </button>
         </div>
       </div>
-      <PatientsTable patients={patients} />
+      <PatientsTable patients={currentPatients} />
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}

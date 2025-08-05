@@ -86,15 +86,15 @@ export default function Sidebar() {
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg transition font-semibold text-sm ${
                   isActive
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-gray-600 hover:bg-gray-100"
+                    ? "bg-[#027FA31A] text-[#027FA3]"
+                    : "text-[#344054] hover:bg-[#027FA31A]"
                 }`}
                 onClick={() => setOpen(false)}
               >
                 {/* Icon placeholder */}
                 <span className="w-6 h-6 flex items-center justify-center">
                   {/* Replace with real icons */}
-                  <span className="bg-blue-100 text-blue-400 rounded-full w-6 h-6 flex items-center justify-center">
+                  <span className=" text-[#344054] rounded-full w-6 h-6 flex items-center justify-center">
                     {item.icon === "dashboard" && (
                       <svg
                         width="18"

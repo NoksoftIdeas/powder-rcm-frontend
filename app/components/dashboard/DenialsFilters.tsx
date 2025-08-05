@@ -6,14 +6,16 @@ interface DenialsFiltersProps {
   search: string;
   hmo: string;
   status: string;
-  dateRange: string;
+  startDate: string;
+  endDate: string;
   hmoOptions: string[];
   statusOptions: string[];
   onChange: (filters: {
     search: string;
     hmo: string;
     status: string;
-    dateRange: string;
+    startDate: string;
+    endDate: string;
   }) => void;
 }
 
@@ -21,7 +23,8 @@ export default function DenialsFilters({
   search,
   hmo,
   status,
-  dateRange,
+  startDate,
+  endDate,
   hmoOptions,
   statusOptions,
   onChange,
@@ -33,12 +36,12 @@ export default function DenialsFilters({
         placeholder="Search denials"
         className="border-[1px] border-gray-300 rounded-xl px-4 py-2 w-full md:w-64 text-sm"
         value={search}
-        onChange={e => onChange({ search: e.target.value, hmo, status, dateRange })}
+        onChange={e => onChange({ search: e.target.value, hmo, status, startDate, endDate })}
       />
       <select
         className="border-[1px] border-gray-300 rounded-xl px-4 py-2 text-sm"
         value={hmo}
-        onChange={e => onChange({ search, hmo: e.target.value, status, dateRange })}
+        onChange={e => onChange({ search, hmo: e.target.value, status, startDate, endDate })}
       >
         <option value="">All HMOs</option>
         {hmoOptions.map(opt => (
@@ -48,21 +51,22 @@ export default function DenialsFilters({
       <select
         className="border-[1px] border-gray-300 rounded-xl px-4 py-2 text-sm"
         value={status}
-        onChange={e => onChange({ search, hmo, status: e.target.value, dateRange })}
+        onChange={e => onChange({ search, hmo, status: e.target.value, startDate, endDate })}
       >
         <option value="">Any status</option>
         {statusOptions.map(opt => (
           <option key={opt} value={opt}>{opt}</option>
         ))}
       </select>
-      <input
-        type="text"
-        placeholder="Date range"
-        className="border-[1px] border-gray-300 rounded-xl px-4 py-2 text-sm w-full md:w-40"
-        value={dateRange}
-        onChange={e => onChange({ search, hmo, status, dateRange: e.target.value })}
-      />
-      {/* Replace with a real date picker if needed */}
+      <div className="flex gap-2 w-full md:w-auto">
+        <input
+          type="date"
+          placeholder="Date Range"
+          className="border-[1px] border-gray-300 rounded-xl px-4 py-2 text-sm w-full md:w-40"
+          value={startDate}
+          onChange={e => onChange({ search, hmo, status, startDate: e.target.value, endDate })}
+        />
+      </div>
     </div>
   );
-} 
+}

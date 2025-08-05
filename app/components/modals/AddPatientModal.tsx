@@ -81,7 +81,7 @@ export default function AddPatientModal({
         <p className="text-gray-500 text-sm mb-1">
           Create a profile for a new patient
         </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2 flex-1">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 flex-1">
           <div>
             <label className="block text-sm font-medium">Patient ID</label>
             <input

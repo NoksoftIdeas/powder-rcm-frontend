@@ -1,312 +1,282 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
-import { 
-  LineChart, 
-  Line, 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip as RechartsTooltip, 
+import {
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
   ResponsiveContainer,
-  TooltipProps as RechartsTooltipProps
+  Area,
+  AreaChart,
+  Line,
+  ComposedChart,
+  Legend,
 } from "recharts";
-import { Payload } from 'recharts/types/component/DefaultTooltipContent';
+import { ChevronDown, ArrowUp } from "lucide-react";
+
+type TooltipProps = {
+  active?: boolean;
+  payload?: Array<{
+    value: number;
+    name: string;
+    payload?: any;
+  }>;
+  label?: string;
+};
 
 type ChartData = {
-  label: string;
+  month: string;
   claims: number;
   average: number;
 };
 
 const chartData: ChartData[] = [
-  { label: "Jul", claims: 12000, average: 10500 },
-  { label: "Aug", claims: 32000, average: 28500 },
-  { label: "Sep", claims: 34000, average: 29500 },
-  { label: "Oct", claims: 22000, average: 24000 },
-  { label: "Nov", claims: 14000, average: 18000 },
-  { label: "Dec", claims: 14000, average: 16000 },
-  { label: "Jan", claims: 19000, average: 21000 },
-  { label: "Feb", claims: 23000, average: 25000 },
-  { label: "Mar", claims: 31000, average: 28000 },
-  { label: "Apr", claims: 26000, average: 24000 },
-  { label: "May", claims: 17000, average: 21000 },
-  { label: "Jun", claims: 25000, average: 23000 },
+  { month: "Jul", claims: 12000, average: 10500 },
+  { month: "Aug", claims: 32000, average: 28500 },
+  { month: "Sep", claims: 34000, average: 29500 },
+  { month: "Oct", claims: 22000, average: 24000 },
+  { month: "Nov", claims: 14000, average: 18000 },
+  { month: "Dec", claims: 14000, average: 16000 },
+  { month: "Jan", claims: 19000, average: 21000 },
+  { month: "Feb", claims: 23000, average: 25000 },
+  { month: "Mar", claims: 31000, average: 28000 },
+  { month: "Apr", claims: 26000, average: 24000 },
+  { month: "May", claims: 17000, average: 21000 },
+  { month: "Jun", claims: 25000, average: 23000 },
 ];
 
-// Custom Tooltip component for the charts
-interface CustomTooltipProps extends RechartsTooltipProps<number, string> {
-  active?: boolean;
-  payload?: Payload<number, string>[];
-  label?: string;
-}
-
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+// Main Chart Tooltip
+const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (active && payload && payload.length) {
+    const data = payload[0].payload;
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-        <p className="font-medium">{label}</p>
-        {payload.map((entry, index) => (
-          <p 
-            key={`tooltip-${index}`} 
-            className="text-sm" 
-            style={{ color: entry.color }}
-          >
-            {entry.name}: {entry.value?.toLocaleString()}
-          </p>
-        ))}
+      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg text-sm">
+        <p className="font-medium mb-1">{label || data.month}</p>
+        <p className="text-gray-600">
+          <span className="font-medium">Claims: </span>
+          {data.claims.toLocaleString()}
+        </p>
       </div>
     );
   }
   return null;
 };
 
-// Simple Card component
-const Card = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div 
-    className={`bg-white rounded-lg border border-gray-200 shadow-sm p-4 ${className}`}
-    {...props}
-  >
-    {children}
-  </div>
-);
+// Mini Chart Card Component
+const MiniChartCard = ({ avgClaims }: { avgClaims: number }) => {
+  const data = [
+    { name: "3", value: 1800 },
+    { name: "4", value: 2200 },
+    { name: "5", value: 2100 },
+    { name: "6", value: 2500 },
+    { name: "7", value: 2300 },
+    { name: "8", value: 2600 },
+    { name: "9", value: 2400 },
+  ];
 
-// Simple CardHeader component
-const CardHeader = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={`flex justify-between items-center mb-4 ${className}`} {...props}>
-    {children}
-  </div>
-);
-
-// Simple CardTitle component
-const CardTitle = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-  <h3 className={`text-lg font-semibold text-gray-900 ${className}`} {...props}>
-    {children}
-  </h3>
-);
-
-// Simple CardContent component
-const CardContent = ({ className = "", children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={className} {...props}>
-    {children}
-  </div>
-);
-
-// Simple Select component
-const Select = ({
-  value,
-  onChange,
-  children,
-  className = "",
-  ...props
-}: React.SelectHTMLAttributes<HTMLSelectElement>) => (
-  <select
-    className={`h-10 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 ${className}`}
-    value={value}
-    onChange={onChange}
-    {...props}
-  >
-    {children}
-  </select>
-);
-
-
-
-export default function ClaimsChartSection() {
-  const [timeRange, setTimeRange] = useState('6m');
-  const [activeTab, setActiveTab] = useState<'claims' | 'average'>('claims');
-
-  const filteredData = timeRange === '6m' ? chartData.slice(-6) : chartData;
-  
-  const handleTimeRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTimeRange(e.target.value);
+  // Mini chart tooltip
+  const MiniTooltip = ({ active, payload }: TooltipProps) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-2 border border-gray-200 rounded text-xs shadow-sm">
+          <p>Value: {payload[0].value.toLocaleString()}</p>
+        </div>
+      );
+    }
+    return null;
   };
-  const totalClaims = filteredData.reduce((sum, item) => sum + item.claims, 0);
-  const avgClaims = Math.round(totalClaims / filteredData.length);
-  const trend = ((filteredData[filteredData.length - 1].claims - filteredData[0].claims) / filteredData[0].claims) * 100;
 
   return (
-    <div className="space-y-4">
-      <Card>
-        <CardHeader>
-          <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-            <CardTitle>Claims Overview</CardTitle>
-            <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-              <div className="flex space-x-1 rounded-md bg-gray-100 p-1">
-                <button
-                  onClick={() => setActiveTab('claims')}
-                  className={`rounded px-3 py-1.5 text-sm font-medium transition-colors ${
-                    activeTab === 'claims' 
-                      ? 'bg-white shadow-sm text-gray-900' 
-                      : 'text-gray-500 hover:text-gray-700'
-                  }`}
-                >
-                  Claims
-                </button>
-                <button
-                  onClick={() => setActiveTab('average')}
-                  className={`rounded px-3 py-1.5 text-sm font-medium transition-colors ${
-                    activeTab === 'average' 
-                      ? 'bg-white shadow-sm text-gray-900' 
-                      : 'text-gray-500 hover:text-gray-700'
-                  }`}
-                >
-                  Average
-                </button>
-              </div>
-              <div className="w-48">
-                <Select value={timeRange} onChange={handleTimeRangeChange}>
-                  <option value="6m">Last 6 months</option>
-                  <option value="12m">Last 12 months</option>
-                </Select>
-              </div>
-            </div>
+    <div className="bg-blue-50 rounded-lg p-4 h-full flex flex-col">
+      <div className="mb-4">
+        <p className="text-sm text-gray-500">Average Claims</p>
+        <p className="text-xl font-bold">{avgClaims.toLocaleString()}</p>
+      </div>
+      <div className="mt-auto h-16 -mx-2">
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart data={data}>
+            <Bar
+              dataKey="value"
+              fill="#A0DFFF"
+              radius={[4, 4, 0, 0]}
+              barSize={8}
+            />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke="#3b82f6"
+              strokeWidth={2}
+              dot={false}
+            />
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 10 }}
+              tickMargin={4}
+            />
+            <YAxis hide={true} domain={[0, 3000]} />
+            <RechartsTooltip content={<MiniTooltip />} />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
+
+// Card component with shadow and rounded corners
+const Card = ({
+  className = "",
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={`bg-white rounded-lg shadow-sm p-4 ${className}`} {...props}>
+    {children}
+  </div>
+);
+
+// Chart Header Component
+const ChartHeader = ({
+  timeRange,
+  onTimeRangeChange,
+}: {
+  timeRange: string;
+  onTimeRangeChange: (value: string) => void;
+}) => (
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
+    <h3 className="text-lg font-semibold text-gray-900 mb-2 sm:mb-0">
+      Claims by Period
+    </h3>
+    <div className="relative">
+      <select
+        value={timeRange}
+        onChange={(e) => onTimeRangeChange(e.target.value)}
+        className="appearance-none bg-white border border-gray-300 rounded-md px-3 py-1.5 pr-8 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      >
+        <option value="6m">Last 6 months</option>
+        <option value="12m">Last 12 months</option>
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <ChevronDown className="h-4 w-4" />
+      </div>
+    </div>
+  </div>
+);
+
+// Stats Summary Component
+const StatsSummary = ({
+  totalClaims,
+  trend,
+}: {
+  totalClaims: number;
+  trend: number;
+}) => (
+  <div className="mb-6">
+    <p className="text-3xl font-bold">{totalClaims.toLocaleString()}</p>
+    <div className="flex items-center text-sm text-blue-600 mt-1">
+      <ArrowUp className="h-4 w-4 mr-1" />
+      <span>{Math.abs(trend).toFixed(1)}% from last period</span>
+    </div>
+  </div>
+);
+
+// Custom select component
+const Select = ({ value, onChange, children, className = "" }: any) => (
+  <div className="relative">
+    <select
+      className={`appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${className}`}
+      value={value}
+      onChange={onChange}
+    >
+      {children}
+    </select>
+    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
+      <ChevronDown className="h-4 w-4" />
+    </div>
+  </div>
+);
+
+// Format number with K suffix
+const formatNumber = (num: number) => {
+  return num >= 1000 ? `${(num / 1000).toFixed(1)}k` : num.toString();
+};
+
+export default function ClaimsChartSection() {
+  const [timeRange, setTimeRange] = useState("12m");
+
+  // Filter data based on selected time range
+  const filteredData = React.useMemo(() => {
+    return timeRange === "6m" ? chartData.slice(-6) : chartData;
+  }, [timeRange]);
+
+  const totalClaims = filteredData.reduce((sum, item) => sum + item.claims, 0);
+  const avgClaims = Math.round(
+    filteredData.reduce((sum, item) => sum + item.average, 0) /
+      filteredData.length
+  );
+  const trend = 5.2; // Static trend value for the design
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      {/* Main Chart Section */}
+      <div className="lg:col-span-3">
+        <Card className="p-6">
+          <ChartHeader timeRange={timeRange} onTimeRangeChange={setTimeRange} />
+
+          <StatsSummary totalClaims={totalClaims} trend={trend} />
+
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={filteredData}
+                margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient id="colorClaims" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2} />
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  vertical={false}
+                  strokeDasharray="3 3"
+                  stroke="#f3f4f6"
+                />
+                <XAxis
+                  dataKey="month"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#6b7280", fontSize: 12 }}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#6b7280", fontSize: 12 }}
+                  tickFormatter={(value) => `${value / 1000}k`}
+                  domain={[0, 40000]}
+                  ticks={[0, 10000, 20000, 30000, 40000]}
+                />
+                <RechartsTooltip content={<CustomTooltip />} />
+                <Area
+                  type="monotone"
+                  dataKey="claims"
+                  stroke="#3b82f6"
+                  strokeWidth={2}
+                  fillOpacity={1}
+                  fill="url(#colorClaims)"
+                  activeDot={{ r: 4, strokeWidth: 2, fill: "#fff" }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-        </CardHeader>
-        <CardContent className="pt-4">
-          {/* <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-2xl font-bold">{totalClaims.toLocaleString()}</p>
-              <p className="text-sm text-gray-800">
-                {trend >= 0 ? '↑' : '↓'} {Math.abs(trend).toFixed(1)}% from last period
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm font-medium">Avg. Claims</p>
-              <p className="text-xl font-semibold">{avgClaims.toLocaleString()}</p>
-            </div>
-          </div> */}
-          {activeTab === 'claims' ? (
-            <Card>
-              <CardContent className="pt-6">
-                <div className="h-[300px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart 
-                      data={filteredData}
-                      margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                      <XAxis 
-                        dataKey="label" 
-                        tick={{ fill: '#6b7280' }}
-                        axisLine={{ stroke: '#e5e7eb' }}
-                        tickLine={{ stroke: '#e5e7eb' }}
-                      />
-                      <YAxis 
-                        tick={{ fill: '#6b7280' }}
-                        axisLine={{ stroke: '#e5e7eb' }}
-                        tickLine={{ stroke: '#e5e7eb' }}
-                        tickFormatter={(value) => value.toLocaleString()}
-                      />
-                      <RechartsTooltip content={<CustomTooltip />} />
-                      <Line 
-                        type="monotone" 
-                        dataKey="claims" 
-                        name="Claims"
-                        stroke="#3b82f6" 
-                        strokeWidth={2}
-                        dot={false}
-                        activeDot={{ r: 6, stroke: '#2563eb', strokeWidth: 2 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardContent className="pt-6">
-                <div className="h-[300px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart 
-                      data={filteredData}
-                      margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                      <XAxis 
-                        dataKey="label" 
-                        tick={{ fill: '#6b7280' }}
-                        axisLine={{ stroke: '#e5e7eb' }}
-                        tickLine={{ stroke: '#e5e7eb' }}
-                      />
-                      <YAxis 
-                        tick={{ fill: '#6b7280' }}
-                        axisLine={{ stroke: '#e5e7eb' }}
-                        tickLine={{ stroke: '#e5e7eb' }}
-                        tickFormatter={(value) => value.toLocaleString()}
-                      />
-                      <RechartsTooltip content={<CustomTooltip />} />
-                      <Bar 
-                        dataKey="average" 
-                        name="Average Claims"
-                        fill="#3b82f6" 
-                        radius={[4, 4, 0, 0]}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </CardContent>
-      </Card>
-      
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {/* <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Claims
-            </CardTitle>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="h-4 w-4 text-muted-foreground"
-            >
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-            </svg>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalClaims.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">
-              {trend >= 0 ? '+' : ''}{trend.toFixed(1)}% from last period
-            </p>
-          </CardContent>
-        </Card> */}
-        {/* <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Average Claims
-            </CardTitle>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              className="h-4 w-4 text-muted-foreground"
-            >
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-            </svg>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{avgClaims.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">
-              Monthly average claims
-            </p>
-          </CardContent>
-        </Card> */}
+        </Card>
+      </div>
+
+      {/* Mini Chart Card */}
+      <div className="lg:col-span-1">
+        <MiniChartCard avgClaims={avgClaims} />
       </div>
     </div>
   );

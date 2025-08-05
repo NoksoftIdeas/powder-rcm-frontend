@@ -186,7 +186,8 @@ function BillingPage() {
     hmo: "",
     amount: "",
     status: "",
-    date: "",
+    startDate: "",
+    endDate: "",
   });
   const [page, setPage] = useState(1);
   const pageSize = 8;
@@ -195,14 +196,37 @@ function BillingPage() {
   const [selectedBill, setSelectedBill] = useState<BillDetails | null>(null);
   const [billingData, setBillingData] = useState(mockBillingData);
 
-  // Filter logic (mock, expand as needed)
-  const filteredRecords = billingData.filter(
-    (record) =>
-      (filter.hmo === "" || record.hmo === filter.hmo) &&
-      (filter.status === "" || record.status === filter.status) &&
-      (filter.search === "" ||
-        record.hmo.toLowerCase().includes(filter.search.toLowerCase()))
-  );
+  // Filter logic
+  const filteredRecords = billingData.filter((record) => {
+    // Convert record date to Date object for comparison
+    const recordDate = new Date(record.date);
+    
+    // Apply filters
+    const matchesHmo = filter.hmo === "" || record.hmo === filter.hmo;
+    const matchesStatus = filter.status === "" || record.status === filter.status;
+    const matchesSearch = 
+      filter.search === "" ||
+      record.hmo.toLowerCase().includes(filter.search.toLowerCase());
+    
+    // Date range filter
+    let matchesDate = true;
+    if (filter.startDate) {
+      const startDate = new Date(filter.startDate);
+      startDate.setHours(0, 0, 0, 0);
+      if (recordDate < startDate) {
+        matchesDate = false;
+      }
+    }
+    if (filter.endDate) {
+      const endDate = new Date(filter.endDate);
+      endDate.setHours(23, 59, 59, 999);
+      if (recordDate > endDate) {
+        matchesDate = false;
+      }
+    }
+    
+    return matchesHmo && matchesStatus && matchesSearch && matchesDate;
+  });
   const paginatedRecords = filteredRecords.slice(
     (page - 1) * pageSize,
     page * pageSize
@@ -273,15 +297,16 @@ function BillingPage() {
           <option value="Paid">Paid</option>
           <option value="Unpaid">Unpaid</option>
         </select>
-        <input
-          type="text"
-          placeholder="Date range"
-          className="border rounded px-4 py-2 text-sm w-full md:w-40"
-          value={filter.date}
-          onChange={(e) => setFilter((f) => ({ ...f, date: e.target.value }))}
-        />
+        <div className="flex gap-2 w-full md:w-auto">
+          <input
+            type="date"
+            placeholder="Start date"
+            className="border rounded px-4 py-2 text-sm w-full md:w-40"
+            value={filter.startDate}
+            onChange={(e) => setFilter((f) => ({ ...f, startDate: e.target.value }))}
+          />
+        </div>
       </div>
-      {/* Table */}
       <div className="bg-white rounded-xl shadow border-[1px] border-gray-200 overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">

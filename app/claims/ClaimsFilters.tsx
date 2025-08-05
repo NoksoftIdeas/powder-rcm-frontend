@@ -50,7 +50,7 @@ export default function ClaimsFilters({ filters, onChange }: ClaimsFiltersProps)
 
 
       <select
-        className="border border-gray-300 rounded PX-3 py-1 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        className="border border-gray-300 text-gray-600 rounded PX-3 py-1 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-gray-200"
         value={filters.status}
         onChange={e => onChange({ ...filters, status: e.target.value })}
       >
@@ -62,7 +62,7 @@ export default function ClaimsFilters({ filters, onChange }: ClaimsFiltersProps)
 
       <input
         type="text"
-        placeholder="Date range             🗓"
+        placeholder="Date range           📅"
         className="border border-gray-300 rounded px-2 py-1 text-sm w-40 focus:outline-none focus:ring-2 focus:ring-blue-200"
         value={filters.date}
         onChange={e => onChange({ ...filters, date: e.target.value })}

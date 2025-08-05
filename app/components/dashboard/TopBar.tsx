@@ -41,7 +41,7 @@ export default function TopBar() {
 
   return (
     <header className="flex items-center justify-between w-full h-16 px-8 bg-white border-b-[1px] border-gray-200">
-      <h1 className="font-bold text-3xl">{getPageTitle()}</h1>
+      <h1 className=" text-3xl">{getPageTitle()}</h1>
       <div className="flex items-center gap-6">
         <button className="relative">
           <svg

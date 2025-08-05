@@ -148,8 +148,7 @@ function HMOsPage() {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const [menuOpen, setMenuOpen] = useState<number | null>(null);
-  const menuRef = useRef<HTMLDivElement | null>(null);
+
 
   const filtered = hmos.filter((hmo) =>
     hmo.name.toLowerCase().includes(search.toLowerCase())
@@ -261,30 +260,13 @@ function HMOsPage() {
                   >
                     Channels
                   </Link>
-                  <span className="relative inline-block">
-                    <button
-                      className="p-2 hover:bg-gray-100 rounded-full"
-                      onClick={() => setMenuOpen(menuOpen === hmo.id ? null : hmo.id)}
-                    >
-                      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#64748b"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
-                    </button>
-                    {menuOpen === hmo.id && (
-                      <div ref={menuRef} className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">
-                        <button
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          onClick={() => { setMenuOpen(null); /* Add edit logic here */ }}
-                        >
-                          <span className="inline-flex items-center gap-2"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#38bdf8"><path d="M15.232 5.232l3.536 3.536M9 11l6 6M3 21h6l11-11a2.828 2.828 0 00-4-4L5 17v4z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>Edit</span>
-                        </button>
-                        <button
-                          className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-                          onClick={() => { setMenuOpen(null); /* Add delete logic here */ }}
-                        >
-                          <span className="inline-flex items-center gap-2"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#f87171"><path d="M6 18L18 6M6 6l12 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>Delete</span>
-                        </button>
-                      </div>
-                    )}
-                  </span>
+                  <button className=" rounded hover:bg-gray-100">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <circle cx="12" cy="5" r="1.5"/>
+                    <circle cx="12" cy="12" r="1.5"/>
+                    <circle cx="12" cy="19" r="1.5"/>
+                  </svg>
+                </button>
                 </td>
               </tr>
             ))}
