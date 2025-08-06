@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, Filter, ChevronDown, Plus } from "lucide-react";
+import { Search,  ChevronDown, } from "lucide-react";
 
 type RequestStatus = "Process" | "Processed" | "Overdue";
 
@@ -213,16 +213,16 @@ export default function RequestsPage() {
     return true;
   });
 
-  const getStatusBadgeClass = (status: RequestStatus) => {
-    switch (status) {
-      case "Processed":
-        return "bg-green-100 text-green-800";
-      case "Process":
-        return "bg-yellow-100 text-yellow-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
+  // const getStatusBadgeClass = (status: RequestStatus) => {
+  //   switch (status) {
+  //     case "Processed":
+  //       return "bg-green-100 text-green-800";
+  //     case "Process":
+  //       return "bg-yellow-100 text-yellow-800";
+  //     default:
+  //       return "bg-gray-100 text-gray-800";
+  //   }
+  // };
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
@@ -244,12 +244,11 @@ export default function RequestsPage() {
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
           {/* Overdue Alert */}
           {overdueCount > 0 && (
-            <div className="text-sm font-semibold text-red-600">
+            <div className="text-sm font-semibold text-[#FF2E3B]">
               {overdueCount} Overdue
             </div>
           )}
           
-          {/* Search and Filters */}
           <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
             {/* Search Input */}
             <div className="relative flex-1 sm:flex-initial sm:w-48">
@@ -258,7 +257,7 @@ export default function RequestsPage() {
               </div>
               <input
                 type="text"
-                className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-md bg-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-md bg-white placeholder-gray-400 focus:outline-none "
                 placeholder="Patient ID/Name"
                 value={searchTerm}
                 onChange={(e) => {
@@ -271,7 +270,7 @@ export default function RequestsPage() {
             {/* HMO Dropdown */}
             <div className="relative flex-1 sm:flex-initial sm:w-40">
               <select
-                className="appearance-none block w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className="appearance-none block w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md bg-white focus:outline-none "
                 value={hmoFilter}
                 onChange={(e) => {
                   setHmoFilter(e.target.value);
@@ -293,7 +292,7 @@ export default function RequestsPage() {
             {/* Status Dropdown */}
             <div className="relative flex-1 sm:flex-initial sm:w-40">
               <select
-                className="appearance-none block w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className="appearance-none block w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md bg-white focus:outline-none "
                 value={statusFilter}
                 onChange={(e) => {
                   setStatusFilter(e.target.value as RequestStatus | "all");
@@ -378,17 +377,17 @@ export default function RequestsPage() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {paginatedDenials.map((request, index) => (
-              <tr key={request.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <tr key={request.id} className={index % 2 === 0 ? "bg-white" : "bg-[#F9FAFB]"}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#475467]">
                   {index + 1}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#475467]">
                   {new Date(request.date).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "short",
                   })}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 hover:text-blue-800">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#101828]">
                   <a
                     href={`/pa-code?search=${encodeURIComponent(
                       request.firstName
@@ -398,7 +397,7 @@ export default function RequestsPage() {
                     {request.firstName}
                   </a>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 hover:text-blue-800">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#101828]">
                   <a
                     href={`/pa-code?search=${encodeURIComponent(
                       request.firstName
@@ -408,10 +407,10 @@ export default function RequestsPage() {
                     {request.lastName}
                   </a>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#979797]">
                   {request.hmo}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-[#979797]">
                   {request.requestedBy}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -425,8 +424,8 @@ export default function RequestsPage() {
                     }
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       request.status === "Process"
-                        ? "text-blue-600 hover:text-blue-800 hover:underline"
-                        : "text-gray-500"
+                        ? "text-[#027FA3] hover:underline"
+                        : "text-[#979797]"
                     }`}
                   >
                     {request.status}
@@ -450,33 +449,28 @@ export default function RequestsPage() {
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex flex-col sm:flex-row justify-between items-center py-2 gap-4">
-            {/* Showing X-Y of Z results */}
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-[#475467]">
               Showing {(currentPage - 1) * itemsPerPage + 1}–
               {Math.min(currentPage * itemsPerPage, requests.length)} of{" "}
               {requests.length.toLocaleString()}
             </div>
 
-            {/* Page numbers */}
             <div className="flex items-center gap-1">
-              {/* First page */}
               <button
                 onClick={() => setCurrentPage(1)}
                 className={`w-10 h-10 flex items-center justify-center rounded-md ${
                   currentPage === 1
                     ? "bg-gray-100 text-gray-900 font-medium"
-                    : "text-gray-600 hover:text-blue-600"
+                    : "text-gray-600 "
                 }`}
               >
                 1
               </button>
 
-              {/* Ellipsis after first page if needed */}
               {currentPage > 3 && (
                 <span className="px-2 text-gray-400">...</span>
               )}
 
-              {/* Pages around current page */}
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 let pageNum;
                 if (currentPage <= 3) {
@@ -495,7 +489,7 @@ export default function RequestsPage() {
                       className={`w-10 h-10 flex items-center justify-center rounded-md ${
                         currentPage === pageNum
                           ? "bg-white text-gray-900 font-medium border border-gray-200"
-                          : "text-gray-600 hover:text-blue-600"
+                          : "text-gray-600 "
                       }`}
                     >
                       {pageNum}
@@ -517,7 +511,7 @@ export default function RequestsPage() {
                   className={`w-10 h-10 flex items-center justify-center rounded-md ${
                     currentPage === totalPages
                       ? "bg-white text-gray-900 font-medium border border-gray-200"
-                      : "text-gray-600 hover:text-blue-600"
+                      : "text-gray-600"
                   }`}
                 >
                   {totalPages}

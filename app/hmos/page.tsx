@@ -7,6 +7,8 @@ import { PlusCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import AddHmoModal from "../components/modals/AddHmoModal";
 import type { HMOFormData } from "../components/modals/AddHmoModal";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import { GoPlus } from "react-icons/go";
 
 interface HMO {
   id: number;
@@ -136,8 +138,8 @@ const PAGE_SIZE = 10;
 
 function WarningBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-red-600 text-xs rounded font-semibold">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01M6.93 4.26a10 10 0 0110.14 0M4.22 6.22a10 10 0 0115.56 0M2 12a10 10 0 0020 0M4.22 17.78a10 10 0 0115.56 0" /></svg>
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-[#FF6058] text-xs rounded font-semibold">
+     <img src="/icons/warning.png" alt="warning-HMO" />
       {children}
     </span>
   );
@@ -149,23 +151,24 @@ function HMOsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
 
-
   const filtered = hmos.filter((hmo) =>
     hmo.name.toLowerCase().includes(search.toLowerCase())
   );
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
 
-  const handleAddHMO = (formData: Omit<HMOFormData, 'logo'> & { logo: string | null }) => {
+  const handleAddHMO = (
+    formData: Omit<HMOFormData, "logo"> & { logo: string | null }
+  ) => {
     const newHMO: HMO = {
       id: hmos.length + 1,
-      logo: formData.logo || '/Avatar.png', // Use default avatar if no logo provided
+      logo: formData.logo || "/Avatar.png", // Use default avatar if no logo provided
       name: formData.name,
       plans: 0,
       tariffUpdate: "Set up tariff",
       channels: "Set up channels",
     };
-    
+
     setHmos([newHMO, ...hmos]);
     setIsModalOpen(false);
   };
@@ -173,12 +176,13 @@ function HMOsPage() {
   return (
     <div className="py-4 border-[1px] border-gray-200 rounded-xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-2">
-        <h2 className="text-xl ml-4 sm:text-2xl font-bold text-gray-800">
-          You have <span className="font-extrabold">{hmos.length}</span> partner HMOs
+        <h2 className="text-xl ml-4 sm:text-2xl font-bold text-[#344054]">
+          You have <span className="font-extrabold">{hmos.length}</span> partner
+          HMOs
         </h2>
         <div className="flex gap-1 w-full sm:w-auto">
           <input
-            className="flex-1 max-w-xs px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-cyan-200 text-sm"
+            className="flex-1 max-w-xs border-[1px] text-[#667085] mr-5 border-gray-300 rounded-xl px-4 py-2 focus:outline-none  text-sm"
             placeholder="Search HMOs"
             value={search}
             onChange={(e) => {
@@ -187,10 +191,10 @@ function HMOsPage() {
             }}
           />
           <button
-            className="flex items-center gap-2 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow hover:bg-cyan-800 transition font-semibold whitespace-nowrap"
+            className="flex items-center gap-2 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow hover:bg-cyan-800 transition font-semibold whitespace-nowrap mr-2"
             onClick={() => setIsModalOpen(true)}
           >
-            <PlusCircledIcon className="w-5 h-5" /> Add HMO
+            <GoPlus className="w-5 h-5" /> Add HMO
           </button>
         </div>
       </div>
@@ -198,17 +202,29 @@ function HMOsPage() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">HMO</th>
-              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Plans</th>
-              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Tariff Update</th>
-              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Channels</th>
-              <th className="px-2 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Action</th>
+              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+                HMO
+              </th>
+              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+                Plans
+              </th>
+              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+                Tariff Update
+              </th>
+              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+                Channels
+              </th>
+              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-100">
             {paginated.length === 0 && (
               <tr>
-                <td colSpan={5} className="text-center py-8 text-gray-400">No HMOs found.</td>
+                <td colSpan={5} className="text-center py-8 text-gray-400">
+                  No HMOs found.
+                </td>
               </tr>
             )}
             {paginated.map((hmo) => (
@@ -218,29 +234,31 @@ function HMOsPage() {
                     <div className="flex-shrink-0 h-8 w-8 rounded-full overflow-hidden bg-gray-100">
                       <Image
                         className="h-full w-full object-cover"
-                        src={hmo.logo || '/Avatar.png'}
+                        src={hmo.logo || "/Avatar.png"}
                         alt={hmo.name}
                         width={32}
                         height={32}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.onerror = null;
-                          target.src = '/Avatar.png';
+                          target.src = "/Avatar.png";
                         }}
                       />
                     </div>
-                    <span className="font-semibold text-gray-800">{hmo.name}</span>
+                    <span className=" text-[#101828]">
+                      {hmo.name}
+                    </span>
                   </div>
                 </td>
-                <td className="px-3 py-3 whitespace-nowrap">{hmo.plans}</td>
-                <td className="px-3 py-3 whitespace-nowrap">
+                <td className="px-3 py-3 text-[#475467] whitespace-nowrap">{hmo.plans}</td>
+                <td className="px-3 text-[#475467] py-3 whitespace-nowrap">
                   {hmo.tariffUpdate === "Set up tariff" ? (
                     <WarningBadge>Set up tariff</WarningBadge>
                   ) : (
                     hmo.tariffUpdate
                   )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 text-[#475467] py-4 whitespace-nowrap">
                   {hmo.channels === "Set up channels" ? (
                     <WarningBadge>Set up channels</WarningBadge>
                   ) : (
@@ -250,40 +268,49 @@ function HMOsPage() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <Link
                     href={`/hmos/${hmo.id}/tariff-plans`}
-                    className="text-cyan-700 font-semibold hover:underline mr-4"
+                    className="text-[#027FA3] hover:underline mr-4"
                   >
                     Tariff Plans
                   </Link>
                   <Link
                     href={`/hmos/${hmo.id}/channels`}
-                    className="text-cyan-700 font-semibold hover:underline mr-4"
+                    className="text-[#027FA3]  hover:underline mr-4"
                   >
                     Channels
                   </Link>
                   <button className=" rounded hover:bg-gray-100">
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <circle cx="12" cy="5" r="1.5"/>
-                    <circle cx="12" cy="12" r="1.5"/>
-                    <circle cx="12" cy="19" r="1.5"/>
-                  </svg>
-                </button>
+                    <svg
+                      width="20"
+                      height="20"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <circle cx="12" cy="5" r="1.5" />
+                      <circle cx="12" cy="12" r="1.5" />
+                      <circle cx="12" cy="19" r="1.5" />
+                    </svg>
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="flex justify-between items-center mt-6">
-          <button
+      <div className="flex justify-between items-center mt-6 mx-4">
+        <button
           className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
-            onClick={() => setPage(page - 1)}
-            disabled={page === 1}
-          >
+          onClick={() => setPage(page - 1)}
+          disabled={page === 1}
+        >
+          <span className="flex justify-center items-center gap-1">
+            <IoIosArrowRoundBack />
             Previous
-          </button>
+          </span>
+        </button>
         <div className="flex items-center gap-1">
           {Array.from({ length: totalPages }, (_, idx) => (
-              <button
+            <button
               key={idx + 1}
               className={`px-3 py-1.5 rounded-md font-semibold text-sm ${
                 page === idx + 1
@@ -293,17 +320,20 @@ function HMOsPage() {
               onClick={() => setPage(idx + 1)}
             >
               {idx + 1}
-              </button>
-            ))}
-          </div>
-          <button
-          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
-            onClick={() => setPage(page + 1)}
-            disabled={page === totalPages}
-          >
-            Next
-          </button>
+            </button>
+          ))}
         </div>
+        <button
+          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
+          onClick={() => setPage(page + 1)}
+          disabled={page === totalPages}
+        >
+          <span className="flex justify-center items-center gap-1">
+            Next
+            <IoIosArrowRoundForward />
+          </span>
+        </button>
+      </div>
       <AddHmoModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

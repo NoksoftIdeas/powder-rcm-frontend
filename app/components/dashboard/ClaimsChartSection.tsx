@@ -13,6 +13,9 @@ import {
   Line,
   ComposedChart,
   Legend,
+  BarChart,
+  Tooltip,
+  LineChart,
 } from "recharts";
 import { ChevronDown, ArrowUp } from "lucide-react";
 
@@ -52,10 +55,10 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg text-sm">
-        <p className="font-medium mb-1">{label || data.month}</p>
-        <p className="text-gray-600">
-          <span className="font-medium">Claims: </span>
+      <div className="bg-[#212123] p-3 border border-gray-200 rounded-lg shadow-lg text-sm">
+        <p className="font-medium mb-1 text-[#868686]">{label || data.month}</p>
+        <p className="text-[#FCFCFC]">
+          {/* <span className="font-medium">Claims: </span> */}
           {data.claims.toLocaleString()}
         </p>
       </div>
@@ -66,14 +69,23 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
 
 // Mini Chart Card Component
 const MiniChartCard = ({ avgClaims }: { avgClaims: number }) => {
-  const data = [
+  // const data = [
+  //   { name: "3", value: 1800 },
+  //   { name: "4", value: 2200 },
+  //   { name: "5", value: 2100 },
+  //   { name: "6", value: 2500 },
+  //   { name: "7", value: 2300 },
+  //   { name: "8", value: 2600 },
+  //   { name: "9", value: 2400 },
+  // ];
+  const miniChartData = [
     { name: "3", value: 1800 },
-    { name: "4", value: 2200 },
-    { name: "5", value: 2100 },
-    { name: "6", value: 2500 },
+    { name: "4", value: 800 },
+    { name: "5", value: 2000 },
+    { name: "6", value: 1500 },
     { name: "7", value: 2300 },
-    { name: "8", value: 2600 },
-    { name: "9", value: 2400 },
+    { name: "8", value: 1750 },
+    { name: "9", value: 2200 },
   ];
 
   // Mini chart tooltip
@@ -89,39 +101,49 @@ const MiniChartCard = ({ avgClaims }: { avgClaims: number }) => {
   };
 
   return (
-    <div className="bg-blue-50 rounded-lg p-4 h-full flex flex-col">
-      <div className="mb-4">
-        <p className="text-sm text-gray-500">Average Claims</p>
-        <p className="text-xl font-bold">{avgClaims.toLocaleString()}</p>
+    <div className=" bg-[#027FA30F] rounded-xl p-4 flex flex-col justify-between">
+      <div className="flex flex-col items-center justify-center mb-4 pt-2">
+        <p className="text-sm text-gray-500 mb-4">Average Claims</p>
+        <h2 className="text-1xl font-bold text-gray-800">2,387</h2>
       </div>
-      <div className="mt-auto h-16 -mx-2">
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data}>
-            <Bar
-              dataKey="value"
-              fill="#A0DFFF"
-              radius={[4, 4, 0, 0]}
-              barSize={8}
-            />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke="#3b82f6"
-              strokeWidth={2}
-              dot={false}
-            />
-            <XAxis
-              dataKey="name"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 10 }}
-              tickMargin={4}
-            />
-            <YAxis hide={true} domain={[0, 3000]} />
-            <RechartsTooltip content={<MiniTooltip />} />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
+
+      <ResponsiveContainer width="100%" height={60}>
+        <BarChart data={miniChartData} barSize={10}>
+          <defs>
+            <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#027FA34D" stopOpacity={0.8} />
+              <stop offset="100%" stopColor="#027FA300" stopOpacity={0.5} />
+            </linearGradient>
+          </defs>
+
+          <Tooltip content={<MiniTooltip />} />
+          <Bar dataKey="value" fill="url(#barGradient)" radius={[4, 4, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+      <ResponsiveContainer width="100%" height={40}>
+        <AreaChart data={miniChartData}>
+          <Area
+            type="monotone"
+            dataKey="value"
+            stroke="#2563EB"
+            strokeWidth={2}
+            fill="url(#colorFade)"
+            dot={false}
+          />
+          <defs>
+            <linearGradient id="colorFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#027FA34D" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#027FA34D" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "#9CA3AF", fontSize: 10,}} // faded gray text for 3–9
+              />
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   );
 };
@@ -132,7 +154,7 @@ const Card = ({
   children,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={`bg-white rounded-lg shadow-sm p-4 ${className}`} {...props}>
+  <div className={` ${className}`} {...props}>
     {children}
   </div>
 );
@@ -145,18 +167,16 @@ const ChartHeader = ({
   timeRange: string;
   onTimeRangeChange: (value: string) => void;
 }) => (
-  <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-    <h3 className="text-lg font-semibold text-gray-900 mb-2 sm:mb-0">
-      Claims by Period
-    </h3>
+  <div className="flex flex-col sm:flex-row sm:items-center space-x-3 mb-6 text-[#7A7A7A]">
+    <h3 className="text-lg  text-[#7A7A7A] mb-2 sm:mb-0">Claims by Period</h3>
     <div className="relative">
       <select
         value={timeRange}
         onChange={(e) => onTimeRangeChange(e.target.value)}
-        className="appearance-none bg-white border border-gray-300 rounded-md px-3 py-1.5 pr-8 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        className="appearance-none bg-white border border-gray-300 rounded-md px-3 py-1.5 pr-8 text-sm focus:outline-none"
       >
-        <option value="6m">Last 6 months</option>
-        <option value="12m">Last 12 months</option>
+        <option value="6m">Last 6 Months</option>
+        <option value="12m">Last 12 Months</option>
       </select>
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
         <ChevronDown className="h-4 w-4" />
@@ -173,11 +193,11 @@ const StatsSummary = ({
   totalClaims: number;
   trend: number;
 }) => (
-  <div className="mb-6">
+  <div className="mb-6 flex flex-row space-x-3">
     <p className="text-3xl font-bold">{totalClaims.toLocaleString()}</p>
-    <div className="flex items-center text-sm text-blue-600 mt-1">
-      <ArrowUp className="h-4 w-4 mr-1" />
-      <span>{Math.abs(trend).toFixed(1)}% from last period</span>
+    <div className="flex items-center text-sm text-[#027FA3] mt-1">
+      <ArrowUp className="h-4 w-4 mr-1 bg-[#89dff7] rounded-full" />
+      <span>{Math.abs(trend).toFixed(1)}% </span>
     </div>
   </div>
 );
@@ -186,7 +206,7 @@ const StatsSummary = ({
 const Select = ({ value, onChange, children, className = "" }: any) => (
   <div className="relative">
     <select
-      className={`appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${className}`}
+      className={`appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-8 text-sm focus:outline-none  ${className}`}
       value={value}
       onChange={onChange}
     >
@@ -219,15 +239,15 @@ export default function ClaimsChartSection() {
   const trend = 5.2; // Static trend value for the design
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 bg-[#fff] rounded-xl border-[1px] border-gray-200 p-4 relative ">
       {/* Main Chart Section */}
-      <div className="lg:col-span-3">
+      <div className="lg:col-span-3 ">
         <Card className="p-6">
           <ChartHeader timeRange={timeRange} onTimeRangeChange={setTimeRange} />
 
           <StatsSummary totalClaims={totalClaims} trend={trend} />
 
-          <div className="h-64">
+          <div className="h-60 ">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={filteredData}
@@ -235,25 +255,29 @@ export default function ClaimsChartSection() {
               >
                 <defs>
                   <linearGradient id="colorClaims" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.05} />
+                    <stop offset="5%" stopColor="#027FA380" stopOpacity={0.9} />
+                    <stop
+                      offset="95%"
+                      stopColor="#027FA300"
+                      stopOpacity={0.06}
+                    />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
                   vertical={false}
                   strokeDasharray="3 3"
-                  stroke="#f3f4f6"
+                  stroke="#979797"
                 />
                 <XAxis
                   dataKey="month"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#6b7280", fontSize: 12 }}
+                  tick={{ fill: "#6b7280", fontSize: 15 }}
                 />
                 <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#6b7280", fontSize: 12 }}
+                  tick={{ fill: "#6b7280", fontSize: 15 }}
                   tickFormatter={(value) => `${value / 1000}k`}
                   domain={[0, 40000]}
                   ticks={[0, 10000, 20000, 30000, 40000]}
@@ -262,7 +286,7 @@ export default function ClaimsChartSection() {
                 <Area
                   type="monotone"
                   dataKey="claims"
-                  stroke="#3b82f6"
+                  stroke="#027FA3"
                   strokeWidth={2}
                   fillOpacity={1}
                   fill="url(#colorClaims)"
@@ -273,9 +297,8 @@ export default function ClaimsChartSection() {
           </div>
         </Card>
       </div>
-
       {/* Mini Chart Card */}
-      <div className="lg:col-span-1">
+      <div className="lg:col-span-1  absolute bottom-14 right-16 w-[20%]">
         <MiniChartCard avgClaims={avgClaims} />
       </div>
     </div>

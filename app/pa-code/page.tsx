@@ -361,7 +361,7 @@ export default function PACodePage() {
   const currentPatient = getCurrentPatientInfo();
 
   return (
-    <div className="flex h-screen bg-gray-50 relative">
+    <div className="flex h-screen relative">
       {/* Mobile Overlay */}
       {(showSidebar || showDetailPanel) && (
         <div
@@ -379,7 +379,7 @@ export default function PACodePage() {
       } lg:static lg:translate-x-0`}>
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center justify-between mb-4">
+          {/* <div className="flex items-center justify-between mb-4">
             <h1 className="text-xl font-semibold text-gray-900">PA Codes</h1>
             <div className="flex items-center space-x-2">
               <span className="text-sm text-red-500 font-medium">{overdueCount} overdue</span>
@@ -392,12 +392,12 @@ export default function PACodePage() {
                 </svg>
               </button>
             </div>
-          </div>
+          </div> */}
           
           {/* New Request Button */}
           <button
             onClick={() => setShowNewRequestModal(true)}
-            className="w-full bg-blue-100 text-blue-600 py-2 px-4 rounded-lg font-medium mb-4 hover:bg-blue-200 transition-colors"
+            className="w-full bg-[#017FA71A] text-[#017EA6] py-2 px-4 rounded-lg font-medium mb-4 transition-colors"
           >
             New Request
           </button>
@@ -410,7 +410,7 @@ export default function PACodePage() {
               placeholder="Search Interactions"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full bg-[#F8F8F8] pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2  focus:border-transparent"
             />
           </div>
 
@@ -419,7 +419,7 @@ export default function PACodePage() {
             <select
               value={selectedChannel}
               onChange={(e) => setSelectedChannel(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white"
+              className="w-full bg-[#D0D5DD] px-4 py-2 border-[1px] border-gray-300 rounded-lg focus:outline-none appearance-none "
             >
               <option>All Channels</option>
               <option>WhatsApp</option>
@@ -437,7 +437,7 @@ export default function PACodePage() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
                   activeTab === tab
-                    ? "bg-blue-100 text-blue-600"
+                    ? "bg-[#027FA31A] text-[#027FA3]"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
               >
@@ -629,7 +629,7 @@ export default function PACodePage() {
               placeholder="Type something here..."
               className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            <button className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+            <button className="p-2 bg-blue-500 text-white rounded-lg  transition-colors">
               <Send className="w-5 h-5" />
             </button>
           </div>

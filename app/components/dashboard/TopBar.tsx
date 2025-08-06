@@ -32,48 +32,27 @@ export default function TopBar() {
 
   // Find the best matching route name
   const getPageTitle = () => {
-    // Try to match the full path first
     if (routeNameMap[pathname]) return routeNameMap[pathname];
     // Try to match by prefix for dynamic or nested routes
-    const match = Object.keys(routeNameMap).find((key) => pathname.startsWith(key));
+    const match = Object.keys(routeNameMap).find((key) =>
+      pathname.startsWith(key)
+    );
     return match ? routeNameMap[match] : "Dashboard";
   };
 
   return (
-    <header className="flex items-center justify-between w-full h-16 px-8 bg-white border-b-[1px] border-gray-200">
-      <h1 className=" text-3xl">{getPageTitle()}</h1>
+    <header className="flex items-center justify-between w-full h-16 px-8 bg-white border-b-[1px] border-[#E4E7EC]">
+      <h1 className=" text-3xl text-[#344054]">{getPageTitle()}</h1>
       <div className="flex items-center gap-6">
         <button className="relative">
-          <svg
-            width="22"
-            height="22"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="#38bdf8"
-          >
-            <path
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 10-3 0v.68C7.64 5.36 6 7.929 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <img src="/icons/notification.png" alt="notificationICon" />
         </button>
         <div className="relative">
           <button
-            className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center border"
+            className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center "
             onClick={() => setMenuOpen((open) => !open)}
           >
-            <svg
-              width="22"
-              height="22"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="#64748b"
-            >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
-            </svg>
+            <img src="/icons/icon.png" alt="IconLogo" />
           </button>
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">

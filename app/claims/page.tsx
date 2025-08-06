@@ -75,52 +75,58 @@ function ClaimsPage() {
 
   return (
     <div className="flex  py-2 border-[1px] border-gray-300 rounded-xl">
-      <main className="flex-1 min-h-screen bg-gray-50 px-1 sm:px-8 py-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-1xl font-bold mb-4 text-gray-800 ">
+      <main className="flex-1  bg-gray-50 my-3 ">
+        <div className="max-w-7xl mx-auto ">
+          <div className="text-1xl font-bold mb-4 ml-4 text-[#344054] flex items-center-safe  ">
             {totalClaims.toLocaleString()} Claims
-          </div>
-          <div className="mb-6">
-            <ClaimsFilters filters={filters} onChange={handleFiltersChange} />
-          </div>
-          <div className="bg-white rounded-xl shadow-sm p-0 overflow-x-auto">
-            <ClaimsTable onView={handleViewClaim} claims={paginatedClaims} />
+            <div className=" ml-4">
+              <ClaimsFilters filters={filters} onChange={handleFiltersChange} />
+            </div>
           </div>
 
-          <div className="mt-6 flex item-center bottom-2 justify-center">
+          <ClaimsTable onView={handleViewClaim} claims={paginatedClaims} />
+
+          <div className="mt-6">
             <nav
-              className="inline-flex rounded-md shadow-sm"
+              className=" flex flex-row item-center justify-between "
               aria-label="Pagination"
             >
-              <button
-                className="px-3 py-2 border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 rounded-l-md disabled:opacity-50"
-                onClick={() => handlePageChange(page - 1)}
-                disabled={page === 1}
-                aria-label="Previous Page"
-              >
-                &lt;Previous
-              </button>
-              {Array.from({ length: totalPages }, (_, idx) => (
+              <div>
                 <button
-                  key={idx}
-                  className={`px-3 py-2 border-t border-b border-gray-200 bg-white text-gray-700 hover:bg-blue-50 ${
-                    page === idx + 1 ? "font-bold text-blue-700 bg-blue-50" : ""
-                  }`}
-                  onClick={() => handlePageChange(idx + 1)}
-                  aria-current={page === idx + 1 ? "page" : undefined}
+                  className="px-3 py-2 disabled:opacity-50"
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page === 1}
+                  aria-label="Previous Page"
                 >
-                  {idx + 1}
+                  <img src="/icons/Button.png" alt="previous" />
                 </button>
-              ))}
-
-              <button
-                className="px-3 py-2 border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 rounded-r-md disabled:opacity-50"
-                onClick={() => handlePageChange(page + 1)}
-                disabled={page === totalPages}
-                aria-label="Next Page"
-              >
-                Next &gt;
-              </button>
+              </div>
+              <div>
+                {Array.from({ length: totalPages }, (_, idx) => (
+                  <button
+                    key={idx}
+                    className={`px-3 py-2  text-gray-700  ${
+                      page === idx + 1
+                        ? "font-bold border-[1px] border-gray-300 rounded text-[#182230] bg-[#F5F5F5]"
+                        : ""
+                    }`}
+                    onClick={() => handlePageChange(idx + 1)}
+                    aria-current={page === idx + 1 ? "page" : undefined}
+                  >
+                    {idx + 1}
+                  </button>
+                ))}
+              </div>
+              <div>
+                <button
+                  className="px-3 py-2 "
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page === totalPages}
+                  aria-label="Next Page"
+                >
+                  <img src="/icons/ButtonNxt.png" alt="next" />
+                </button>
+              </div>
             </nav>
           </div>
         </div>

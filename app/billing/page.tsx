@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { withAuth } from "../components/auth/withAuth";
 import BillReviewModal from "../components/modals/BillDetailsModal";
-
+import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
 const mockBillingData = [
   {
     id: 1,
@@ -196,19 +196,17 @@ function BillingPage() {
   const [selectedBill, setSelectedBill] = useState<BillDetails | null>(null);
   const [billingData, setBillingData] = useState(mockBillingData);
 
-  // Filter logic
   const filteredRecords = billingData.filter((record) => {
     // Convert record date to Date object for comparison
     const recordDate = new Date(record.date);
-    
-    // Apply filters
+
     const matchesHmo = filter.hmo === "" || record.hmo === filter.hmo;
-    const matchesStatus = filter.status === "" || record.status === filter.status;
-    const matchesSearch = 
+    const matchesStatus =
+      filter.status === "" || record.status === filter.status;
+    const matchesSearch =
       filter.search === "" ||
       record.hmo.toLowerCase().includes(filter.search.toLowerCase());
-    
-    // Date range filter
+
     let matchesDate = true;
     if (filter.startDate) {
       const startDate = new Date(filter.startDate);
@@ -224,7 +222,7 @@ function BillingPage() {
         matchesDate = false;
       }
     }
-    
+
     return matchesHmo && matchesStatus && matchesSearch && matchesDate;
   });
   const paginatedRecords = filteredRecords.slice(
@@ -240,201 +238,229 @@ function BillingPage() {
   };
 
   return (
-    <div className="pb-3 border-[1px] border-gray-300 rounded-xl">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-6 flex flex-col">
-          <span className="text-gray-500 text-sm mb-2">Bills due</span>
-          <span className="text-2xl font-bold text-red-600">₦21.4m</span>
+    <div className="pb-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        <div className="bg-white rounded-xl  border-[1px] border-gray-200 p-6 flex flex-col">
+          <span className="text-[#7A7A7A] text-sm mb-5">Bills due</span>
+          <span className="text-2xl font-bold text-[#FF6058]">₦21.4m</span>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-6 flex flex-col">
-          <span className="text-gray-500 text-sm mb-2">Bills paid</span>
-          <span className="text-2xl font-bold text-black">₦4.6m</span>
+        <div className="bg-white rounded-xl border-[1px] border-gray-200 p-6 flex flex-col">
+          <span className="text-[#7A7A7A] text-sm mb-5">Bills paid</span>
+          <span className="text-2xl font-bold text-[#101928]">₦4.6m</span>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-6 flex flex-col">
-          <span className="text-gray-500 text-sm mb-2">
+        <div className="bg-white rounded-xl border-[1px] border-gray-200 p-6 flex flex-col">
+          <span className="text-[#7A7A7A] text-sm mb-5">
             Total number of bills
           </span>
-          <span className="text-2xl font-bold text-black">17</span>
+          <span className="text-2xl font-bold text-[#101928]">17</span>
         </div>
-        <div className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-6 flex flex-col">
-          <span className="text-gray-500 text-sm mb-2">
+        <div className="bg-white rounded-xl  border-[1px] border-gray-200 p-6 flex flex-col">
+          <span className="text-[#7A7A7A] text-sm mb-5">
             Total amount of bills
           </span>
-          <span className="text-2xl font-bold text-black">₦40.9m</span>
+          <span className="text-2xl font-bold text-[#101928]">₦40.9m</span>
         </div>
       </div>
-      {/* Filters */}
-      <div className="bg-white rounded-xl shadow border-[1px] border-gray-200 p-4 flex flex-col md:flex-row md:items-center gap-4 mb-4">
-        <input
-          type="text"
-          placeholder="Search"
-          className="border rounded px-4 py-2 text-sm w-full md:w-64"
-          value={filter.search}
-          onChange={(e) => setFilter((f) => ({ ...f, search: e.target.value }))}
-        />
-        <select
-          className="border rounded px-4 py-2 text-sm w-full md:w-40"
-          value={filter.hmo}
-          onChange={(e) => setFilter((f) => ({ ...f, hmo: e.target.value }))}
-        >
-          <option value="">All HMOs</option>
-          <option value="Reliance HMO">Reliance HMO</option>
-          <option value="Ally Healthcare">Ally Healthcare</option>
-        </select>
-        <input
-          type="text"
-          placeholder="₦0 - ₦99999999"
-          className="border rounded px-4 py-2 text-sm w-full md:w-40"
-          value={filter.amount}
-          onChange={(e) => setFilter((f) => ({ ...f, amount: e.target.value }))}
-        />
-        <select
-          className="border rounded px-4 py-2 text-sm w-full md:w-40"
-          value={filter.status}
-          onChange={(e) => setFilter((f) => ({ ...f, status: e.target.value }))}
-        >
-          <option value="">Any status</option>
-          <option value="Paid">Paid</option>
-          <option value="Unpaid">Unpaid</option>
-        </select>
-        <div className="flex gap-2 w-full md:w-auto">
+      <div className="border-[1px] border-gray-300 rounded-xl">
+        {/* Filters */}
+        <div className="flex py-3 flex-col md:flex-row md:items-center justify-between mb-4">
           <input
-            type="date"
-            placeholder="Start date"
-            className="border rounded px-4 py-2 text-sm w-full md:w-40"
-            value={filter.startDate}
-            onChange={(e) => setFilter((f) => ({ ...f, startDate: e.target.value }))}
+            type="text"
+            placeholder="Search"
+            className="border-[1px] text-[#667085] ml-3 border-gray-300 rounded-xl px-4 py-2 text-sm w-full md:w-50"
+            value={filter.search}
+            onChange={(e) =>
+              setFilter((f) => ({ ...f, search: e.target.value }))
+            }
           />
+          <div className="flex flex-col md:flex-row items-center gap-4 mr-4  ">
+            <select
+              className="border-[1px] text-[#667085] border-gray-300 rounded-xl px-2 py-2 text-sm w-full md:w-28"
+              value={filter.hmo}
+              onChange={(e) =>
+                setFilter((f) => ({ ...f, hmo: e.target.value }))
+              }
+            >
+              <option value="">All HMOs</option>
+              <option value="Reliance HMO">Reliance HMO</option>
+              <option value="Ally Healthcare">Ally Healthcare</option>
+            </select>
+            <input
+              type="text"
+              placeholder="₦0 - ₦99999999"
+              className="border-[1px] text-[#667085] border-gray-300 rounded-xl px-2 py-2 text-sm w-full md:w-24 focus:outline-none"
+              value={filter.amount}
+              onChange={(e) =>
+                setFilter((f) => ({ ...f, amount: e.target.value }))
+              }
+            />
+            <select
+              className="border-[1px]  text-[#667085] border-gray-300 rounded-xl px-2 py-2 text-sm w-full md:w-28"
+              value={filter.status}
+              onChange={(e) =>
+                setFilter((f) => ({ ...f, status: e.target.value }))
+              }
+            >
+              <option value="">Any status</option>
+              <option value="Paid">Paid</option>
+              <option value="Unpaid">Unpaid</option>
+            </select>
+            <div className=" md:w-auto">
+              <input
+                type="text"
+                placeholder="Date Range    📅"
+                className="border-[1px]  text-[#667085] border-gray-300 rounded-xl px-2 py-2 text-sm w-full focus:outline-none  md:w-32"
+                value={filter.startDate}
+                onChange={(e) =>
+                  setFilter((f) => ({ ...f, startDate: e.target.value }))
+                }
+                onFocus={(e) => (e.target.type = "date")}
+                onBlur={(e) => (e.target.type = "text")}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="bg-white rounded-xl shadow border-[1px] border-gray-200 overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
-                Due Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
-                HMO
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
-                No. of Claims
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
-                Total Cost
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
-            {paginatedRecords.map((record) => (
-              <tr key={record.id}>
-                <td className="px-6 py-4 whitespace-nowrap">{record.date}</td>
-                <td className="px-6 py-4 whitespace-nowrap font-semibold">
-                  {record.hmo}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{record.claims}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{record.total}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
-                      record.status === "Paid"
-                        ? "bg-blue-50 text-blue-700"
-                        : "bg-gray-100 text-gray-500"
-                    }`}
-                  >
-                    {record.status}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {record.status === "Paid" ? (
-                    <button
-                      className="text-cyan-700 font-semibold hover:underline"
-                      onClick={() => {
-                        setSelectedBill(mockBillDetails as BillDetails);
-                        setModalOpen(true);
-                      }}
+        <div className="bg-white rounded-xl  border-[1px] border-gray-200 overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs  text-[#475467] uppercase">
+                  Due Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs  text-[#475467] uppercase">
+                  HMO
+                </th>
+                <th className="px-6 py-3 text-left text-xs  text-[#475467] uppercase">
+                  No. of Claims
+                </th>
+                <th className="px-6 py-3 text-left text-xs  text-[#475467] uppercase">
+                  Total Cost
+                </th>
+                <th className="px-6 py-3 text-left text-xs  text-[#475467] uppercase">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs  text-[#475467] uppercase">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-100">
+              {paginatedRecords.map((record) => (
+                <tr key={record.id}>
+                  <td className="px-6 py-4 text-[#475467] whitespace-nowrap">
+                    {record.date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[#101828]">
+                    {record.hmo}
+                  </td>
+                  <td className="px-6 py-4 text-[#475467] whitespace-nowrap">
+                    {record.claims}
+                  </td>
+                  <td className="px-6 py-4 text-[#475467] whitespace-nowrap">
+                    {record.total}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`inline-block px-3 py-1 rounded-full text-xs  ${
+                        record.status === "Paid"
+                          ? "bg-blue-50 text-[#027FA3]"
+                          : "bg-[#027FA31A] text-[#475467]"
+                      }`}
                     >
-                      View
-                    </button>
-                  ) : (
-                    <>
+                      {record.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {record.status === "Paid" ? (
                       <button
-                        className="text-cyan-700 font-semibold hover:underline mr-4"
+                        className="text-[#027FA3]  hover:underline"
                         onClick={() => {
                           setSelectedBill(mockBillDetails as BillDetails);
                           setModalOpen(true);
                         }}
                       >
-                        Review
+                        View
                       </button>
-                      {record.status !== "Paid" && (
+                    ) : (
+                      <>
                         <button
-                          className="text-cyan-700 font-semibold hover:underline"
-                          onClick={() => handleMarkAsPaid(record.id)}
+                          className="text-[#027FA3]  hover:underline mr-4"
+                          onClick={() => {
+                            setSelectedBill(mockBillDetails as BillDetails);
+                            setModalOpen(true);
+                          }}
                         >
-                          Mark As Paid
+                          Review
                         </button>
-                      )}
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {/* Pagination */}
-      <div className="flex justify-between items-center mt-6 mx-1">
-        <button
-          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-        >
-          Previous
-        </button>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: totalPages }, (_, idx) => (
-            <button
-              key={idx + 1}
-              className={`px-3 py-1.5 rounded-md font-semibold text-sm ${
-                page === idx + 1
-                  ? "bg-gray-300 text-white shadow"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
-              onClick={() => setPage(idx + 1)}
-            >
-              {idx + 1}
-            </button>
-          ))}
+                        {record.status !== "Paid" && (
+                          <button
+                            className="text-[#027FA3]  hover:underline"
+                            onClick={() => handleMarkAsPaid(record.id)}
+                          >
+                            Mark As Paid
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <button
-          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
-          onClick={() => setPage(page + 1)}
-          disabled={page === totalPages}
-        >
-          Next
-        </button>
+        {/* Pagination */}
+        <div className="flex justify-between items-center my-4 mx-2">
+          <button
+            className="px-4 py-2 rounded-xl border text-[#344054] bg-white hover:bg-gray-50 disabled:opacity-50"
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1}
+          >
+            <span className="flex justify-center items-center gap-1">
+              <IoIosArrowRoundBack />
+              Previous
+            </span>
+          </button>
+          <div className="flex items-center gap-1">
+            {Array.from({ length: totalPages }, (_, idx) => (
+              <button
+                key={idx + 1}
+                className={`px-3 py-1.5 rounded-md font-semibold text-sm ${
+                  page === idx + 1
+                    ? "bg-gray-300 text-[#344054] "
+                    : "bg-white  text-[#475467] "
+                }`}
+                onClick={() => setPage(idx + 1)}
+              >
+                {idx + 1}
+              </button>
+            ))}
+          </div>
+          <button
+            className="px-4 py-2 rounded-xl border text-[#344054] bg-white hover:bg-gray-50 disabled:opacity-50"
+            onClick={() => setPage(page + 1)}
+            disabled={page === totalPages}
+          >
+            <span className="flex justify-center items-center gap-1">
+              Next
+              <IoIosArrowRoundForward />
+            </span>
+          </button>
+        </div>
+        <BillReviewModal
+          bill={selectedBill}
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onPrint={() => {
+            /* connect to backend print */
+          }}
+          onDownload={() => {
+            /* connect to backend download */
+          }}
+          pageNumber={"1/28"}
+        />
       </div>
-      <BillReviewModal
-        bill={selectedBill}
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        onPrint={() => {
-          /* connect to backend print */
-        }}
-        onDownload={() => {
-          /* connect to backend download */
-        }}
-        pageNumber={"1/28"}
-      />
     </div>
   );
 }

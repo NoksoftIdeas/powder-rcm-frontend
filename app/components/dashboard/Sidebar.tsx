@@ -84,134 +84,46 @@ export default function Sidebar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition font-semibold text-sm ${
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition  text-sm ${
                   isActive
                     ? "bg-[#027FA31A] text-[#027FA3]"
-                    : "text-[#344054] hover:bg-[#027FA31A]"
+                    : "text-[#667185] hover:bg-[#9adbf21a]"
                 }`}
                 onClick={() => setOpen(false)}
               >
                 {/* Icon placeholder */}
                 <span className="w-6 h-6 flex items-center justify-center">
-                  {/* Replace with real icons */}
-                  <span className=" text-[#344054] rounded-full w-6 h-6 flex items-center justify-center">
+                  <span className={` rounded-full w-6 h-6 flex items-center justify-center  ${
+                  isActive
+                    ? " text-[#027FA3]"
+                    : "text-[#667185] hover:bg-[#027FA31A]"
+                }` }>
                     {item.icon === "dashboard" && (
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M3 13h8V3H3v10zM13 21h8v-8h-8v8zM13 3v8h8V3h-8zM3 21h8v-4H3v4z"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      <img src="/icons/element-4.png" alt="DashboardIcon" />
+                    )}
+                    {item.icon === "inbox" && (
+                     <img src="/icons/add.png" alt="RequestIcon" />
                     )}
                     {item.icon === "key" && (
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M15 7a5 5 0 11-9.9 1M15 7V3m0 4h4m-4 0a5 5 0 100 10 5 5 0 000-10z"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                     <img src="/icons/message-text.png" alt="PAcodeIcon" />
                     )}
                     {item.icon === "document" && (
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M7 7h10M7 11h10M7 15h6M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                    {item.icon === "credit-card" && (
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <rect x="2" y="5" width="20" height="14" rx="2" />
-                        <path
-                          d="M2 10h20"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                    {item.icon === "users" && (
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" />
-                        <circle cx="9" cy="7" r="4" />
-                        <path d="M23 21v-2a4 4 0 00-3-3.87" />
-                        <path d="M16 3.13a4 4 0 010 7.75" />
-                      </svg>
-                    )}
-                    {item.icon === "user" && (
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <circle cx="12" cy="7" r="4" />
-                        <path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
-                      </svg>
-                    )}
-                    {item.icon === "settings" && (
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path d="M12 15.5A3.5 3.5 0 1112 8.5a3.5 3.5 0 010 7zm7.94-2.06a1.5 1.5 0 00.33-1.64l-1.1-1.91a1.5 1.5 0 00-1.51-.85l-2.2.31a7.07 7.07 0 00-1.47-.85l-.33-2.2a1.5 1.5 0 00-.85-1.51l-1.91-1.1a1.5 1.5 0 00-1.64.33l-1.54 1.54a1.5 1.5 0 00-.33 1.64l1.1 1.91a1.5 1.5 0 001.51.85l2.2-.31c.49.28.96.59 1.47.85l.33 2.2a1.5 1.5 0 00.85 1.51l1.91 1.1a1.5 1.5 0 001.64-.33l1.54-1.54z" />
-                      </svg>
+                    <img src="/icons/Frame.png" alt="ClaimsIcon" />
                     )}
                     {item.icon === "alert" && (
-                      <svg
-                        width="18"
-                        height="18"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          d="M12 9v2m0 4h.01m-6.93 1.73L19.73 7.3a2.75 2.75 0 00-3.86-3.86L3.27 16.13a2.75 2.75 0 003.86 3.86L12 9z"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                     <img src="/icons/warning-2.png" alt="DenailsIcon" />
+                    )}
+                    {item.icon === "credit-card" && (
+                     <img src="/icons/money-recive.png" alt="BillingIcon" />
+                    )}
+                    {item.icon === "users" && (
+                     <img src="/icons/hospital.png" alt="HmosIcon" />
+                    )}
+                    {item.icon === "user" && (
+                     <img src="icons/people.png" alt="PatientsIcon" />
+                    )}
+                    {item.icon === "settings" && (
+                     <img src="icons/setting.png" alt="settingsIcon" />
                     )}
                   </span>
                 </span>

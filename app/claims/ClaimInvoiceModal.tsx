@@ -122,7 +122,7 @@ export default function ClaimInvoiceModal({
                 <th className="text-left text-sm pb-4">Price</th>
               </tr>
             </thead>
-            <tbody className="text-sm text-gray-500 py-2 bg-white divide-y divide-gray-100">
+            <tbody className="text-sm text-gray-500 py-1.5 bg-white divide-y divide-gray-100">
               {groupedLineItems.map((group: GroupType, gIdx: number) => (
                 <React.Fragment key={gIdx}>
                   <tr className={gIdx % 2 === 0 ? "bg-gray-50" : "bg-white"}>
@@ -145,12 +145,12 @@ export default function ClaimInvoiceModal({
               ))}
             </tbody>
           </table>
-          <div className="flex justify-end p-5">
+          <div className="flex justify-end p-2">
             <p>Signature</p>
           </div>
 
           {/* Summary Section */}
-          <div className="flex flex-col justify-between rounded-sm py-2 px-3 bg-gray-100 gap-1 mb-2">
+          <div className="flex flex-col justify-between rounded-sm py-1 px-3 bg-gray-100 gap-1 mb-1">
             <div className="flex justify-between">
               <span className="text-gray-500">Subtotal</span>
               <span className="text-gray-700 font-semibold">₦96,320</span>

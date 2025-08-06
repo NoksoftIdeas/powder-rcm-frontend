@@ -1,3 +1,4 @@
+import { Search } from "lucide-react";
 import React from "react";
 
 export interface ClaimsFilterState {
@@ -14,21 +15,27 @@ interface ClaimsFiltersProps {
   onChange: (filters: ClaimsFilterState) => void;
 }
 
-export default function ClaimsFilters({ filters, onChange }: ClaimsFiltersProps) {
+export default function ClaimsFilters({
+  filters,
+  onChange,
+}: ClaimsFiltersProps) {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 flex flex-wrap gap-4 items-center">
+    <div className="rounded-lg  flex flex-wrap gap-[8px] items-center">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <Search className="h-4 w-4 text-gray-400" />
+      </div>
       <input
         type="text"
         placeholder="Patient ID/Name"
-        className="border border-gray-300 rounded px-1 py-1 text-sm w-48 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        className="border-[1px] text-[#667085] border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-48 focus:outline-none "
         value={filters.search}
-        onChange={e => onChange({ ...filters, search: e.target.value })}
+        onChange={(e) => onChange({ ...filters, search: e.target.value })}
       />
 
       <select
-        className="border border-gray-300 rounded px-2 py-1 text-sm w-40 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        className="border-[1px] text-[#667085] border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-40 focus:outline-none "
         value={filters.hmo}
-        onChange={e => onChange({ ...filters, hmo: e.target.value })}
+        onChange={(e) => onChange({ ...filters, hmo: e.target.value })}
       >
         <option value="">All HMOs</option>
         <option value="Ally Healthcare">Ally Healthcare</option>
@@ -37,37 +44,34 @@ export default function ClaimsFilters({ filters, onChange }: ClaimsFiltersProps)
       </select>
 
       <div className="flex items-center gap-1">
-        <span className="text-gray-400 text-xs">-</span>
         <input
           type="text"
           min={0}
           placeholder="#0-#99999999"
-          className="border border-gray-300 rounded px-3 py-1 text-sm w-24 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          className="border-[1px] text-[#667085] border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-24 focus:outline-none "
           value={filters.maxAmount}
-          onChange={e => onChange({ ...filters, maxAmount: e.target.value })}
+          onChange={(e) => onChange({ ...filters, maxAmount: e.target.value })}
         />
       </div>
 
-
       <select
-        className="border border-gray-300 text-gray-600 rounded PX-3 py-1 text-sm w-36 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="border-[1px] text-[#667085] border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-36 focus:outline-none  "
         value={filters.status}
-        onChange={e => onChange({ ...filters, status: e.target.value })}
+        onChange={(e) => onChange({ ...filters, status: e.target.value })}
       >
         <option value="">Any status</option>
         <option value="Open">Open</option>
         <option value="Resolved">Resolved</option>
       </select>
 
-
       <input
         type="text"
         placeholder="Date range           📅"
-        className="border border-gray-300 rounded px-2 py-1 text-sm w-40 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        className="border-[1px] text-[#667085] border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-40 focus:outline-none "
         value={filters.date}
-        onChange={e => onChange({ ...filters, date: e.target.value })}
-        onFocus={e => (e.target.type = 'date')}
-        onBlur={e => (e.target.type = 'text')}
+        onChange={(e) => onChange({ ...filters, date: e.target.value })}
+        onFocus={(e) => (e.target.type = "date")}
+        onBlur={(e) => (e.target.type = "text")}
       />
     </div>
   );

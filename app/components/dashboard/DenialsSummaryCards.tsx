@@ -34,10 +34,10 @@ export default function DenialsSummaryCards(props: DenialsSummaryCardsProps) {
       {cards(props).map((card) => (
         <div
           key={card.title}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-center"
+          className="bg-white rounded-xl  border border-gray-200 p-6 flex flex-col justify-center"
         >
-          <span className="text-gray-500 text-sm font-medium mb-2">{card.title}</span>
-          <span className="text-2xl font-bold text-gray-900">{card.value}</span>
+          <span className="text-[#7A7A7A] text-sm mb-5">{card.title}</span>
+          <span className="text-2xl font-bold text-[#101928]">{card.value}</span>
         </div>
       ))}
     </div>

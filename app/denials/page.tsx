@@ -116,24 +116,19 @@ export default function DenialsPage() {
   const hmoOptions = ["ALLY HEALTH CARE", "VENUS MEDICARE LIMITED", "SONGHAI"];
   const statusOptions = ["Unresolved", "Resolved", "Reprocessed"];
 
-  // Apply filters
   const filteredDenials = mockDenials.filter((denial) => {
-    // Search filter
     const matchesSearch =
       !filters.search ||
       denial.enrolleeId.toLowerCase().includes(filters.search.toLowerCase()) ||
       denial.hmo.toLowerCase().includes(filters.search.toLowerCase()) ||
       denial.reason.toLowerCase().includes(filters.search.toLowerCase());
 
-    // HMO filter
     const matchesHmo = !filters.hmo || denial.hmo === filters.hmo;
 
-    // Status filter
     const matchesStatus =
       !filters.status ||
       denial.action.toLowerCase() === filters.status.toLowerCase();
 
-    // Date range filter
     let matchesDate = true;
     if (filters.startDate) {
       const startDate = new Date(filters.startDate);
@@ -203,127 +198,130 @@ export default function DenialsPage() {
   };
 
   return (
-    <div className=" py-4 px-5 border-[1px] border-gray-300 rounded-xl">
+    <div>
       <DenialsSummaryCards
         totalAmount="₦21.4m"
         unresolved={23}
         resolved={321}
         avgDayOpen={4}
       />
-      <DenialsFilters
-        search={filters.search}
-        hmo={filters.hmo}
-        status={filters.status}
-        startDate={filters.startDate}
-        endDate={filters.endDate}
-        hmoOptions={hmoOptions}
-        statusOptions={statusOptions}
-        onChange={setFilters}
-      />
-      <DenialsTable
-        denials={paginatedDenials}
-        onReprocess={handleReprocessClick}
-      />
+      <div className=" py-4  border-[1px] border-gray-300 rounded-xl">
+        <DenialsFilters
+          search={filters.search}
+          hmo={filters.hmo}
+          status={filters.status}
+          startDate={filters.startDate}
+          endDate={filters.endDate}
+          hmoOptions={hmoOptions}
+          statusOptions={statusOptions}
+          onChange={setFilters}
+        />
+        <DenialsTable
+          denials={paginatedDenials}
+          onReprocess={handleReprocessClick}
+        />
 
-      <ReprocessModal
-        isOpen={isReprocessModalOpen}
-        onClose={() => setIsReprocessModalOpen(false)}
-        onReprocess={handleReprocess}
-        loading={isProcessing}
-      />
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row justify-between items-center py-2 gap-4">
-          <div className="text-sm text-gray-500">
-            Showing {(currentPage - 1) * pageSize + 1}–
-            {Math.min(currentPage * pageSize, mockDenials.length)} of{" "}
-            {mockDenials.length.toLocaleString()}
-          </div>
+        <ReprocessModal
+          isOpen={isReprocessModalOpen}
+          onClose={() => setIsReprocessModalOpen(false)}
+          onReprocess={handleReprocess}
+          loading={isProcessing}
+        />
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex flex-col sm:flex-row justify-between items-center mx-5 py-2 gap-4">
+            <div className="text-sm text-gray-500">
+              Showing {(currentPage - 1) * pageSize + 1}–
+              {Math.min(currentPage * pageSize, mockDenials.length)} of{" "}
+              {mockDenials.length.toLocaleString()}
+            </div>
 
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setCurrentPage(1)}
-              className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                currentPage === 1
-                  ? "bg-gray-100 text-gray-900 font-medium"
-                  : "text-gray-600 hover:text-blue-600"
-              }`}
-            >
-              1
-            </button>
-            {currentPage > 3 && <span className="px-2 text-gray-400">...</span>}
-
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              let pageNum;
-              if (currentPage <= 3) {
-                pageNum = i + 2;
-              } else if (currentPage >= totalPages - 2) {
-                pageNum = totalPages - 4 + i;
-              } else {
-                pageNum = currentPage - 2 + i;
-              }
-
-              if (pageNum > 1 && pageNum < totalPages) {
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => setCurrentPage(pageNum)}
-                    className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                      currentPage === pageNum
-                        ? "bg-white text-gray-900 font-medium border border-gray-200"
-                        : "text-gray-600 hover:text-blue-600"
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              }
-              return null;
-            })}
-
-            {currentPage < totalPages - 2 && totalPages > 5 && (
-              <span className="px-2 text-gray-400">...</span>
-            )}
-
-            {totalPages > 1 && (
+            <div className="flex items-center gap-1">
               <button
-                onClick={() => setCurrentPage(totalPages)}
+                onClick={() => setCurrentPage(1)}
                 className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                  currentPage === totalPages
-                    ? "bg-white text-gray-900 font-medium border border-gray-200"
+                  currentPage === 1
+                    ? "bg-gray-100 text-gray-900 font-medium"
                     : "text-gray-600 hover:text-blue-600"
                 }`}
               >
-                {totalPages}
+                1
               </button>
-            )}
-          </div>
-          {/* Empty div for flex spacing */}
-          <div className="flex items-center gap-1">
-            {/* Previous button */}
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="p-1 px-3 rounded-md border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50"
-              aria-label="Previous page"
-            >
-              ←
-            </button>
+              {currentPage > 3 && (
+                <span className="px-2 text-gray-400">...</span>
+              )}
 
-            {/* Next button */}
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-              className="p-1 px-3 rounded-md border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50"
-              aria-label="Next page"
-            >
-              →
-            </button>
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                let pageNum;
+                if (currentPage <= 3) {
+                  pageNum = i + 2;
+                } else if (currentPage >= totalPages - 2) {
+                  pageNum = totalPages - 4 + i;
+                } else {
+                  pageNum = currentPage - 2 + i;
+                }
+
+                if (pageNum > 1 && pageNum < totalPages) {
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-10 h-10 flex items-center justify-center rounded-md ${
+                        currentPage === pageNum
+                          ? "bg-white text-gray-900 font-medium border border-gray-200"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                }
+                return null;
+              })}
+
+              {currentPage < totalPages - 2 && totalPages > 5 && (
+                <span className="px-2 text-gray-400">...</span>
+              )}
+
+              {totalPages > 1 && (
+                <button
+                  onClick={() => setCurrentPage(totalPages)}
+                  className={`w-10 h-10 flex items-center justify-center rounded-md ${
+                    currentPage === totalPages
+                      ? "bg-white text-gray-900 font-medium border border-gray-200"
+                      : "text-gray-600"
+                  }`}
+                >
+                  {totalPages}
+                </button>
+              )}
+            </div>
+            <div className="flex items-center gap-1">
+              {/* Previous button */}
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="p-1 px-3 rounded-md border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50"
+                aria-label="Previous page"
+              >
+                ←
+              </button>
+
+              {/* Next button */}
+              <button
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                disabled={currentPage === totalPages}
+                className="p-1 px-3 rounded-md border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50"
+                aria-label="Next page"
+              >
+                →
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

@@ -17,7 +17,10 @@ const cards = [
     title: "Average Response Time",
     value: "2.5mins",
     icon: "clock",
-    status: { text: "+3%", color: "text-blue-500" },
+    status: {
+      text: "+3%",
+      color: "text-blue-500 bg-[#027FA31A] text-sm px-2 py-0.5 rounded-full",
+    },
     iconBg: "bg-cyan-100",
   },
   {
@@ -49,83 +52,17 @@ const cards = [
 function getIcon(icon: string) {
   switch (icon) {
     case "plus":
-      return (
-        <svg
-          width="22"
-          height="22"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="#06b6d4"
-        >
-          <circle cx="12" cy="12" r="10" strokeWidth="2" />
-          <path d="M12 8v8m-4-4h8" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      );
+      return <img src="/dashicon/Frame.png" alt="icon" />;
     case "doc":
-      return (
-        <svg
-          width="22"
-          height="22"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="#06b6d4"
-        >
-          <rect x="4" y="4" width="16" height="16" rx="4" strokeWidth="2" />
-          <path d="M8 8h8M8 12h8M8 16h4" strokeWidth="2" />
-        </svg>
-      );
+      return <img src="/dashicon/Frame (3).png" alt="icon" />;
     case "clock":
-      return (
-        <svg
-          width="22"
-          height="22"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="#06b6d4"
-        >
-          <circle cx="12" cy="12" r="10" strokeWidth="2" />
-          <path d="M12 6v6l4 2" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      );
+      <img src="/dashicon/Frome (4).png" alt="icon" />;
     case "check":
-      return (
-        <svg
-          width="22"
-          height="22"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="#06b6d4"
-        >
-          <circle cx="12" cy="12" r="10" strokeWidth="2" />
-          <path d="M8 12l2 2 4-4" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      );
+      return <img src="/dashicon/Frame (1).png" alt="icon" />;
     case "cross":
-      return (
-        <svg
-          width="22"
-          height="22"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="#06b6d4"
-        >
-          <circle cx="12" cy="12" r="10" strokeWidth="2" />
-          <path d="M9 9l6 6m0-6l-6 6" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      );
+      return <img src="/dashicon/Frame (2).png" alt="icon" />;
     case "alert":
-      return (
-        <svg
-          width="22"
-          height="22"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="#f87171"
-        >
-          <circle cx="12" cy="12" r="10" strokeWidth="2" />
-          <path d="M12 8v4m0 4h.01" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      );
+      return <img src="/dashicon/Frame (5).png" alt="icon" />;
     default:
       return null;
   }
@@ -137,15 +74,13 @@ export default function DashboardCards() {
       {cards.map((card) => (
         <div
           key={card.title}
-          className="bg-white rounded-xl shadow-sm border-[1px] border-gray-200 p-4 flex items-center gap-4"
+          className="bg-[#fff] rounded-xl border-[1px] border-gray-200 p-4 flex items-center gap-[12px]"
         >
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <span className="text-gray-600 text-sm font-semibold">
-                {card.title}
-              </span>
+              <span className="text-[#7A7A7A] text-sm ">{card.title}</span>
             </div>
-            <div className="text-2xl items-center font-bold text-gray-900 mt-5">
+            <div className="text-2xl items-center font-bold text-[#101928] mt-7">
               <span className="mr-2">{card.value}</span>
 
               {card.status && (
