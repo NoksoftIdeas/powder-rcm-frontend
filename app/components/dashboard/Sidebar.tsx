@@ -100,31 +100,31 @@ export default function Sidebar() {
                     : "text-[#667185] hover:bg-[#027FA31A]"
                 }` }>
                     {item.icon === "dashboard" && (
-                      <Image src="/dashicon/Frame (1).png" alt="DashboardIcon" width={24} height={24} />
+                      <Image src="/icons/element-4.png" alt="Dashboard" width={24} height={24} />
                     )}
                     {item.icon === "inbox" && (
-                     <Image src="/dashicon/Frame (2).png" alt="RequestIcon" width={24} height={24} />
+                     <Image src="/icons/add.png" alt="Request" width={24} height={24} />
                     )}
                     {item.icon === "key" && (
-                     <Image src="/dashicon/Frame (3).png" alt="PAcodeIcon" width={24} height={24} />
+                     <Image src="/icons/message-text.png" alt="PA Code" width={24} height={24} />
                     )}
                     {item.icon === "document" && (
                     <Image src="/icons/Frame.png" alt="ClaimsIcon" width={24} height={24} />
                     )}
                     {item.icon === "alert" && (
-                     <Image src="/icons/warning-2.png" alt="DenailsIcon" width={24} height={24} />
+                     <Image src="/icons/warning-2.png" alt="Denials" width={24} height={24} />
                     )}
                     {item.icon === "credit-card" && (
-                     <Image src="/icons/money-recive.png" alt="BillingIcon" width={24} height={24} />
+                     <Image src="/icons/money-recive.png" alt="Billing" width={24} height={24} />
                     )}
                     {item.icon === "users" && (
-                     <Image src="/icons/hospital.png" alt="HmosIcon" width={24} height={24} />
+                     <Image src="/icons/hospital.png" alt="HMOs" width={24} height={24} />
                     )}
                     {item.icon === "user" && (
-                     <Image src="/dashicon/Frame (4).png" alt="PatientsIcon" width={24} height={24} />
+                     <Image src="/icons/people.png" alt="Patients" width={24} height={24} />
                     )}
                     {item.icon === "settings" && (
-                     <Image src="/dashicon/Frame (5).png" alt="settingsIcon" width={24} height={24} />
+                     <Image src="/icons/setting.png" alt="Settings" width={24} height={24} />
                     )}
                   </span>
                 </span>
