@@ -126,11 +126,16 @@ function PatientsPage() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentPatients = filteredPatients.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handleAddPatient = (newPatient: Omit<Patient, 'patientId'>) => {
+  const handleAddPatient = (newPatient: Patient) => {
     console.log('Adding new patient:', newPatient);
-    // Use the enrolleeId as patientId if provided, otherwise generate a random one
-    const patientId = newPatient.enrolleeId || `PT${Math.floor(10000 + Math.random() * 90000)}`;
-    const updatedPatients = [...patients, { ...newPatient, patientId }];
+    
+    // Check if patient ID already exists
+    if (patients.some(p => p.patientId === newPatient.patientId)) {
+      alert('A patient with this ID already exists. Please use a different ID.');
+      return;
+    }
+    
+    const updatedPatients = [...patients, newPatient];
     console.log('Updated patients list:', updatedPatients);
     setPatients(updatedPatients);
     // Calculate the page where the new patient will be and navigate to it
