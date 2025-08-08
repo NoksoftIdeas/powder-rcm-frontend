@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import Image from "next/image";
+import { useState } from "react";
 import { withAuth } from "../components/auth/withAuth";
-import { PlusCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import AddHmoModal from "../components/modals/AddHmoModal";
 import type { HMOFormData } from "../components/modals/AddHmoModal";
-import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
-import { GoPlus } from "react-icons/go";
+import { Pagination } from "../components/ui/Pagination";
+import { Plus } from "lucide-react";
 
 interface HMO {
   id: number;
@@ -155,7 +153,6 @@ function HMOsPage() {
     hmo.name.toLowerCase().includes(search.toLowerCase())
   );
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
 
   const handleAddHMO = (
     formData: Omit<HMOFormData, "logo"> & { logo: string | null }
@@ -194,27 +191,27 @@ function HMOsPage() {
             className="flex items-center gap-2 px-5 py-2 bg-cyan-700 text-white rounded-lg shadow hover:bg-cyan-800 transition font-semibold whitespace-nowrap mr-2"
             onClick={() => setIsModalOpen(true)}
           >
-            <GoPlus className="w-5 h-5" /> Add HMO
+            <Plus className="w-5 h-5" /> Add HMO
           </button>
         </div>
       </div>
-      <div className="bg-white rounded-xl shadow border border-gray-100  ">
+      <div className="bg-white rounded-xl border border-gray-100  ">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+              <th className="px-10 py-3 text-left text-xs  text-[#475467] uppercase">
                 HMO
               </th>
-              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+              <th className="px-3 py-3 text-left text-xs  text-[#475467] uppercase">
                 Plans
               </th>
               <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
                 Tariff Update
               </th>
-              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+              <th className="px-5 py-3 text-left text-xs  text-[#475467] uppercase">
                 Channels
               </th>
-              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+              <th className="px-5 py-3 text-left text-xs  text-[#475467] uppercase">
                 Action
               </th>
             </tr>
@@ -227,23 +224,23 @@ function HMOsPage() {
                 </td>
               </tr>
             )}
-            {paginated.map((hmo) => (
-              <tr key={hmo.id}>
+            {paginated.map((hmo , idx) => (
+              <tr key={hmo.id} className={idx % 2 === 0 ? "bg-white" : "bg-[#F9FAFB]"}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center gap-3">
                     <div className="flex-shrink-0 h-8 w-8 rounded-full overflow-hidden bg-gray-100">
-                      <Image
-                        className="h-full w-full object-cover"
-                        src={hmo.logo || "/Avatar.png"}
-                        alt={hmo.name}
-                        width={32}
-                        height={32}
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.onerror = null;
-                          target.src = "/Avatar.png";
-                        }}
-                      />
+                      <div className="relative w-8 h-8">
+                        <img
+                          src={hmo.logo || "/Avatar.png"}
+                          alt={hmo.name}
+                          className="w-full h-full object-cover"
+                          onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                            const target = e.target as HTMLImageElement;
+                            target.onerror = null;
+                            target.src = "/Avatar.png";
+                          }}
+                        />
+                      </div>
                     </div>
                     <span className=" text-[#101828]">
                       {hmo.name}
@@ -297,42 +294,13 @@ function HMOsPage() {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-between items-center mt-6 mx-4">
-        <button
-          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
-        >
-          <span className="flex justify-center items-center gap-1">
-            <IoIosArrowRoundBack />
-            Previous
-          </span>
-        </button>
-        <div className="flex items-center gap-1">
-          {Array.from({ length: totalPages }, (_, idx) => (
-            <button
-              key={idx + 1}
-              className={`px-3 py-1.5 rounded-md font-semibold text-sm ${
-                page === idx + 1
-                  ? "bg-gray-300 text-white shadow"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
-              }`}
-              onClick={() => setPage(idx + 1)}
-            >
-              {idx + 1}
-            </button>
-          ))}
-        </div>
-        <button
-          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
-          onClick={() => setPage(page + 1)}
-          disabled={page === totalPages}
-        >
-          <span className="flex justify-center items-center gap-1">
-            Next
-            <IoIosArrowRoundForward />
-          </span>
-        </button>
+      <div className="px-6 py-4">
+        <Pagination
+          totalItems={filtered.length}
+          itemsPerPage={PAGE_SIZE}
+          currentPage={page}
+          onPageChange={setPage}
+        />
       </div>
       <AddHmoModal
         isOpen={isModalOpen}

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Search, ChevronDown, Paperclip, Send, MessageSquare } from "lucide-react";
+import { Search, ChevronDown, Paperclip, Send } from "lucide-react";
 import NewRequestModal from "../components/modals/NewRequestModal";
 
 // Types
@@ -178,7 +178,6 @@ const processedItems = [
 ];
 
 export default function PACodePage() {
-  const [selectedInteraction, setSelectedInteraction] = useState<number | null>(1);
   const [activeTab, setActiveTab] = useState("All");
   const [activeDetailTab, setActiveDetailTab] = useState("Unprocessed");
   const [message, setMessage] = useState("");
@@ -187,6 +186,7 @@ export default function PACodePage() {
   const [showDetailPanel, setShowDetailPanel] = useState(false);
   const [showProcessCode, setShowProcessCode] = useState(false);
   const [interactions, setInteractions] = useState<Interaction[]>(mockInteractions);
+  const [selectedInteraction, setSelectedInteraction] = useState<number | null>(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedChannel, setSelectedChannel] = useState("All Channels");
   const [showNewRequestModal, setShowNewRequestModal] = useState(false);
@@ -194,40 +194,27 @@ export default function PACodePage() {
   const tabs = ["All", "Unread", "Overdue", "Resolved"];
   const detailTabs = ["Unprocessed", "Processed"];
 
-  const selectedInteractionData = interactions.find(i => i.id === selectedInteraction);
-
   const searchParams = useSearchParams();
 
-  // Function to add or highlight patient from requests page
-  const addOrHighlightPatient = (patientData: Partial<Interaction>) => {
-    const existingPatient = interactions.find(p =>
-      p.name.toLowerCase().includes(patientData.name?.toLowerCase() || '') ||
-      (patientData.name && p.name.toLowerCase() === patientData.name.toLowerCase())
+  // Function to handle patient selection
+  const handlePatientSelect = useCallback((interaction: Interaction) => {
+    setSelectedInteraction(interaction.id);
+    setShowDetailPanel(true);
+    
+    // Mark as read
+    setInteractions(prev => 
+      prev.map(i => 
+        i.id === interaction.id ? { ...i, isRead: true } : i
+      )
     );
     
-    if (existingPatient) {
-      // Patient exists, highlight them
-      setSelectedInteraction(existingPatient.id);
-      setShowProcessCode(false);
-    } else {
-      // Add new patient
-      const newPatient: Interaction = {
-        id: Math.max(...interactions.map(i => i.id)) + 1,
-        name: patientData.name || "Unknown Patient",
-        organization: patientData.organization || "Unknown Organization",
-        role: patientData.role || "Patient",
-        status: "New",
-        timestamp: new Date().toLocaleDateString() + " • " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-        isRead: false,
-        avatar: (patientData.name || "U").charAt(0).toUpperCase(),
-        socialIcons: ['whatsapp'] // Default to WhatsApp
-      };
-      
-      setInteractions(prev => [newPatient, ...prev]);
-      setSelectedInteraction(newPatient.id);
-      setShowProcessCode(false);
-    }
-  };
+    // Remove highlight after 2 seconds
+    const timer = setTimeout(() => {
+      // Clear any highlights if needed
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   // Handle URL parameters from requests page
   useEffect(() => {
@@ -240,22 +227,33 @@ export default function PACodePage() {
       const fullName = `${firstName} ${lastName}`.trim();
       
       if (fullName) {
-        // Try to find existing patient or add new one
-        addOrHighlightPatient({
-          name: fullName,
-          organization: "Unknown Organization", // This would come from the request data in a real app
-          role: "Patient"
-        });
+        // Check if patient already exists
+        const existingPatient = interactions.find(p => 
+          p.name.toLowerCase() === fullName.toLowerCase()
+        );
+
+        if (existingPatient) {
+          setSelectedInteraction(existingPatient.id);
+        } else {
+          // Add new patient from search
+          const newPatient: Interaction = {
+            id: Math.max(0, ...interactions.map(i => i.id)) + 1,
+            name: fullName,
+            organization: "Unknown Organization",
+            role: "Patient",
+            status: "New",
+            timestamp: new Date().toLocaleDateString() + " • " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+            isRead: false,
+            avatar: fullName.charAt(0).toUpperCase(),
+            socialIcons: ['whatsapp']
+          };
+          
+          setInteractions(prev => [newPatient, ...prev]);
+          setSelectedInteraction(newPatient.id);
+        }
       }
     }
-  }, [searchParams]);
-
-  // Listen for URL parameters or global state to add patients from requests page
-  // This would typically be handled by a router or global state management
-  // For now, we'll expose the function globally for demonstration
-  if (typeof window !== 'undefined') {
-    (window as any).addPatientToPACode = addOrHighlightPatient;
-  }
+  }, [searchParams, interactions]);
 
   // Render social media icons
   const renderSocialIcons = (icons: ('whatsapp' | 'gmail')[]) => {
@@ -724,7 +722,7 @@ export default function PACodePage() {
           // Optionally, you could add the new request as a new interaction
           // This is just for demonstration purposes
           const newInteraction: Interaction = {
-            id: Math.max(...interactions.map(i => i.id)) + 1,
+            id: Math.max(0, ...interactions.map(i => i.id)) + 1,
             name: requestData.patientId.split(' - ')[0] || "New Patient",
             organization: "New Request",
             role: "Patient",
@@ -732,7 +730,7 @@ export default function PACodePage() {
             timestamp: new Date().toLocaleDateString() + " • " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
             isRead: false,
             avatar: (requestData.patientId.split(' - ')[0] || "N").charAt(0).toUpperCase(),
-            socialIcons: [requestData.channel.toLowerCase() === 'whatsapp' ? 'whatsapp' : 'gmail'] as ('whatsapp' | 'gmail')[]
+            socialIcons: ['whatsapp'] // Default to whatsapp since channel isn't in the request data
           };
           
           setInteractions(prev => [newInteraction, ...prev]);

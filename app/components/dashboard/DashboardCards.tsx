@@ -19,7 +19,7 @@ const cards = [
     icon: "clock",
     status: {
       text: "+3%",
-      color: "text-blue-500 bg-[#027FA31A] text-sm px-2 py-0.5 rounded-full",
+      color: "text-[#027FA3] bg-[#027FA31A] text-sm px-2 py-0.5 rounded-full",
     },
     iconBg: "bg-cyan-100",
   },

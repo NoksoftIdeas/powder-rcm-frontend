@@ -36,7 +36,7 @@ export const EditTariffModal: React.FC<EditTariffModalProps> = ({
           </svg>
         </button>
         <h2 className="text-2xl font-bold mb-1">Edit Item</h2>
-        <form className="flex flex-col gap-4 flex-1 overflow-y-auto mt-6" onSubmit={onSave} id="edit-tariff-form">
+        <form className="flex flex-col gap-4 flex-1 overflow-y-auto mt-3" onSubmit={onSave} id="edit-tariff-form">
           <label className="block text-sm font-medium mb-1">Service</label>
           <input 
             type="text" 
@@ -69,7 +69,7 @@ export const EditTariffModal: React.FC<EditTariffModalProps> = ({
             defaultValue={tariff.cost}
             required
           />
-          <div className="text-xs text-gray-500 mt-4 mb-2">
+          <div className="text-xs text-gray-500 mt-2 mb-2">
             By submitting this form, I confirm that the information provided is accurate and true. 
             I understand that providing false information may result in legal consequences and termination of services. 
             I agree to the <a href="/terms" className="underline">Terms and Conditions</a>.

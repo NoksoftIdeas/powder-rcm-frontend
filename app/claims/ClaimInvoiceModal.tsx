@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 import { Claim } from "./ClaimsTable";
 import Logo from "../components/Logo";

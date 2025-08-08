@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { ChangeEvent } from 'react';
 import {
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,12 +10,10 @@ import {
   ResponsiveContainer,
   Area,
   AreaChart,
-  Line,
-  ComposedChart,
   Legend,
-  BarChart,
   Tooltip,
-  LineChart,
+  Bar,
+  BarChart
 } from "recharts";
 import { ChevronDown, ArrowUp } from "lucide-react";
 
@@ -67,8 +65,12 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   return null;
 };
 
+interface MiniChartCardProps {
+  avgClaims: number;
+}
+
 // Mini Chart Card Component
-const MiniChartCard = ({ avgClaims }: { avgClaims: number }) => {
+const MiniChartCard = ({ avgClaims }: MiniChartCardProps) => {
   // const data = [
   //   { name: "3", value: 1800 },
   //   { name: "4", value: 2200 },
@@ -104,7 +106,7 @@ const MiniChartCard = ({ avgClaims }: { avgClaims: number }) => {
     <div className=" bg-[#027FA30F] rounded-xl p-4 flex flex-col justify-between">
       <div className="flex flex-col items-center justify-center mb-4 pt-2">
         <p className="text-sm text-gray-500 mb-4">Average Claims</p>
-        <h2 className="text-1xl font-bold text-gray-800">2,387</h2>
+        <h2 className="text-1xl font-bold text-gray-800">{avgClaims.toLocaleString()}</h2>
       </div>
 
       <ResponsiveContainer width="100%" height={60}>
@@ -203,12 +205,27 @@ const StatsSummary = ({
 );
 
 // Custom select component
-const Select = ({ value, onChange, children, className = "" }: any) => (
+// interface SelectProps {
+//   value: string;
+//   onChange: (value: string) => void;
+//   children: React.ReactNode;
+//   className?: string;
+
+// }
+
+interface SelectProps {
+  value: string;
+  onChange: (value: string) => void;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const Select = ({ value, onChange, children, className = "" }: SelectProps) => (
   <div className="relative">
     <select
       className={`appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-8 text-sm focus:outline-none  ${className}`}
       value={value}
-      onChange={onChange}
+      onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
     >
       {children}
     </select>

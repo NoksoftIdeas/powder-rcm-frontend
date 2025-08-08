@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Search, ChevronDown, X, Trash2, Check, X as XIcon } from "lucide-react";
+import { Search, ChevronDown, X } from "lucide-react";
 import { Button } from "../ui/button";
 
 // Types
@@ -25,7 +25,7 @@ interface Service {
 interface NewRequestModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreateRequest: (requestData: any) => void;
+  onCreateRequest: (requestData: { patientId: string; services: Array<{ id: string; quantity: number }> }) => void;
 }
 
 // Mock data
@@ -70,7 +70,6 @@ const NewRequestModal = ({ isOpen, onClose, onCreateRequest }: NewRequestModalPr
   const [showChannelDropdown, setShowChannelDropdown] = useState(false);
   const [selectedServices, setSelectedServices] = useState<Service[]>([]);
   const [selectedChannel, setSelectedChannel] = useState('WhatsApp'); 
-  const [isCheckingEligibility, setIsCheckingEligibility] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -99,13 +98,6 @@ const NewRequestModal = ({ isOpen, onClose, onCreateRequest }: NewRequestModalPr
     setSelectedPatient(patient);
     setShowPatientDropdown(false);
     setSearchTerm('');
-    
-    if (patient.status === 'eligible') {
-      setIsCheckingEligibility(true);
-      setTimeout(() => {
-        setIsCheckingEligibility(false);
-      }, 1500);
-    }
   };
 
   const handleServiceSelect = (service: Service) => {
@@ -113,25 +105,19 @@ const NewRequestModal = ({ isOpen, onClose, onCreateRequest }: NewRequestModalPr
     setShowServicesDropdown(false);
   };
 
-  const removeService = (id: string) => {
-    setSelectedServices(selectedServices.filter(service => service.id !== id));
-  };
 
-  const updateServiceQuantity = (id: string, quantity: number) => {
-    setSelectedServices(selectedServices.map(service => 
-      service.id === id ? { ...service, quantity } : service
-    ));
-  };
 
   const handleSubmit = () => {
-    if (!isFormValid) return;
+    if (!isFormValid || !selectedPatient) return;
     
     const requestData = {
-      patient: selectedPatient,
-      channel: selectedChannel,
-      services: selectedServices,
-      total: selectedServices.reduce((sum, service) => sum + (service.price * service.quantity), 0)
+      patientId: selectedPatient.id,
+      services: selectedServices.map(service => ({
+        id: service.id,
+        quantity: service.quantity
+      }))
     };
+    
     onCreateRequest(requestData);
     onClose();
   };

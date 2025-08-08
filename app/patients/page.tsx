@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import PatientsTable from "./PatientsTable";
-import Pagination from "./Pagination";
+import Pagination from "@/app/components/ui/Pagination";
 import AddPatientModal from "../components/modals/AddPatientModal";
 import { withAuth } from "../components/auth/withAuth";
 
@@ -122,7 +122,6 @@ function PatientsPage() {
     );
   });
   
-  const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentPatients = filteredPatients.slice(indexOfFirstItem, indexOfLastItem);
@@ -143,7 +142,7 @@ function PatientsPage() {
   return (
     <div className="py-4 px-5 border-[1px] border-gray-200 rounded-xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-3">
-        <h1 className="text-2xl font-bold mb-2 sm:mb-0">
+        <h1 className="text-2xl text-[#344054] mb-2 sm:mb-0">
         {searchTerm 
           ? `Found ${filteredPatients.length} ${filteredPatients.length === 1 ? 'patient' : 'patients'}`
           : `You have ${patients.length.toLocaleString()} patients`}
@@ -153,7 +152,7 @@ function PatientsPage() {
             <input
               type="text"
               placeholder="Search by name or ID..."
-              className="w-full pl-10 pr-4 py-2 rounded-xl border border-gray-200 focus:border-teal-500 focus:ring-teal-500 text-sm bg-gray-200"
+              className="w-full pl-10 text-[#66666699] pr-4 py-2 rounded-xl border border-gray-200 text-sm bg-[#F8F8F8]"
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
@@ -165,7 +164,7 @@ function PatientsPage() {
             </span>
           </div>
           <button
-            className="ml-2 px-4 py-2 rounded-md bg-cyan-700 text-white font-semibold shadow hover:bg-cyan-800 whitespace-nowrap"
+            className="ml-2 px-4 py-2 rounded-md bg-[#027FA3] text-white  whitespace-nowrap"
             onClick={() => setModalOpen(true)}
           >
             + Add Patient
@@ -173,11 +172,14 @@ function PatientsPage() {
         </div>
       </div>
       <PatientsTable patients={currentPatients} />
+      <div className="mt-6 px-4">
       <Pagination
+        totalItems={filteredPatients.length}
+        itemsPerPage={itemsPerPage}
         currentPage={currentPage}
-        totalPages={totalPages}
         onPageChange={setCurrentPage}
       />
+      </div>
       <AddPatientModal 
         open={modalOpen} 
         onClose={() => setModalOpen(false)}

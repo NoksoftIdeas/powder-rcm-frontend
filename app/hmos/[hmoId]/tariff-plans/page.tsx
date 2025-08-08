@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { EditTariffModal } from "./components/modals/EditTariffModal";
 import { DeleteTariffModal } from "./components/modals/DeleteTariffModal";
-import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import Pagination from "@/app/components/ui/Pagination";
 
 const initialTariffs = [
   {
@@ -54,6 +54,34 @@ const initialTariffs = [
   },
   {
     id: 7,
+    service: "Consultation - Orthopaedic Doctor",
+    category: "Nursing",
+    cost: "₦30,000",
+    status: "Approved",
+  },
+  {
+    id: 8,
+    service: "Consultation - Orthopaedic Doctor",
+    category: "Nursing",
+    cost: "₦30,000",
+    status: "Approved",
+  },
+  {
+    id: 9,
+    service: "Consultation - Orthopaedic Doctor",
+    category: "Nursing",
+    cost: "₦30,000",
+    status: "Approved",
+  },
+  {
+    id: 10,
+    service: "Consultation - Orthopaedic Doctor",
+    category: "Nursing",
+    cost: "₦30,000",
+    status: "Approved",
+  },
+  {
+    id: 11,
     service: "Consultation - Orthopaedic Doctor",
     category: "Nursing",
     cost: "₦30,000",
@@ -150,29 +178,37 @@ export default function TariffPlansPage() {
   const router = useRouter();
 
   return (
-    <div className="py-4 px-5 border-[1px] border-gray-200 rounded-xl">
-      <nav className="text-xs text-[#5F6368] mb-2 flex items-center gap-2">
-        <span>
-          <img src="/icons/Breadcrumb.png" alt="houseicon" />
-        </span>
-        <span
-          className="hover:underline cursor-pointer"
-          onClick={() => router.push("/hmos")}
+    <div className="py-4 px-5">
+      <div className="flex flex-row justify-between">
+        <nav className="text-xs  mb-2 flex items-center gap-2">
+          <span>
+            <img src="/icons/Breadcrumb.png" alt="houseicon" />
+          </span>
+          <span
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/hmos")}
+          >
+            HMOs
+          </span>
+          <span>/</span>
+          <span
+            className="hover:underline cursor-pointer"
+            onClick={() => router.push("/hmos/1")}
+          >
+            Reliance HMO
+          </span>
+          <span>/</span>
+          <span className="text-gray-700 hover:underline cursor-pointer">
+            Tariff Plans
+          </span>
+        </nav>
+        <button
+          className="ml-auto px-5 py-2 bg-cyan-700 text-white rounded-lg shadow hover:bg-cyan-800 transition font-semibold whitespace-nowrap"
+          onClick={() => setModalOpen(true)}
         >
-          HMOs
-        </span>
-        <span>/</span>
-        <span
-          className="hover:underline cursor-pointer"
-          onClick={() => router.push("/hmos/1")}
-        >
-          Reliance HMO
-        </span>
-        <span>/</span>
-        <span className="text-gray-700 hover:underline cursor-pointer">
-          Tariff Plans
-        </span>
-      </nav>
+          + Add Item
+        </button>
+      </div>
       <div className="flex items-center gap-4 mb-6">
         <h1 className="text-2xl flex flex-row gap-1.5 font-bold text-gray-800">
           <Image
@@ -190,33 +226,41 @@ export default function TariffPlansPage() {
           Reliance HMO
         </h1>
       </div>
-      <div className="bg-white rounded-xl shadow border border-gray-100 p-4 flex flex-col md:flex-row md:items-center gap-4 mb-4">
-        <input
-          type="text"
-          placeholder="Search for tariff"
-          className="border rounded px-4 py-2 text-sm w-full md:w-64"
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setCurrentPage(1); // Reset to first page when searching
-          }}
-        />
-        <select
-          className="border rounded px-4 py-2 text-sm w-full md:w-40"
-          value={costFilter}
-          onChange={(e) => {
-            setCostFilter(e.target.value);
-            setCurrentPage(1); // Reset to first page when filters change
-          }}
-        >
-          <option value="">All Costs</option>
-          <option value="low">Low (Below ₦50,000)</option>
-          <option value="high">High (₦50,000 and above)</option>
-        </select>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Status</span>
+      <div className="bg-[#F9FAFB] rounded-xl border border-[#EAECF0] p-4 flex  justify-between flex-col md:flex-row md:items-center gap-2 mb-4">
+        <div className="flex flex-col items-start gap-2">
+                    <span className="text-sm  text-[#344054]">Search for tarrif</span>
+
+          <input
+            type="text"
+            placeholder="Search for tariff"
+            className="border text-[#344054] rounded px-4 py-2 text-sm w-full md:w-64"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1); // Reset to first page when searching
+            }}
+          />
+        </div>
+        <div className="flex flex-col items-start gap-1">
+          <span className="text-sm  text-[#344054]">Costs</span>
           <select
-            className="border rounded px-4 py-2 text-sm w-full md:w-40"
+            className="border rounded px-4 py-2 text-sm w-full text-[#344054] md:w-50"
+            value={costFilter}
+            onChange={(e) => {
+              setCostFilter(e.target.value);
+              setCurrentPage(1); // Reset to first page when filters change
+            }}
+          >
+            <option value="">Min-Max</option>
+            <option value="low">Low (Below ₦50,000)</option>
+            <option value="high">High (₦50,000 and above)</option>
+          </select>
+        </div>
+
+        <div className="flex flex-col items-start gap-1">
+          <span className="text-sm  text-[#344054]">Status</span>
+          <select
+            className="border rounded px-4 py-2 text-sm w-full md:w-50"
             value={statusFilter}
             onChange={(e) => {
               setStatusFilter(e.target.value);
@@ -228,14 +272,8 @@ export default function TariffPlansPage() {
             <option value="Pending">Pending</option>
           </select>
         </div>
-        <button
-          className="ml-auto px-5 py-2 bg-cyan-700 text-white rounded-lg shadow hover:bg-cyan-800 transition font-semibold whitespace-nowrap"
-          onClick={() => setModalOpen(true)}
-        >
-          + Add Item
-        </button>
       </div>
-      <div className="bg-white rounded-xl shadow border border-gray-100 overflow-x-auto">
+      <div className="bg-white rounded-xl  border border-[#EAECF0] overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -285,20 +323,23 @@ export default function TariffPlansPage() {
                 (currentPage - 1) * itemsPerPage,
                 currentPage * itemsPerPage
               )
-              .map((item) => (
-                <tr key={item.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
+              .map((item, idx) => (
+                <tr
+                  key={item.id}
+                  className={idx % 2 === 0 ? "bg-white" : "bg-[#F9FAFB]"}
+                >
+                  <td className="px-6 py-4 text-[#101828] whitespace-nowrap">
                     {item.service}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 text-[#475467] py-4 whitespace-nowrap">
                     {item.category}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.cost}</td>
+                  <td className="px-6 py-4 text-[#475467] whitespace-nowrap">{item.cost}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
-                      className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                      className={`inline-block px-3 py-1 rounded-full text-xs  ${
                         item.status === "Approved"
-                          ? "bg-blue-50 text-blue-700"
+                          ? "bg-[#027FA31A] text-[#027FA3]"
                           : "bg-gray-100 text-gray-500"
                       }`}
                     >
@@ -336,24 +377,12 @@ export default function TariffPlansPage() {
                             setMenuOpen(null);
                           }}
                         >
-                          <span className="inline-flex items-center gap-2">
-                            <svg
-                              width="16"
-                              height="16"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="#38bdf8"
-                            >
-                              <path
-                                d="M15.232 5.232l3.536 3.536M9 11l6 6M3 21h6l11-11a2.828 2.828 0 00-4-4L5 17v4z"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
+                          <span className="inline-flex text-[#344054] items-center gap-2">
+                            <img src="/icons/edit-2.png" alt="EditIcon" />
                             Edit
                           </span>
                         </button>
+                        <hr />
                         <button
                           className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                           onClick={() => {
@@ -365,21 +394,8 @@ export default function TariffPlansPage() {
                             setMenuOpen(null);
                           }}
                         >
-                          <span className="inline-flex items-center gap-2">
-                            <svg
-                              width="16"
-                              height="16"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="#f87171"
-                            >
-                              <path
-                                d="M6 18L18 6M6 6l12 12"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
+                          <span className="inline-flex text-[#344054] items-center gap-2">
+                            <img src="/icons/trash.png" alt="DeleteIcon" />
                             Delete
                           </span>
                         </button>
@@ -389,48 +405,36 @@ export default function TariffPlansPage() {
                 </tr>
               ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={5}>
+                <div className="px-6 py-4 border-t border-gray-200 bg-white">
+                  <Pagination
+                    totalItems={tariffs.filter((item) => {
+                      const matchesSearch =
+                        item.service.toLowerCase().includes(search.toLowerCase()) ||
+                        item.category.toLowerCase().includes(search.toLowerCase());
+                      const matchesStatus = statusFilter === "All" || item.status === statusFilter;
+                      let matchesCost = true;
+                      if (costFilter) {
+                        const numericCost = parseFloat(item.cost.replace(/[^0-9.]/g, ""));
+                        if (costFilter === "low") {
+                          matchesCost = numericCost < 50000;
+                        } else if (costFilter === "high") {
+                          matchesCost = numericCost >= 50000;
+                        }
+                      }
+                      return matchesSearch && matchesStatus && matchesCost;
+                    }).length}
+                    itemsPerPage={itemsPerPage}
+                    currentPage={currentPage}
+                    onPageChange={setCurrentPage}
+                  />
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
-      </div>
-      {/* Pagination */}
-      <div className="flex justify-between items-center mt-6">
-        <button
-          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
-          onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-          disabled={currentPage === 1}
-        >
-          <span className="flex justify-center items-center gap-1">
-            <IoIosArrowRoundBack />
-            Previous
-          </span>
-        </button>
-        <div className="flex items-center gap-1">
-          {Array.from(
-            { length: Math.ceil(tariffs.length / itemsPerPage) },
-            (_, i) => (
-              <button
-                key={i + 1}
-                className={`px-3 py-1.5 rounded-md font-semibold text-sm ${
-                  currentPage === i + 1
-                    ? "bg-[#014C65] text-white"
-                    : "bg-white text-gray-700 hover:bg-gray-100"
-                }`}
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                {i + 1}
-              </button>
-            )
-          )}
-        </div>
-        <button
-          className="px-4 py-2 rounded-md border text-gray-600 bg-white hover:bg-gray-50 disabled:opacity-50"
-          onClick={() => setCurrentPage((p) => p + 1)}
-          disabled={currentPage * itemsPerPage >= tariffs.length}
-        >
-          <span className="flex justify-center items-center gap-1">
-            Next
-            <IoIosArrowRoundForward />
-          </span>
-        </button>
       </div>
       {modalOpen && (
         <div

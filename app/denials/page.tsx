@@ -5,6 +5,7 @@ import DenialsFilters from "../components/dashboard/DenialsFilters";
 import DenialsSummaryCards from "../components/dashboard/DenialsSummaryCards";
 import ReprocessModal from "../../components/ReprocessModal";
 import DenialsTable, { Denial } from "../components/dashboard/DenialsTable";
+import Pagination from "@/app/components/ui/Pagination";
 
 export default function DenialsPage() {
   const [mockDenials, setMockDenials] = useState<Denial[]>([
@@ -150,7 +151,6 @@ export default function DenialsPage() {
     return matchesSearch && matchesHmo && matchesStatus && matchesDate;
   });
 
-  const totalPages = Math.ceil(filteredDenials.length / pageSize);
   const paginatedDenials = filteredDenials.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
@@ -228,99 +228,14 @@ export default function DenialsPage() {
           loading={isProcessing}
         />
         {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex flex-col sm:flex-row justify-between items-center mx-5 py-2 gap-4">
-            <div className="text-sm text-gray-500">
-              Showing {(currentPage - 1) * pageSize + 1}–
-              {Math.min(currentPage * pageSize, mockDenials.length)} of{" "}
-              {mockDenials.length.toLocaleString()}
-            </div>
-
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => setCurrentPage(1)}
-                className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                  currentPage === 1
-                    ? "bg-gray-100 text-gray-900 font-medium"
-                    : "text-gray-600 hover:text-blue-600"
-                }`}
-              >
-                1
-              </button>
-              {currentPage > 3 && (
-                <span className="px-2 text-gray-400">...</span>
-              )}
-
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                let pageNum;
-                if (currentPage <= 3) {
-                  pageNum = i + 2;
-                } else if (currentPage >= totalPages - 2) {
-                  pageNum = totalPages - 4 + i;
-                } else {
-                  pageNum = currentPage - 2 + i;
-                }
-
-                if (pageNum > 1 && pageNum < totalPages) {
-                  return (
-                    <button
-                      key={pageNum}
-                      onClick={() => setCurrentPage(pageNum)}
-                      className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                        currentPage === pageNum
-                          ? "bg-white text-gray-900 font-medium border border-gray-200"
-                          : "text-gray-600"
-                      }`}
-                    >
-                      {pageNum}
-                    </button>
-                  );
-                }
-                return null;
-              })}
-
-              {currentPage < totalPages - 2 && totalPages > 5 && (
-                <span className="px-2 text-gray-400">...</span>
-              )}
-
-              {totalPages > 1 && (
-                <button
-                  onClick={() => setCurrentPage(totalPages)}
-                  className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                    currentPage === totalPages
-                      ? "bg-white text-gray-900 font-medium border border-gray-200"
-                      : "text-gray-600"
-                  }`}
-                >
-                  {totalPages}
-                </button>
-              )}
-            </div>
-            <div className="flex items-center gap-1">
-              {/* Previous button */}
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="p-1 px-3 rounded-md border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50"
-                aria-label="Previous page"
-              >
-                ←
-              </button>
-
-              {/* Next button */}
-              <button
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="p-1 px-3 rounded-md border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50"
-                aria-label="Next page"
-              >
-                →
-              </button>
-            </div>
-          </div>
-        )}
+        <div className="px-6 py-4">
+          <Pagination
+            totalItems={filteredDenials.length}
+            itemsPerPage={pageSize}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
+        </div>
       </div>
     </div>
   );

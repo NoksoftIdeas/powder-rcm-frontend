@@ -5,6 +5,7 @@ import ClaimsFilters, { ClaimsFilterState } from "./ClaimsFilters";
 import ClaimsTable, { Claim, mockClaims } from "./ClaimsTable";
 import ClaimInvoiceModal from "./ClaimInvoiceModal";
 import { withAuth } from "../components/auth/withAuth";
+import Pagination from "@/app/components/ui/Pagination";
 
 const PAGE_SIZE = 6;
 
@@ -48,7 +49,6 @@ function ClaimsPage() {
 
   // Pagination logic
   const totalClaims = filteredClaims.length;
-  const totalPages = Math.max(1, Math.ceil(totalClaims / PAGE_SIZE));
   const paginatedClaims = filteredClaims.slice(
     (page - 1) * PAGE_SIZE,
     page * PAGE_SIZE
@@ -65,6 +65,7 @@ function ClaimsPage() {
   }
 
   function handlePageChange(newPage: number) {
+    const totalPages = Math.max(1, Math.ceil(totalClaims / PAGE_SIZE));
     if (newPage >= 1 && newPage <= totalPages) setPage(newPage);
   }
 
@@ -86,48 +87,13 @@ function ClaimsPage() {
 
           <ClaimsTable onView={handleViewClaim} claims={paginatedClaims} />
 
-          <div className="mt-6">
-            <nav
-              className=" flex flex-row item-center justify-between "
-              aria-label="Pagination"
-            >
-              <div>
-                <button
-                  className="px-3 py-2 disabled:opacity-50"
-                  onClick={() => handlePageChange(page - 1)}
-                  disabled={page === 1}
-                  aria-label="Previous Page"
-                >
-                  <img src="/icons/Button.png" alt="previous" />
-                </button>
-              </div>
-              <div>
-                {Array.from({ length: totalPages }, (_, idx) => (
-                  <button
-                    key={idx}
-                    className={`px-3 py-2  text-gray-700  ${
-                      page === idx + 1
-                        ? "font-bold border-[1px] border-gray-300 rounded text-[#182230] bg-[#F5F5F5]"
-                        : ""
-                    }`}
-                    onClick={() => handlePageChange(idx + 1)}
-                    aria-current={page === idx + 1 ? "page" : undefined}
-                  >
-                    {idx + 1}
-                  </button>
-                ))}
-              </div>
-              <div>
-                <button
-                  className="px-3 py-2 "
-                  onClick={() => handlePageChange(page + 1)}
-                  disabled={page === totalPages}
-                  aria-label="Next Page"
-                >
-                  <img src="/icons/ButtonNxt.png" alt="next" />
-                </button>
-              </div>
-            </nav>
+          <div className="mt-6 px-4">
+            <Pagination
+              totalItems={totalClaims}
+              itemsPerPage={PAGE_SIZE}
+              currentPage={page}
+              onPageChange={handlePageChange}
+            />
           </div>
         </div>
         <ClaimInvoiceModal

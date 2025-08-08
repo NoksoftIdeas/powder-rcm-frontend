@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { withAuth } from "../components/auth/withAuth";
 import BillReviewModal from "../components/modals/BillDetailsModal";
-import { IoIosArrowRoundBack, IoIosArrowRoundForward } from "react-icons/io";
+import Pagination from "@/app/components/ui/Pagination";
 const mockBillingData = [
   {
     id: 1,
@@ -229,7 +229,6 @@ function BillingPage() {
     (page - 1) * pageSize,
     page * pageSize
   );
-  const totalPages = Math.ceil(filteredRecords.length / pageSize);
 
   const handleMarkAsPaid = (id: number) => {
     setBillingData((data) =>
@@ -408,43 +407,13 @@ function BillingPage() {
             </tbody>
           </table>
         </div>
-        {/* Pagination */}
-        <div className="flex justify-between items-center my-4 mx-2">
-          <button
-            className="px-4 py-2 rounded-xl border text-[#344054] bg-white hover:bg-gray-50 disabled:opacity-50"
-            onClick={() => setPage(page - 1)}
-            disabled={page === 1}
-          >
-            <span className="flex justify-center items-center gap-1">
-              <IoIosArrowRoundBack />
-              Previous
-            </span>
-          </button>
-          <div className="flex items-center gap-1">
-            {Array.from({ length: totalPages }, (_, idx) => (
-              <button
-                key={idx + 1}
-                className={`px-3 py-1.5 rounded-md font-semibold text-sm ${
-                  page === idx + 1
-                    ? "bg-gray-300 text-[#344054] "
-                    : "bg-white  text-[#475467] "
-                }`}
-                onClick={() => setPage(idx + 1)}
-              >
-                {idx + 1}
-              </button>
-            ))}
-          </div>
-          <button
-            className="px-4 py-2 rounded-xl border text-[#344054] bg-white hover:bg-gray-50 disabled:opacity-50"
-            onClick={() => setPage(page + 1)}
-            disabled={page === totalPages}
-          >
-            <span className="flex justify-center items-center gap-1">
-              Next
-              <IoIosArrowRoundForward />
-            </span>
-          </button>
+        <div className="px-6 py-4">
+          <Pagination
+            totalItems={filteredRecords.length}
+            itemsPerPage={pageSize}
+            currentPage={page}
+            onPageChange={setPage}
+          />
         </div>
         <BillReviewModal
           bill={selectedBill}
