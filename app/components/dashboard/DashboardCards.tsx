@@ -58,7 +58,7 @@ function getIcon(icon: string) {
     case "doc":
       return <Image src="/dashicon/Frame (3).png" alt="icon" width={24} height={24} />;
     case "clock":
-      return <Image src="/dashicon/Frome (4).png" alt="icon" width={24} height={24} />;
+      return <Image src="/dashicon/Frame (4).png" alt="icon" width={24} height={24} />;
     case "check":
       return <Image src="/dashicon/Frame (1).png" alt="icon" width={24} height={24} />;
     case "cross":
