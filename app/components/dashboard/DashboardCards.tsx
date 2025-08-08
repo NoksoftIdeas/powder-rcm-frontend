@@ -54,17 +54,54 @@ const cards = [
 function getIcon(icon: string) {
   switch (icon) {
     case "plus":
-      return <Image src="/dashicon/Frame.png" alt="icon" width={24} height={24} />;
+      return (
+        <Image src="/dashicon/Frame.png" alt="icon" width={60} height={60} />
+      );
     case "doc":
-      return <Image src="/dashicon/Frame (3).png" alt="icon" width={24} height={24} />;
+      return (
+        <Image
+          src="/dashicon/Frame (3).png"
+          alt="icon"
+          width={100}
+          height={100}
+        />
+      );
     case "clock":
-      return <Image src="/dashicon/Frame (4).png" alt="icon" width={24} height={24} />;
+      return (
+        <Image
+          src="/dashicon/Frame (4).png"
+          alt="icon"
+          width={100}
+          height={100}
+        />
+      );
     case "check":
-      return <Image src="/dashicon/Frame (1).png" alt="icon" width={24} height={24} />;
+      return (
+        <Image
+          src="/dashicon/Frame (1).png"
+          alt="icon"
+          width={100}
+          height={100}
+        />
+      );
     case "cross":
-      return <Image src="/dashicon/Frame (2).png" alt="icon" width={24} height={24} />;
+      return (
+        <Image
+          src="/dashicon/Frame (2).png"
+          alt="icon"
+          width={100}
+          height={100}
+        />
+      );
     case "alert":
-      return <Image src="/dashicon/Frame (5).png" alt="icon" width={24} height={24} />;
+      return (
+        <Image
+          src="/dashicon/Frame (5).png"
+          alt="icon"
+          width={100}
+          height={100}
+        />
+      );
     default:
       return null;
   }
