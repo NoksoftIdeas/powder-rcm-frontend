@@ -1,6 +1,7 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 import { useAuth } from "../auth/AuthContext";
 
 const routeNameMap: Record<string, string> = {
@@ -45,14 +46,14 @@ export default function TopBar() {
       <h1 className=" text-3xl text-[#344054]">{getPageTitle()}</h1>
       <div className="flex items-center gap-6">
         <button className="relative">
-          <img src="/icons/notification.png" alt="notificationICon" />
+          <Image src="/icons/notification.png" alt="notificationICon" width={24} height={24} />
         </button>
         <div className="relative">
           <button
             className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center "
             onClick={() => setMenuOpen((open) => !open)}
           >
-            <img src="/icons/icon.png" alt="IconLogo" />
+            <Image src="/icons/icon.png" alt="IconLogo" width={24} height={24} />
           </button>
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">

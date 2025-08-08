@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export interface Claim {
   date: string;
@@ -325,7 +326,7 @@ export default function ClaimsTable({ onView, claims }: ClaimsTableProps) {
                 onClick={() => onView(claim)}
                 aria-label="View Claim"
               >
-                <img src="/icons/eye.png" alt="" />
+                <Image src="/icons/eye.png" alt="View" width={16} height={16} />
               </button>
             </td>
           </tr>

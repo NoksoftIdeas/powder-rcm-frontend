@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChangeEvent } from 'react';
 import {
   XAxis,
   YAxis,
@@ -10,7 +9,6 @@ import {
   ResponsiveContainer,
   Area,
   AreaChart,
-  Legend,
   Tooltip,
   Bar,
   BarChart
@@ -22,9 +20,9 @@ type TooltipProps = {
   payload?: Array<{
     value: number;
     name: string;
-    payload?: any;
+    payload?: Record<string, unknown>;
   }>;
-  label?: string;
+  label?: React.ReactNode;
 };
 
 type ChartData = {
@@ -51,13 +49,14 @@ const chartData: ChartData[] = [
 // Main Chart Tooltip
 const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (active && payload && payload.length) {
-    const data = payload[0].payload;
+    const data = payload[0].payload as ChartData;
+    const displayLabel = (label as string) || data?.month || '';
     return (
       <div className="bg-[#212123] p-3 border border-gray-200 rounded-lg shadow-lg text-sm">
-        <p className="font-medium mb-1 text-[#868686]">{label || data.month}</p>
+        <p className="font-medium mb-1 text-[#868686]">{displayLabel}</p>
         <p className="text-[#FCFCFC]">
           {/* <span className="font-medium">Claims: </span> */}
-          {data.claims.toLocaleString()}
+          {data?.claims?.toLocaleString()}
         </p>
       </div>
     );
@@ -213,32 +212,7 @@ const StatsSummary = ({
 
 // }
 
-interface SelectProps {
-  value: string;
-  onChange: (value: string) => void;
-  children: React.ReactNode;
-  className?: string;
-}
 
-const Select = ({ value, onChange, children, className = "" }: SelectProps) => (
-  <div className="relative">
-    <select
-      className={`appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-8 text-sm focus:outline-none  ${className}`}
-      value={value}
-      onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
-    >
-      {children}
-    </select>
-    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-500">
-      <ChevronDown className="h-4 w-4" />
-    </div>
-  </div>
-);
-
-// Format number with K suffix
-const formatNumber = (num: number) => {
-  return num >= 1000 ? `${(num / 1000).toFixed(1)}k` : num.toString();
-};
 
 export default function ClaimsChartSection() {
   const [timeRange, setTimeRange] = useState("12m");

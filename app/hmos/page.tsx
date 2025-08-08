@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { withAuth } from "../components/auth/withAuth";
 import Link from "next/link";
+import Image from "next/image";
 import AddHmoModal from "../components/modals/AddHmoModal";
 import type { HMOFormData } from "../components/modals/AddHmoModal";
 import { Pagination } from "../components/ui/Pagination";
@@ -137,7 +138,7 @@ const PAGE_SIZE = 10;
 function WarningBadge({ children }: { children: React.ReactNode }) {
   return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 text-[#FF6058] text-xs rounded font-semibold">
-     <img src="/icons/warning.png" alt="warning-HMO" />
+             <Image src="/icons/warning.png" alt="warning-HMO" width={16} height={16} />
       {children}
     </span>
   );
@@ -230,9 +231,11 @@ function HMOsPage() {
                   <div className="flex items-center gap-3">
                     <div className="flex-shrink-0 h-8 w-8 rounded-full overflow-hidden bg-gray-100">
                       <div className="relative w-8 h-8">
-                        <img
+                        <Image
                           src={hmo.logo || "/Avatar.png"}
                           alt={hmo.name}
+                          width={32}
+                          height={32}
                           className="w-full h-full object-cover"
                           onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
                             const target = e.target as HTMLImageElement;

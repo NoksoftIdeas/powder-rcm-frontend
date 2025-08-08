@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import Logo from "../Logo";
 
 const menu = [
@@ -99,31 +100,31 @@ export default function Sidebar() {
                     : "text-[#667185] hover:bg-[#027FA31A]"
                 }` }>
                     {item.icon === "dashboard" && (
-                      <img src="/icons/element-4.png" alt="DashboardIcon" />
+                      <Image src="/dashicon/Frame (1).png" alt="DashboardIcon" width={24} height={24} />
                     )}
                     {item.icon === "inbox" && (
-                     <img src="/icons/add.png" alt="RequestIcon" />
+                     <Image src="/dashicon/Frame (2).png" alt="RequestIcon" width={24} height={24} />
                     )}
                     {item.icon === "key" && (
-                     <img src="/icons/message-text.png" alt="PAcodeIcon" />
+                     <Image src="/dashicon/Frame (3).png" alt="PAcodeIcon" width={24} height={24} />
                     )}
                     {item.icon === "document" && (
-                    <img src="/icons/Frame.png" alt="ClaimsIcon" />
+                    <Image src="/icons/Frame.png" alt="ClaimsIcon" width={24} height={24} />
                     )}
                     {item.icon === "alert" && (
-                     <img src="/icons/warning-2.png" alt="DenailsIcon" />
+                     <Image src="/icons/warning-2.png" alt="DenailsIcon" width={24} height={24} />
                     )}
                     {item.icon === "credit-card" && (
-                     <img src="/icons/money-recive.png" alt="BillingIcon" />
+                     <Image src="/icons/money-recive.png" alt="BillingIcon" width={24} height={24} />
                     )}
                     {item.icon === "users" && (
-                     <img src="/icons/hospital.png" alt="HmosIcon" />
+                     <Image src="/icons/hospital.png" alt="HmosIcon" width={24} height={24} />
                     )}
                     {item.icon === "user" && (
-                     <img src="icons/people.png" alt="PatientsIcon" />
+                     <Image src="/dashicon/Frame (4).png" alt="PatientsIcon" width={24} height={24} />
                     )}
                     {item.icon === "settings" && (
-                     <img src="icons/setting.png" alt="settingsIcon" />
+                     <Image src="/dashicon/Frame (5).png" alt="settingsIcon" width={24} height={24} />
                     )}
                   </span>
                 </span>

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const channelTypes = ["Web Portal", "WhatsApp", "Email", "SMS"];
 
@@ -23,9 +24,11 @@ export default function ChannelsPage() {
         <span className="text-gray-700 font-semibold">Channels</span>
       </nav>
       <div className="flex items-center gap-4 mb-6">
-        <img
+        <Image
           src="/Avatar.png"
           alt="HMO Logo"
+          width={48}
+          height={48}
           className="w-12 h-12 rounded-full"
         />
         <h1 className="text-2xl font-bold text-gray-800">Reliance HMO</h1>
@@ -63,9 +66,11 @@ export default function ChannelsPage() {
                   Sending Phone No.
                 </label>
                 <div className="flex items-center w-fit border border-[#D0D5DD] px-2 rounded gap-2">
-                  <img
+                  <Image
                     src="/Avatar.png"
                     alt="logo"
+                    width={32}
+                    height={32}
                     className="w-8 h-8 rounded-full"
                   />
                   <input
@@ -86,9 +91,11 @@ export default function ChannelsPage() {
                   Receiving Phone No.
                 </label>
                 <div className="flex items-center w-fit border border-[#D0D5DD] px-2 rounded gap-2">
-                  <img
+                  <Image
                     src="/Avatar.png"
                     alt="logo"
+                    width={32}
+                    height={32}
                     className="w-8 h-8 rounded-full"
                   />
                   <input

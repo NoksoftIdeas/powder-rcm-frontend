@@ -182,7 +182,7 @@ export default function TariffPlansPage() {
       <div className="flex flex-row justify-between">
         <nav className="text-xs  mb-2 flex items-center gap-2">
           <span>
-            <img src="/icons/Breadcrumb.png" alt="houseicon" />
+            <Image src="/icons/Breadcrumb.png" alt="houseicon" width={16} height={16} />
           </span>
           <span
             className="hover:underline cursor-pointer"
@@ -378,7 +378,7 @@ export default function TariffPlansPage() {
                           }}
                         >
                           <span className="inline-flex text-[#344054] items-center gap-2">
-                            <img src="/icons/edit-2.png" alt="EditIcon" />
+                            <Image src="/icons/edit-2.png" alt="EditIcon" width={16} height={16} />
                             Edit
                           </span>
                         </button>
@@ -395,7 +395,7 @@ export default function TariffPlansPage() {
                           }}
                         >
                           <span className="inline-flex text-[#344054] items-center gap-2">
-                            <img src="/icons/trash.png" alt="DeleteIcon" />
+                            <Image src="/icons/trash.png" alt="DeleteIcon" width={16} height={16} />
                             Delete
                           </span>
                         </button>

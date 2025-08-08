@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const cards = [
   {
     title: "Total Claims",
@@ -52,17 +54,17 @@ const cards = [
 function getIcon(icon: string) {
   switch (icon) {
     case "plus":
-      return <img src="/dashicon/Frame.png" alt="icon" />;
+      return <Image src="/dashicon/Frame.png" alt="icon" width={24} height={24} />;
     case "doc":
-      return <img src="/dashicon/Frame (3).png" alt="icon" />;
+      return <Image src="/dashicon/Frame (3).png" alt="icon" width={24} height={24} />;
     case "clock":
-      <img src="/dashicon/Frome (4).png" alt="icon" />;
+      return <Image src="/dashicon/Frome (4).png" alt="icon" width={24} height={24} />;
     case "check":
-      return <img src="/dashicon/Frame (1).png" alt="icon" />;
+      return <Image src="/dashicon/Frame (1).png" alt="icon" width={24} height={24} />;
     case "cross":
-      return <img src="/dashicon/Frame (2).png" alt="icon" />;
+      return <Image src="/dashicon/Frame (2).png" alt="icon" width={24} height={24} />;
     case "alert":
-      return <img src="/dashicon/Frame (5).png" alt="icon" />;
+      return <Image src="/dashicon/Frame (5).png" alt="icon" width={24} height={24} />;
     default:
       return null;
   }
