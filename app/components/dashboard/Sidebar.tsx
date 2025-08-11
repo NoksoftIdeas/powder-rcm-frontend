@@ -73,7 +73,13 @@ export default function Sidebar() {
           </svg>
         </button>
         <div className="flex items-center justify-center mb-5">
-           <Logo/>
+          <Logo
+            src="/tplogo.png"
+            alt="Company Logo"
+            width={100}
+            height={100}
+            className="mb-2"
+          />
         </div>
 
         <nav className="flex-1 flex flex-col gap-1">
@@ -85,46 +91,93 @@ export default function Sidebar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition  text-sm ${
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm ${
                   isActive
                     ? "bg-[#027FA31A] text-[#027FA3]"
-                    : "text-[#667185] hover:bg-[#9adbf21a]"
+                    : "text-[#344054] hover:bg-[#9adbf21a]"
                 }`}
                 onClick={() => setOpen(false)}
               >
                 {/* Icon placeholder */}
                 <span className="w-6 h-6 flex items-center justify-center">
-                  <span className={` rounded-full w-6 h-6 flex items-center justify-center  ${
-                  isActive
-                    ? " text-[#027FA3]"
-                    : "text-[#667185] hover:bg-[#027FA31A]"
-                }` }>
+                  <span
+                    className={` rounded-full w-6 h-6 flex items-center justify-center  ${
+                      isActive
+                        ? " text-[#027FA3]"
+                        : "text-[#667185] hover:bg-[#027FA31A]"
+                    }`}
+                  >
                     {item.icon === "dashboard" && (
-                      <Image src="/icons/element-4.png" alt="Dashboard" width={24} height={24} />
+                      <Image
+                        src="/icons/element-4.png"
+                        alt="Dashboard"
+                        width={24}
+                        height={24}
+                      />
                     )}
                     {item.icon === "inbox" && (
-                     <Image src="/icons/add.png" alt="Request" width={24} height={24} />
+                      <Image
+                        src="/icons/add.png"
+                        alt="Request"
+                        width={24}
+                        height={24}
+                      />
                     )}
                     {item.icon === "key" && (
-                     <Image src="/icons/message-text.png" alt="PA Code" width={24} height={24} />
+                      <Image
+                        src="/icons/message-text.png"
+                        alt="PA Code"
+                        width={24}
+                        height={24}
+                      />
                     )}
                     {item.icon === "document" && (
-                    <Image src="/icons/Frame.png" alt="ClaimsIcon" width={24} height={24} />
+                      <Image
+                        src="/icons/Frame.png"
+                        alt="ClaimsIcon"
+                        width={24}
+                        height={24}
+                      />
                     )}
                     {item.icon === "alert" && (
-                     <Image src="/icons/warning-2.png" alt="Denials" width={24} height={24} />
+                      <Image
+                        src="/icons/warning-2.png"
+                        alt="Denials"
+                        width={24}
+                        height={24}
+                      />
                     )}
                     {item.icon === "credit-card" && (
-                     <Image src="/icons/money-recive.png" alt="Billing" width={24} height={24} />
+                      <Image
+                        src="/icons/money-recive.png"
+                        alt="Billing"
+                        width={24}
+                        height={24}
+                      />
                     )}
                     {item.icon === "users" && (
-                     <Image src="/icons/hospital.png" alt="HMOs" width={24} height={24} />
+                      <Image
+                        src="/icons/hospital.png"
+                        alt="HMOs"
+                        width={24}
+                        height={24}
+                      />
                     )}
                     {item.icon === "user" && (
-                     <Image src="/icons/people.png" alt="Patients" width={24} height={24} />
+                      <Image
+                        src="/icons/people.png"
+                        alt="Patients"
+                        width={24}
+                        height={24}
+                      />
                     )}
                     {item.icon === "settings" && (
-                     <Image src="/icons/setting.png" alt="Settings" width={24} height={24} />
+                      <Image
+                        src="/icons/setting.png"
+                        alt="Settings"
+                        width={24}
+                        height={24}
+                      />
                     )}
                   </span>
                 </span>

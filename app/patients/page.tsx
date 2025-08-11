@@ -147,7 +147,7 @@ function PatientsPage() {
   return (
     <div className="py-4 px-5 border-[1px] border-gray-200 rounded-xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-3">
-        <h1 className="text-2xl text-[#344054] mb-2 sm:mb-0">
+        <h1 className="text-2xl text-[#344054] font-bold mb-2 sm:mb-0">
         {searchTerm 
           ? `Found ${filteredPatients.length} ${filteredPatients.length === 1 ? 'patient' : 'patients'}`
           : `You have ${patients.length.toLocaleString()} patients`}
@@ -156,20 +156,20 @@ function PatientsPage() {
           <div className="relative flex-1 max-w-xs">
             <input
               type="text"
-              placeholder="Search by name or ID..."
-              className="w-full pl-10 text-[#66666699] pr-4 py-2 rounded-xl border border-gray-200 text-sm bg-[#F8F8F8]"
+              placeholder="Search Patients"
+              className="w-full pl-10 text-[#66666699] pr-4 py-2 rounded-xl border border-[#0000000F] text-sm bg-[#F8F8F8] focus:outline-[#1018280D] "
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
                 setCurrentPage(1); // Reset to first page when searching
               }}
             />
-            <span className="absolute left-3 top-2.5 text-gray-400">
+            <span className="absolute left-3 top-2.5 text-[#B4B4B4]">
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="11" cy="11" r="7" strokeWidth="2"/><path d="M21 21l-4.35-4.35" strokeWidth="2" strokeLinecap="round"/></svg>
             </span>
           </div>
           <button
-            className="ml-2 px-4 py-2 rounded-md bg-[#027FA3] text-white  whitespace-nowrap"
+            className="ml-2 px-4 py-2 rounded-[8px] bg-[#027FA3] text-[#FFFFFF] font-bold  whitespace-nowrap"
             onClick={() => setModalOpen(true)}
           >
             + Add Patient

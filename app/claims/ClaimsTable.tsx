@@ -269,7 +269,7 @@ export default function ClaimsTable({ onView, claims }: ClaimsTableProps) {
   return (
     <table className="min-w-full divide-y divide-gray-200 border-t border-gray-200">
       <thead>
-        <tr className="bg-gray-50">
+        <tr className="bg-gray-50 font-medium">
           <th className="px-4 py-3 text-left text-xs  text-[#475467] capitalize">
             Date
           </th>
