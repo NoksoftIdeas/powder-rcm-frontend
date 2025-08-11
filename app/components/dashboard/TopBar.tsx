@@ -3,6 +3,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "../auth/AuthContext";
+import { usePaCode } from "../../pa-code/context/PaCodeContext";
 
 const routeNameMap: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -25,6 +26,15 @@ export default function TopBar() {
   const router = useRouter();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  
+  // Get overdue count for PA Codes page
+  let overdueCount = 0;
+  try {
+    const paCodeContext = usePaCode();
+    overdueCount = paCodeContext.overdueCount;
+  } catch (error) {
+    // Context not available, use default value
+  }
 
   const handleLogout = () => {
     logout();
@@ -43,7 +53,18 @@ export default function TopBar() {
 
   return (
     <header className="flex items-center justify-between w-full h-16 px-8 bg-white border-b-[1px] border-[#E4E7EC]">
-      <h1 className=" text-3xl text-[#344054]">{getPageTitle()}</h1>
+      <div className="flex items-center gap-3">
+        <h1 className="text-3xl text-[#344054]">{getPageTitle()}</h1>
+        {pathname === "/pa-code" && (
+          <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+            overdueCount > 0 
+              ? "bg-red-100 text-red-700" 
+              : "bg-blue-100 text-blue-700"
+          }`}>
+            {overdueCount > 0 ? `${overdueCount} Overdue` : "Cleared"}
+          </div>
+        )}
+      </div>
       <div className="flex items-center gap-6">
         <button className="relative">
           <Image src="/icons/notification.png" alt="notificationICon" width={24} height={24} />

@@ -4,11 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Logo from "../Logo";
+import { usePaCode } from "../../pa-code/context/PaCodeContext";
 
 const menu = [
   { name: "Dashboard", icon: "dashboard", href: "/dashboard" },
   { name: "Requests", icon: "inbox", href: "/requests" },
-  { name: "PA Code", icon: "key", badge: 8, href: "/pa-code" },
+  { name: "PA Code", icon: "key", href: "/pa-code" },
   { name: "Claims", icon: "document", href: "/claims" },
   { name: "Denials", icon: "alert", href: "/denials" },
   { name: "Billing", icon: "credit-card", href: "/billing" },
@@ -20,6 +21,16 @@ const menu = [
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  
+  // Get overdue count for PA Codes page
+  let overdueCount = 0;
+  try {
+    const paCodeContext = usePaCode();
+    overdueCount = paCodeContext.overdueCount;
+  } catch (error) {
+    // Context not available, use default value
+  }
+  
   return (
     <>
       {/* Mobile Hambugar */}
@@ -182,10 +193,18 @@ export default function Sidebar() {
                   </span>
                 </span>
                 <span>{item.name}</span>
-                {item.badge && (
-                  <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 font-bold">
-                    {item.badge}
-                  </span>
+                {item.name === "PA Code" && (
+                  overdueCount > 0 ? (
+                    <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 font-bold">
+                      {overdueCount}
+                    </span>
+                  ) : (
+                    <span className="ml-auto text-[#027FA3]">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </span>
+                  )
                 )}
               </Link>
             );

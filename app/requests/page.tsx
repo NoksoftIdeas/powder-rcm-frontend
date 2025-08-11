@@ -370,9 +370,7 @@ export default function RequestsPage() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#101828]">
                   <a
-                    href={`/pa-code?search=${encodeURIComponent(
-                      request.firstName
-                    )}+${encodeURIComponent(request.lastName)}`}
+                    href={`/pa-code?firstName=${encodeURIComponent(request.firstName)}&lastName=${encodeURIComponent(request.lastName)}&hmo=${encodeURIComponent(request.hmo)}&requestedBy=${encodeURIComponent(request.requestedBy)}&requestId=${encodeURIComponent(request.id)}&date=${encodeURIComponent(request.date)}`}
                     className="hover:underline"
                   >
                     {request.firstName}
@@ -380,9 +378,7 @@ export default function RequestsPage() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#101828]">
                   <a
-                    href={`/pa-code?search=${encodeURIComponent(
-                      request.firstName
-                    )}+${encodeURIComponent(request.lastName)}`}
+                    href={`/pa-code?firstName=${encodeURIComponent(request.firstName)}&lastName=${encodeURIComponent(request.lastName)}&hmo=${encodeURIComponent(request.hmo)}&requestedBy=${encodeURIComponent(request.requestedBy)}&requestId=${encodeURIComponent(request.id)}&date=${encodeURIComponent(request.date)}`}
                     className="hover:underline"
                   >
                     {request.lastName}
@@ -398,9 +394,7 @@ export default function RequestsPage() {
                   <a
                     href={
                       request.status === "Process"
-                        ? `/pa-code?search=${encodeURIComponent(
-                            request.firstName
-                          )}+${encodeURIComponent(request.lastName)}`
+                        ? `/pa-code?firstName=${encodeURIComponent(request.firstName)}&lastName=${encodeURIComponent(request.lastName)}&hmo=${encodeURIComponent(request.hmo)}&requestedBy=${encodeURIComponent(request.requestedBy)}&requestId=${encodeURIComponent(request.id)}&date=${encodeURIComponent(request.date)}`
                         : "#"
                     }
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${

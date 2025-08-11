@@ -121,11 +121,13 @@ export default function ClaimInvoiceModal({
                 <th className="text-left text-sm pb-4">Price</th>
               </tr>
             </thead>
-            <tbody className="text-sm text-gray-500 py-1.5 bg-white divide-y divide-gray-100">
+            <tbody className="text-sm text-[#667085] py-1.5 bg-white divide-y divide-gray-100">
               {groupedLineItems.map((group: GroupType, gIdx: number) => (
                 <React.Fragment key={gIdx}>
                   <tr className={gIdx % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-                    <td className=" mr-[-160%] text-gray-900 font-semibold flex justify-center  ">{group.code}</td>
+                    <td className=" mr-[-160%] text-[#667085] font-normal flex justify-center  ">
+                      {group.code}
+                    </td>
                     <td colSpan={2}></td>
                   </tr>
                   {group.items.map(
