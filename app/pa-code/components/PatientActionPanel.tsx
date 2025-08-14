@@ -28,7 +28,7 @@ export function PatientActionPanel({
   );
 
   return (
-    <aside className="w-full md:w-80 border-l border-gray-200 bg-white animate-slide-in-right">
+    <aside className="w-full  animate-slide-in-right">
       <div className="p-4 space-y-4">
         <div>
           <label className="block text-xs text-gray-500 mb-1">Assigned To</label>

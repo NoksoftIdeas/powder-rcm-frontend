@@ -10,7 +10,7 @@ export function ConversationDetailEmptyState({ onCreateNew }: { onCreateNew: () 
         <div className="text-center px-8">
           <div className="mx-auto mb-4 h-24 w-24 rounded-full bg-blue-50 flex items-center justify-center relative">
             <div className="absolute inset-0 rounded-full ring-8 ring-blue-50" />
-            <FileText className="h-10 w-10 text-blue-600 relative" />
+            <FileText className="h-10 w-10 text-[#3B82F6] relative" />
           </div>
           <h3 className="text-gray-900 text-lg font-medium">Feels empty here</h3>
           <p className="mt-1 text-sm text-gray-500 max-w-md">

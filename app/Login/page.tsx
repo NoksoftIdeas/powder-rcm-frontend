@@ -38,10 +38,10 @@ export default function LoginPage() {
       }
       
       form={
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full mb-10 ">
           <h1 className="text-2xl font-bold mb-1">Log in</h1>
           <p className="text-gray-500 mb-2 text-sm">Access and manage your claims</p>
-          <form onSubmit={handleSubmit} className="w-full bg-white rounded-xl shadow flex flex-col p-3 gap-4">
+          <form onSubmit={handleSubmit} className="w-full bg-[#F8F8F8] border border-[#0000000D] rounded-[13.46px]  flex flex-col p-3 gap-4">
             {error && (
               <div className="mb-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center" role="alert">
                 {error}
@@ -51,7 +51,7 @@ export default function LoginPage() {
               <label className="text-sm font-medium">Email</label>
               <input
                 type="email"
-                className="w-full border rounded px-4 py-1 mt-1"
+                className="w-full border bg-[#FFFFFF] rounded px-4 py-2 mt-1"
                 placeholder="admin@domain.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -62,7 +62,7 @@ export default function LoginPage() {
               <label className="text-sm font-medium">Password</label>
               <input
                 type="password"
-                className="w-full border rounded px-4 py-1 mt-1"
+                className="w-full border bg-[#FFFFFF] rounded px-4 py-2 mt-1"
                 placeholder="********"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

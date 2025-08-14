@@ -21,7 +21,7 @@ const menu = [
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  
+
   // Get overdue count for PA Codes page
   let overdueCount = 0;
   try {
@@ -30,7 +30,7 @@ export default function Sidebar() {
   } catch (error) {
     // Context not available, use default value
   }
-  
+
   return (
     <>
       {/* Mobile Hambugar */}
@@ -193,19 +193,16 @@ export default function Sidebar() {
                   </span>
                 </span>
                 <span>{item.name}</span>
-                {item.name === "PA Code" && (
-                  overdueCount > 0 ? (
+                {item.name === "PA Code" &&
+                  (overdueCount > 0 ? (
                     <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 font-bold">
                       {overdueCount}
                     </span>
                   ) : (
                     <span className="ml-auto text-[#027FA3]">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+                      <img src="/icons/Container.png" alt="pacode checked" />
                     </span>
-                  )
-                )}
+                  ))}
               </Link>
             );
           })}

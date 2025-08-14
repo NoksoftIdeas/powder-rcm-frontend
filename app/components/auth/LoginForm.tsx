@@ -84,7 +84,7 @@ export default function LoginForm() {
           Demo Admin Login
         </button>
 
-        <p className="text-xs text-gray-500 text-center">
+        <p className="text-xs text-[#475467] text-center">
           By continuing, you agree to this{" "}
           <a href="/terms" className="underline">Terms & Usage Policy</a> and acknowledge the{" "}
           <a href="/privacy" className="underline">Privacy Policy</a>.

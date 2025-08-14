@@ -53,12 +53,8 @@ export default function ChartPreview() {
             <circle cx="160" cy="29" r="4" fill="#38bdf8" />
           </svg>
           <div className="absolute top-0 right-15 flex flex-col rounded-lg p-2 bg-gray-950">
-            <span className="text-xs text-white">
-              Aug. 23
-            </span>
-            <span className="text-sm text-white font-bold">
-              1,390
-            </span>
+            <span className="text-xs text-white">Aug. 23</span>
+            <span className="text-sm text-white font-bold">1,390</span>
           </div>
         </div>
 
@@ -70,7 +66,7 @@ export default function ChartPreview() {
         </div>
       </div>
       <div className="mt-16 mb-6">
-        <p className="text-lg font-medium text-white text-center drop-shadow">
+        <p className="text-[30px] font-normal tracking-[-6%] leading-[30px] [vertical-trim:cap] text-[#FAFAFA] text-center drop-shadow">
           Next-generation health insurance <br /> claims processing solution
         </p>
       </div>

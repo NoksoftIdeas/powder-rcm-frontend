@@ -7,7 +7,7 @@ import { usePaCode } from "../../pa-code/context/PaCodeContext";
 
 const routeNameMap: Record<string, string> = {
   "/dashboard": "Dashboard",
-  "/pa-code": "PA Code",
+  "/pa-code": "PA Codes",
   "/requests": "EMR Requests",
   "/claims": "Claims",
   "/denials": "Denial Management",
@@ -56,10 +56,10 @@ export default function TopBar() {
       <div className="flex items-center gap-3">
         <h1 className="text-3xl text-[#344054]">{getPageTitle()}</h1>
         {pathname === "/pa-code" && (
-          <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+          <div className={`px-3 py-1 rounded-[14.12px] text-sm font-medium ${
             overdueCount > 0 
-              ? "bg-red-100 text-red-700" 
-              : "bg-blue-100 text-blue-700"
+              ? "bg-[#FF60581A] text-[#FF6058]" 
+              : "bg-[#027FA31A] text-[#027FA3]"
           }`}>
             {overdueCount > 0 ? `${overdueCount} Overdue` : "Cleared"}
           </div>

@@ -33,7 +33,7 @@ export default function AuthForm({
   loading,
 }: AuthFormProps) {
   return (
-    <form onSubmit={onSubmit} className="space-y-4 bg-white rounded-xl shadow p-8">
+    <form onSubmit={onSubmit} className="space-y-4  rounded-xl shadow p-8">
       <h1 className="text-3xl font-bold text-center mb-2">{title}</h1>
       {subtitle && <p className="text-center text-gray-500 mb-6">{subtitle}</p>}
       {error && (
@@ -57,7 +57,7 @@ export default function AuthForm({
       ))}
       <button
         type="submit"
-        className="w-full bg-cyan-700 text-white py-2 rounded font-semibold mt-2 disabled:opacity-60"
+        className="w-full bg-[#017EA6] border-[1.12px] border-[#017EA6] text-white py-2 rounded-[8.97px] font-semibold mt-2 disabled:opacity-60"
         disabled={loading}
       >
         {loading ? "Loading..." : buttonText}

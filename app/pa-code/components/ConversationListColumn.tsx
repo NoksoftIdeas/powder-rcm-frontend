@@ -6,7 +6,7 @@ import { Mail, MessageCircle, Search, ChevronDown, Clock, CheckCircle, AlertCirc
 type Channel = "All" | "WhatsApp" | "Email" | "SMS";
 type StatusTab = "All" | "Unread" | "Overdue" | "Resolved";
 
-interface ConversationSummary {
+export interface ConversationSummary {
   id: string;
   patientName: string;
   providerName: string;
@@ -83,12 +83,12 @@ export default function ConversationListColumn({
   };
 
   return (
-    <aside className="w-96 border-r border-gray-200 bg-white flex flex-col h-full">
-      <div className="p-4 border-b border-gray-200">
-        <div className="flex flex-col gap-2 mb-4">
+    <aside className="w-72 flex flex-col h-full">
+      <div className="">
+        <div className="flex flex-col gap-2 mb-2">
           <button
             onClick={onCreateNew}
-            className="px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+            className="px-4 py-2.5 bg-[#017FA71A] text-[#017EA6] text-[16px] font-medium rounded-[12px] transition-colors whitespace-nowrap"
           >
             New Request
           </button>
@@ -97,17 +97,17 @@ export default function ConversationListColumn({
             <input
               type="text"
               placeholder="Search Interactions"
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border-0 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2.5 bg-[#F8F8F8] border border-[#0000000F] rounded-[12px] text-sm text-[#66666699] focus:outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-2">
           <div className="relative inline-block w-full">
             <select
-              className="w-full pl-3 pr-8 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+              className="w-full pl-3 pr-8 py-2 bg-[#F8F8F8] border border-[#D0D5DD] rounded-[12px] text-sm focus:outline-none text-[#344054] focus:border-transparent appearance-none"
               value={channelFilter}
               onChange={(e) => setChannelFilter(e.target.value as Channel)}
             >
@@ -120,7 +120,7 @@ export default function ConversationListColumn({
           </div>
         </div>
 
-        <div className="flex space-x-1 mb-4 overflow-x-auto pb-1">
+        <div className="flex items-center space-x-2 text-[#B4B4B4] overflow-x-auto pb-1">
           {['All', 'Unread', 'Overdue', 'Resolved'].map((tab) => {
             // Count conversations for each tab
             const count = tab === 'All' 
@@ -138,19 +138,19 @@ export default function ConversationListColumn({
             return (
               <button
                 key={tab}
-                className={`px-3 py-1.5 text-sm font-medium rounded-md whitespace-nowrap flex items-center gap-1 ${
+                className={`py-1 px-1.5 text-[16px] font-normal rounded-[6px] whitespace-nowrap flex items-center   ${
                   statusFilter === tab
-                    ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'text-gray-500 hover:text-gray-700'
+                    ? 'text-[#027FA3] bg-[#027FA31A] '
+                    : 'text-[#B4B4B4] hover:text-gray-700'
                 }`}
                 onClick={() => setStatusFilter(tab as StatusTab)}
               >
-                <span>{tab}</span>
-                {count > 0 && (
-                  <span className="text-xs bg-gray-100 text-gray-600 rounded-full h-5 w-5 flex items-center justify-center">
+                {tab}
+                {/* {count > 0 && (
+                  <span className="text-xs text-[#B4B4B4] h-5 w-5 flex items-center justify-center">
                     {count}
                   </span>
-                )}
+                )} */}
               </button>
             );
           })}
@@ -160,19 +160,19 @@ export default function ConversationListColumn({
       <div className="flex-1 overflow-y-auto">
         {filteredConversations.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-gray-500 p-4 text-center">
-            <MessageCircle className="h-10 w-10 mb-2 opacity-30" />
-            <p>No conversations found</p>
-            <p className="text-sm text-gray-400 mt-1">
+            {/* <MessageCircle className="h-10 w-10 mb-2 opacity-30" /> */}
+            <img src="/icons/Empty interactions.png" alt="emptystate" />
+            {/* <p className="text-sm text-gray-400 mt-1">
               {searchQuery ? 'Try a different search term' : 'Select a patient to view conversations'}
-            </p>
+            </p> */}
           </div>
         ) : (
           <ul className="divide-y divide-gray-100">
             {filteredConversations.map((conversation) => (
               <li
                 key={conversation.id}
-                className={`p-3 hover:bg-gray-50 cursor-pointer transition-colors ${
-                  selectedId === conversation.id ? 'bg-blue-50' : ''
+                className={`p-3 border border-[#017EA61A] rounded-[16px] my-2 cursor-pointer transition-colors ${
+                  selectedId === conversation.id ? 'bg-[#017EA61A]' : ''
                 }`}
                 onClick={() => onSelect(conversation.id)}
               >

@@ -80,7 +80,7 @@ export default function ClaimsFilters({
 
       <input
         type="text"
-        placeholder="Date range           📅"
+        placeholder="Date range          📅"
         className="border-[1px]  border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-40 focus:outline-none "
         value={filters.date}
         onChange={(e) => onChange({ ...filters, date: e.target.value })}

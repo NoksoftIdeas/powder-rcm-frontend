@@ -4,7 +4,7 @@ import { useState } from "react";
 import { withAuth } from "../components/auth/withAuth";
 import DashboardCards from "../components/dashboard/DashboardCards";
 import ClaimsChartSection from "../components/dashboard/ClaimsChartSection";
-import { EmptyState } from "../components/dashboard/EmptyState";
+// import { EmptyState } from "../components/dashboard/EmptyState";
 
 // Mock function to check if there's any data
 const hasData = () => {
@@ -27,12 +27,12 @@ function DashboardPage() {
     <div className="space-y-6">
       {showEmptyState ? (
         <div className="bg-white rounded-lg shadow p-6">
-          <EmptyState 
+          {/* <EmptyState 
             title="No claims data yet"
             description="Get started by adding your first claim to see your dashboard in action."
             actionText="Add Your First Claim"
             onAction={handleAddFirstClaim}
-          />
+          /> */}
         </div>
       ) : (
         <>

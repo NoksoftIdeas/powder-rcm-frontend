@@ -72,7 +72,12 @@ const INITIAL_MESSAGES: Record<string, ConversationMessage[]> = {
         "Requesting pre-authorization for orthopedic consultation due to persistent knee pain.",
       timestamp: "02:48 PM",
     },
-    { id: "m2", type: "admin", text: "Received. Reviewing details now.", timestamp: "02:50 PM" },
+    {
+      id: "m2",
+      type: "admin",
+      text: "Received. Reviewing details now.",
+      timestamp: "02:50 PM",
+    },
     { id: "m3", type: "process", text: "Process Code", timestamp: "02:52 PM" },
   ],
   "2": [
@@ -89,7 +94,12 @@ const INITIAL_MESSAGES: Record<string, ConversationMessage[]> = {
       message: "Requesting admission authorization following ER evaluation.",
       timestamp: "11:20 AM",
     },
-    { id: "m2", type: "admin", text: "Acknowledged. Kindly share vitals.", timestamp: "11:24 AM" },
+    {
+      id: "m2",
+      type: "admin",
+      text: "Acknowledged. Kindly share vitals.",
+      timestamp: "11:24 AM",
+    },
   ],
 };
 
@@ -100,9 +110,8 @@ function PaCodePageContent() {
   const [conversations, setConversations] = useState<ConversationSummary[]>(
     INITIAL_CONVERSATIONS
   );
-  const [messageMap, setMessageMap] = useState<Record<string, ConversationMessage[]>>(
-    INITIAL_MESSAGES
-  );
+  const [messageMap, setMessageMap] =
+    useState<Record<string, ConversationMessage[]>>(INITIAL_MESSAGES);
   const { setOverdueCount } = usePaCode();
   const processedParamsRef = useRef<string>("");
 
@@ -125,7 +134,7 @@ function PaCodePageContent() {
   // Ensure no duplicate IDs in conversations
   useEffect(() => {
     const seenIds = new Set<string>();
-    const duplicates = conversations.filter(conv => {
+    const duplicates = conversations.filter((conv) => {
       if (seenIds.has(conv.id)) {
         return true;
       }
@@ -134,10 +143,13 @@ function PaCodePageContent() {
     });
 
     if (duplicates.length > 0) {
-      console.warn('Found duplicate conversation IDs:', duplicates.map(d => d.id));
+      console.warn(
+        "Found duplicate conversation IDs:",
+        duplicates.map((d) => d.id)
+      );
       // Remove duplicates by keeping only the first occurrence
       const uniqueConversations = conversations.filter((conv, index) => {
-        return conversations.findIndex(c => c.id === conv.id) === index;
+        return conversations.findIndex((c) => c.id === conv.id) === index;
       });
       setConversations(uniqueConversations);
     }
@@ -161,10 +173,11 @@ function PaCodePageContent() {
     const newId = `req-${requestId}-${timestamp}`;
 
     // Check if we already have a conversation for this patient from this request
-    const existing = conversations.find((c) => 
-      c.patientName === patientFullName && 
-      c.providerName === hmo && 
-      c.id.startsWith(`req-${requestId}`)
+    const existing = conversations.find(
+      (c) =>
+        c.patientName === patientFullName &&
+        c.providerName === hmo &&
+        c.id.startsWith(`req-${requestId}`)
     );
     if (existing) {
       setSelectedId(existing.id);
@@ -172,7 +185,10 @@ function PaCodePageContent() {
     }
 
     const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const timeStr = now.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
     const newConversation: ConversationSummary = {
       id: newId,
@@ -199,40 +215,48 @@ function PaCodePageContent() {
         message: `Requesting pre-authorization for ${patientFullName}.`,
         timestamp: timeStr,
       },
-      { id: `${newId}-m2`, type: "admin", text: "Received. Reviewing details now.", timestamp: timeStr },
-      { id: `${newId}-m3`, type: "process", text: "Process Code", timestamp: timeStr },
+      {
+        id: `${newId}-m2`,
+        type: "admin",
+        text: "Received. Reviewing details now.",
+        timestamp: timeStr,
+      },
+      {
+        id: `${newId}-m3`,
+        type: "process",
+        text: "Process Code",
+        timestamp: timeStr,
+      },
     ];
 
     setConversations((prev) => {
-      // Ensure no duplicates by checking if conversation with same patient and provider already exists
-      const existingIndex = prev.findIndex(c => 
-        c.patientName === patientFullName && 
-        c.providerName === hmo && 
-        c.id.startsWith(`req-${requestId}`)
+      const existingIndex = prev.findIndex(
+        (c) =>
+          c.patientName === patientFullName &&
+          c.providerName === hmo &&
+          c.id.startsWith(`req-${requestId}`)
       );
-      
+
       if (existingIndex !== -1) {
-        // Update the existing conversation instead of adding a new one
         const updated = [...prev];
         updated[existingIndex] = newConversation;
         return updated;
       }
-      
+
       return [newConversation, ...prev];
     });
     setMessageMap((prev) => ({ ...prev, [newId]: newMessages }));
     setSelectedId(newId);
 
-    // Clean query params so refresh doesn't re-add
     const url = new URL(window.location.href);
     url.search = "";
     router.replace(url.toString());
-    
+
     // Clear the processed params ref after a short delay to allow for future requests
     setTimeout(() => {
       processedParamsRef.current = "";
     }, 1000);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   // Handle processing code click
@@ -240,12 +264,20 @@ function PaCodePageContent() {
     if (!selectedId) return;
     const code = generateProcessCode();
     const now = new Date();
-    const timestamp = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const timestamp = now.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
     setMessageMap((prev) => ({
       ...prev,
       [selectedId]: [
         ...(prev[selectedId] || []),
-        { id: `${selectedId}-code-${now.getTime()}`, type: "code", code, timestamp },
+        {
+          id: `${selectedId}-code-${now.getTime()}`,
+          type: "code",
+          code,
+          timestamp,
+        },
       ],
     }));
   };
@@ -260,9 +292,9 @@ function PaCodePageContent() {
   }
 
   return (
-    <div className="flex border border-gray-200 rounded-xl overflow-hidden bg-white min-h-[70vh]">
+    <div className="flex gap-4 overflow-hidden min-h-[40vh]">
       {/* Left */}
-      <div className="w-20 sm:w-80 md:w-96">
+      <div className="w-20 sm:w-72 ">
         <ConversationListColumn
           conversations={conversations}
           selectedId={selectedId}
@@ -273,28 +305,48 @@ function PaCodePageContent() {
 
       {/* Middle + Right depending on state */}
       {selectedConversation ? (
-        <div className="flex-1 flex flex-col lg:flex-row">
-          <div className="flex-1 min-w-0">
+        <div className=" w-3xl flex-1 flex flex-col  lg:flex-row ">
+          <div className="flex-1 border border-[#EAECF0] rounded-[24px]">
             <ConversationDetailColumn
               providerName={selectedConversation.providerName}
               providerLogoUrl={null}
               timer={selectedConversation.status === "New" ? "02:56" : "--:--"}
-              policyNumber={selectedConversation.patientType === "Principal" ? "13/OJ/WTE27O" : "13/OJ/9JR42N"}
+              policyNumber={
+                selectedConversation.patientType === "Principal"
+                  ? "13/OJ/WTE27O"
+                  : "13/OJ/9JR42N"
+              }
               channel={selectedConversation.channel}
               messages={messages}
               onProcess={handleProcessCode}
             />
           </div>
-          <div className="w-full lg:w-80">
+          <div className=" ml-1 lg:">
             <PatientActionPanel
               assignees={["Hassan Garba", "Mary Abiola", "Samuel Umar"]}
               defaultAssignee="Hassan Garba"
               items={[
-                { id: "1", label: "Consultation - Orthopedic Doctor", completed: false },
-                { id: "2", label: "Admission - Private Room", completed: false },
+                {
+                  id: "1",
+                  label: "Consultation - Orthopedic Doctor",
+                  completed: false,
+                },
+                {
+                  id: "2",
+                  label: "Admission - Private Room",
+                  completed: false,
+                },
                 { id: "3", label: "Laboratory - MRI Scan", completed: true },
-                { id: "4", label: "Physiotherapy - 2 Sessions", completed: false },
-                { id: "5", label: "Pharmacy - Pain Management", completed: false },
+                {
+                  id: "4",
+                  label: "Physiotherapy - 2 Sessions",
+                  completed: false,
+                },
+                {
+                  id: "5",
+                  label: "Pharmacy - Pain Management",
+                  completed: false,
+                },
               ]}
             />
           </div>
@@ -313,5 +365,3 @@ function PaCodePage() {
 }
 
 export default withAuth(PaCodePage);
-
-
