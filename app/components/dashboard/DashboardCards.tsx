@@ -55,12 +55,17 @@ function getIcon(icon: string) {
   switch (icon) {
     case "plus":
       return (
-        <Image src="/dashicon/Frame.png" alt="icon" width={60} height={60} />
+        <Image
+          src="/dashicon/total claims.svg"
+          alt="icon"
+          width={60}
+          height={60}
+        />
       );
     case "doc":
       return (
         <Image
-          src="/dashicon/Frame (3).png"
+          src="/dashicon/HMOs-dashboard.svg"
           alt="icon"
           width={100}
           height={100}
@@ -69,7 +74,7 @@ function getIcon(icon: string) {
     case "clock":
       return (
         <Image
-          src="/dashicon/Frame (4).png"
+          src="/dashicon/Avg Response Time.svg"
           alt="icon"
           width={100}
           height={100}
@@ -78,7 +83,7 @@ function getIcon(icon: string) {
     case "check":
       return (
         <Image
-          src="/dashicon/Frame (1).png"
+          src="/dashicon/Approved Claims.svg"
           alt="icon"
           width={100}
           height={100}
@@ -87,7 +92,7 @@ function getIcon(icon: string) {
     case "cross":
       return (
         <Image
-          src="/dashicon/Frame (2).png"
+          src="/dashicon/Queried Claims.svg"
           alt="icon"
           width={100}
           height={100}
@@ -96,7 +101,7 @@ function getIcon(icon: string) {
     case "alert":
       return (
         <Image
-          src="/dashicon/Frame (5).png"
+          src="/dashicon/Unattended claims.svg"
           alt="icon"
           width={100}
           height={100}
@@ -136,7 +141,7 @@ export default function DashboardCards() {
             </div>
           </div>
           <span
-            className={`w-12 h-12 flex items-center justify-center rounded-full ${card.iconBg}`}
+            className={`w-12 h-12 p-1 flex items-center justify-center rounded-full ${card.iconBg}`}
           >
             {getIcon(card.icon)}
           </span>

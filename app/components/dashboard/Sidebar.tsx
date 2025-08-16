@@ -120,7 +120,7 @@ export default function Sidebar() {
                   >
                     {item.icon === "dashboard" && (
                       <Image
-                        src="/icons/element-4.png"
+                        src="/icons/dashboard.svg"
                         alt="Dashboard"
                         width={24}
                         height={24}
@@ -128,7 +128,7 @@ export default function Sidebar() {
                     )}
                     {item.icon === "inbox" && (
                       <Image
-                        src="/icons/add.png"
+                        src="/icons/add.svg"
                         alt="Request"
                         width={24}
                         height={24}
@@ -136,7 +136,7 @@ export default function Sidebar() {
                     )}
                     {item.icon === "key" && (
                       <Image
-                        src="/icons/message-text.png"
+                        src="/icons/message-text.svg"
                         alt="PA Code"
                         width={24}
                         height={24}
@@ -144,7 +144,7 @@ export default function Sidebar() {
                     )}
                     {item.icon === "document" && (
                       <Image
-                        src="/icons/Frame.png"
+                        src="/icons/Claims.svg"
                         alt="ClaimsIcon"
                         width={24}
                         height={24}
@@ -152,7 +152,7 @@ export default function Sidebar() {
                     )}
                     {item.icon === "alert" && (
                       <Image
-                        src="/icons/warning-2.png"
+                        src="/icons/warning-2.svg"
                         alt="Denials"
                         width={24}
                         height={24}
@@ -160,7 +160,7 @@ export default function Sidebar() {
                     )}
                     {item.icon === "credit-card" && (
                       <Image
-                        src="/icons/money-recive.png"
+                        src="/icons/billing.svg"
                         alt="Billing"
                         width={24}
                         height={24}
@@ -176,7 +176,7 @@ export default function Sidebar() {
                     )}
                     {item.icon === "user" && (
                       <Image
-                        src="/icons/people.png"
+                        src="/icons/people.svg"
                         alt="Patients"
                         width={24}
                         height={24}
@@ -184,7 +184,7 @@ export default function Sidebar() {
                     )}
                     {item.icon === "settings" && (
                       <Image
-                        src="/icons/setting.png"
+                        src="/icons/setting.svg"
                         alt="Settings"
                         width={24}
                         height={24}

@@ -5,13 +5,13 @@ export default function ChartPreview() {
         <div className="flex justify-between items-center mb-4">
           <div className="absolute top-[-20px] left-15 transform -translate-x-1/2 flex bg-white rounded-lg p-2 shadow-lg">
             <div className="flex flex-col gap-1">
-              <p className="text-sm font-medium text-gray-500">
+              <p className="text-[16px] font-medium text-[#868686]">
                 Average Claims
               </p>
               <div className="flex flex-col">
-                <span className="text-3xl font-bold text-black">2,387</span>
-                <span className="text-xs text-green-400 font-medium">
-                  ↑ 20% <span className="text-gray-500">vs last month</span>
+                <span className="text-3xl font-bold text-[#101828]">2,387</span>
+                <span className="text-xs text-[#017EA6] font-medium">
+                  ↑ 20% <span className="text-[#868686] text-[14px]">vs last month</span>
                 </span>
               </div>
             </div>
@@ -52,16 +52,20 @@ export default function ChartPreview() {
             />
             <circle cx="160" cy="29" r="4" fill="#38bdf8" />
           </svg>
-          <div className="absolute top-0 right-15 flex flex-col rounded-lg p-2 bg-gray-950">
-            <span className="text-xs text-white">Aug. 23</span>
-            <span className="text-sm text-white font-bold">1,390</span>
+          <div className="absolute top-0 right-15 flex flex-col rounded-lg p-2 bg-[#212123]">
+            <span className="text-[12.52px] font-normal text-[#868686]">Aug. 23</span>
+            <span className="text-[18.78px] text-[#FCFCFC] font-medium">1,390</span>
           </div>
         </div>
 
-        <div className="absolute bottom-[-38px] right-0  bg-white rounded-xl shadow-md px-6 py-3 flex flex-col items-center w-40 border border-white/30">
-          <span className="text-2xl font-bold text-sky-900">₦18,941,144</span>
-          <span className="text-xs text-green-600 font-semibold mt-1">
-            ₦3,145,264 (+14%)
+        <div className="absolute bottom-[-38px] right-0  bg-white rounded-xl shadow-md  py-3 flex flex-col items-center w-40 border border-white/30">
+          <span className="text-2xl font-bold text-[#101828]">₦18,941,144</span>
+          <span className="text-xs text-[#017FA5] font-semibold mt-1">
+            <span className="flex gap-1">
+
+          <img src="/icon.png" alt="Grapharrow" />
+            ₦3,145,264(+14%)
+            </span>
           </span>
         </div>
       </div>

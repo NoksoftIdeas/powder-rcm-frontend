@@ -78,7 +78,7 @@ export default function LoginForm() {
 
         <button
           type="button"
-          className="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded font-semibold mt-2 transition"
+          className="w-full bg-cyan-600  text-white py-2 rounded font-semibold mt-2 transition"
           onClick={handleDemoLogin}
         >
           Demo Admin Login

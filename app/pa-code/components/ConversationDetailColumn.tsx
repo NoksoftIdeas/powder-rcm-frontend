@@ -84,9 +84,9 @@ export function ConversationDetailColumn({
           <p className="text-xs text-gray-500"> {policyNumber}</p>
           <div>
             {channel === "WhatsApp" ? (
-              <MessageCircle className="h-5 w-5 text-green-600" />
+              <img src="/icons/Vector.png" alt="whatsapp" />
             ) : (
-              <Mail className="h-5 w-5 text-blue-600" />
+              <img src="/icons/gmail.png" alt="Gmail" />
             )}
           </div>
         </div>
@@ -121,11 +121,10 @@ export function ConversationDetailColumn({
           }
           if (m.type === "admin") {
             return (
-              <div
-                key={m.id}
-                className="max-w-xl  "
-              >
-                <p className="text-sm  border border-gray-200 rounded-tl-[18px] rounded-tr-[18px] rounded-br-[18px]  p-2 bg-[#F1F1F1] text-[#344054]">{m.text}</p>
+              <div key={m.id} className="max-w-xl  ">
+                <p className="text-sm  border border-gray-200 rounded-tl-[18px] rounded-tr-[18px] rounded-br-[18px]  p-2 bg-[#F1F1F1] text-[#344054]">
+                  {m.text}
+                </p>
                 <p className="mt-1 text-xs text-gray-400">{m.timestamp}</p>
               </div>
             );
@@ -146,7 +145,7 @@ export function ConversationDetailColumn({
                 </div>
                 <p className="mt-1 text-[10px] opacity-80">{m.timestamp}</p>
               </div>
-            ); 
+            );
           }
           return (
             <button
@@ -162,17 +161,20 @@ export function ConversationDetailColumn({
       </div>
       {/* Input */}
       <div className="border-b border-[#EAECF0] rounded-[24px]  p-3 bg-white">
-        <div className="flex items-center gap-2 bg-[#FFFFFF] rounded-[15px] border border-[#EAECF0] px-3 py-5">
-          <button className="h-8 w-8 inline-flex items-center justify-center rounded-full hover:bg-gray-100">
-            <Paperclip className="h-4 w-4 text-gray-500" />
-          </button>
+        <div className="flex flex-col  items-start gap-2 bg-[#FFFFFF] rounded-[15px] border border-[#EAECF0] px-3 py-5">
           <input
             placeholder="Type something here..."
             className="flex-1 outline-none text-sm placeholder:text-gray-400"
           />
-          <button className="h-8 w-8 inline-flex items-center justify-center rounded-full bg-blue-600 text-white">
-            <Send className="h-4 w-4" />
-          </button>
+          <div className="flex flex-1 gap-[15rem] mt-4 ">
+            <button className="h-8 w-8 inline-flex items-center justify-center rounded-full hover:bg-gray-100">
+              <Paperclip className="h-4 w-4 text-gray-500" />
+            </button>
+
+            <button className="h-8 w-8 inline-flex items-center justify-center rounded-full bg-[#E5F2F6]">
+              <img src="/icons/send-2.svg" alt="message" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

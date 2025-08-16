@@ -74,7 +74,7 @@ export default function TopBar() {
             className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center "
             onClick={() => setMenuOpen((open) => !open)}
           >
-            <Image src="/icons/icon.png" alt="IconLogo" width={24} height={24} />
+            <Image src="/icons/user.svg" alt="IconLogo" width={24} height={24} />
           </button>
           {menuOpen && (
             <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg z-10">

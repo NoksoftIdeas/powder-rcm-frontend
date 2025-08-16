@@ -1,7 +1,15 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { Mail, MessageCircle, Search, ChevronDown, Clock, CheckCircle, AlertCircle, MessageSquare } from "lucide-react";
+import {
+  Mail,
+  MessageCircle,
+  Search,
+  ChevronDown,
+  Clock,
+  CheckCircle,
+  MessageSquare,
+} from "lucide-react";
 
 type Channel = "All" | "WhatsApp" | "Email" | "SMS";
 type StatusTab = "All" | "Unread" | "Overdue" | "Resolved";
@@ -37,8 +45,8 @@ export default function ConversationListColumn({
 
   // Determine the status to display, considering both status and isOverdue flag
   const getDisplayStatus = (conversation: ConversationSummary): string => {
-    if (conversation.status === 'New' || conversation.status === 'Read') {
-      return conversation.isOverdue ? 'Overdue' : conversation.status;
+    if (conversation.status === "New" || conversation.status === "Read") {
+      return conversation.isOverdue ? "Overdue" : conversation.status;
     }
     return conversation.status;
   };
@@ -49,41 +57,43 @@ export default function ConversationListColumn({
       const matchesSearch = conversation.patientName
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
-      
+
       // Handle status filtering based on the selected tab
       let matchesStatus = true;
-      if (statusFilter !== 'All') {
-        if (statusFilter === 'Unread') {
-          matchesStatus = conversation.status === 'New' || Boolean(conversation.unreadCount && conversation.unreadCount > 0);
-        } else if (statusFilter === 'Overdue') {
-          matchesStatus = displayStatus === 'Overdue';
+      if (statusFilter !== "All") {
+        if (statusFilter === "Unread") {
+          matchesStatus =
+            conversation.status === "New" ||
+            Boolean(conversation.unreadCount && conversation.unreadCount > 0);
+        } else if (statusFilter === "Overdue") {
+          matchesStatus = displayStatus === "Overdue";
         } else {
           matchesStatus = displayStatus === statusFilter;
         }
       }
 
       const matchesChannel =
-        channelFilter === 'All' || conversation.channel === channelFilter;
-      
+        channelFilter === "All" || conversation.channel === channelFilter;
+
       return matchesSearch && matchesStatus && matchesChannel;
     });
   }, [conversations, searchQuery, statusFilter, channelFilter]);
 
   const getChannelIcon = (channel: string) => {
     switch (channel) {
-      case 'WhatsApp':
-        return <MessageCircle className="h-5 w-5 text-green-500" />;
-      case 'Email':
-        return <Mail className="h-5 w-5 text-blue-500" />;
-      case 'SMS':
-        return <MessageSquare className="h-5 w-5 text-purple-500" />;
+      case "WhatsApp":
+        return <img src="/icons/Vector.png" alt="whatsapp" />
+      case "Email":
+        return <img src="/icons/gmail.png" alt="Gmail" />
+      case "SMS":
+        return <img src="/icons/mail.svg" alt="" />
       default:
         return <MessageCircle className="h-5 w-5 text-gray-500" />;
     }
   };
 
   return (
-    <aside className="w-72 flex flex-col h-full">
+    <aside className="w-[16rem] flex flex-col h-full">
       <div className="">
         <div className="flex flex-col gap-2 mb-2">
           <button
@@ -107,7 +117,7 @@ export default function ConversationListColumn({
         <div className="mb-2">
           <div className="relative inline-block w-full">
             <select
-              className="w-full pl-3 pr-8 py-2 bg-[#F8F8F8] border border-[#D0D5DD] rounded-[12px] text-sm focus:outline-none text-[#344054] focus:border-transparent appearance-none"
+              className="w-full  py-2 bg-[#F8F8F8] border border-[#D0D5DD] rounded-[12px] text-sm focus:outline-none text-[#344054] focus:border-transparent appearance-none"
               value={channelFilter}
               onChange={(e) => setChannelFilter(e.target.value as Channel)}
             >
@@ -121,27 +131,31 @@ export default function ConversationListColumn({
         </div>
 
         <div className="flex items-center space-x-2 text-[#B4B4B4] overflow-x-auto pb-1">
-          {['All', 'Unread', 'Overdue', 'Resolved'].map((tab) => {
+          {["All", "Unread", "Overdue", "Resolved"].map((tab) => {
             // Count conversations for each tab
-            const count = tab === 'All' 
-              ? conversations.length 
-              : conversations.filter(conv => {
-                  if (tab === 'Unread') {
-                    return conv.status === 'New' || (conv.unreadCount && conv.unreadCount > 0);
-                  } else if (tab === 'Overdue') {
-                    return conv.isOverdue;
-                  } else {
-                    return conv.status === tab;
-                  }
-                }).length;
-                
+            const count =
+              tab === "All"
+                ? conversations.length
+                : conversations.filter((conv) => {
+                    if (tab === "Unread") {
+                      return (
+                        conv.status === "New" ||
+                        (conv.unreadCount && conv.unreadCount > 0)
+                      );
+                    } else if (tab === "Overdue") {
+                      return conv.isOverdue;
+                    } else {
+                      return conv.status === tab;
+                    }
+                  }).length;
+
             return (
               <button
                 key={tab}
                 className={`py-1 px-1.5 text-[16px] font-normal rounded-[6px] whitespace-nowrap flex items-center   ${
                   statusFilter === tab
-                    ? 'text-[#027FA3] bg-[#027FA31A] '
-                    : 'text-[#B4B4B4] hover:text-gray-700'
+                    ? "text-[#027FA3] bg-[#027FA31A] "
+                    : "text-[#B4B4B4] hover:text-gray-700"
                 }`}
                 onClick={() => setStatusFilter(tab as StatusTab)}
               >
@@ -171,27 +185,21 @@ export default function ConversationListColumn({
             {filteredConversations.map((conversation) => (
               <li
                 key={conversation.id}
-                className={`p-3 border border-[#017EA61A] rounded-[16px] my-2 cursor-pointer transition-colors ${
-                  selectedId === conversation.id ? 'bg-[#017EA61A]' : ''
+                className={`p-3 border border-[#EAECF0] rounded-[16px] my-2 cursor-pointer transition-colors ${
+                  selectedId === conversation.id
+                    ? "bg-[#017EA61A] border border-[#017EA61A]"
+                    : ""
                 }`}
                 onClick={() => onSelect(conversation.id)}
               >
                 <div className="flex items-start">
-                  <div className="flex-shrink-0 mr-3 mt-0.5">
-                    <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
-                      {getChannelIcon(conversation.channel)}
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 ">
                     <div className="flex justify-between items-start">
-                      <p className="text-sm font-semibold text-gray-900 truncate">
+                      <p className="text-sm font-medium text-[#000000] mb-1 truncate">
                         {conversation.patientName}
                       </p>
-                      <p className="text-xs text-gray-400 ml-2 whitespace-nowrap">
-                        {conversation.timestamp}
-                      </p>
                     </div>
-                    <p className="text-xs text-gray-500 truncate">
+                    <p className="text-xs text-[#00000066] truncate">
                       {conversation.providerName} • {conversation.patientType}
                     </p>
                     {conversation.lastMessage && (
@@ -200,29 +208,36 @@ export default function ConversationListColumn({
                       </p>
                     )}
                     <div className="flex mt-1.5 space-x-1">
+                      <div className="flex-shrink-0 mt-0.5">
+                        <div className="h-8 w-8 rounded-full flex items-center justify-center">
+                          {getChannelIcon(conversation.channel)}
+                        </div>
+                      </div>
+
                       {(() => {
                         const displayStatus = getDisplayStatus(conversation);
-                        
+
                         switch (displayStatus) {
-                          case 'New':
+                          case "New":
                             return (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-green-100 text-green-800">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[12px] font-medium text-[#017EA6]">
                                 New
                               </span>
                             );
-                          case 'Overdue':
+                          case "Overdue":
                             return (
                               <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800">
                                 <Clock className="h-2.5 w-2.5 mr-1" /> Overdue
                               </span>
                             );
-                          case 'Resolved':
+                          case "Resolved":
                             return (
                               <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800">
-                                <CheckCircle className="h-2.5 w-2.5 mr-1" /> Resolved
+                                <CheckCircle className="h-2.5 w-2.5 mr-1" />{" "}
+                                Resolved
                               </span>
                             );
-                          case 'Read':
+                          case "Read":
                           default:
                             return (
                               <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-800">
@@ -231,11 +246,15 @@ export default function ConversationListColumn({
                             );
                         }
                       })()}
-                      {conversation.unreadCount && conversation.unreadCount > 0 && (
-                        <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-600 text-white text-xs font-medium">
-                          {conversation.unreadCount}
-                        </span>
-                      )}
+                      <p className="text-xs text-gray-400 ml-10 mt-2 whitespace-nowrap">
+                        {conversation.timestamp}
+                      </p>
+                      {conversation.unreadCount &&
+                        conversation.unreadCount > 0 && (
+                          <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-600 text-white text-xs font-medium">
+                            {conversation.unreadCount}
+                          </span>
+                        )}
                     </div>
                   </div>
                 </div>

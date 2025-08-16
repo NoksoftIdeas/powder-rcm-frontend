@@ -292,9 +292,9 @@ function PaCodePageContent() {
   }
 
   return (
-    <div className="flex gap-4 overflow-hidden min-h-[40vh]">
+    <div className="flex overflow-hidden min-h-[40vh]">
       {/* Left */}
-      <div className="w-20 sm:w-72 ">
+      <div className="w-20 sm:w-[17rem] ">
         <ConversationListColumn
           conversations={conversations}
           selectedId={selectedId}
@@ -305,8 +305,8 @@ function PaCodePageContent() {
 
       {/* Middle + Right depending on state */}
       {selectedConversation ? (
-        <div className=" w-3xl flex-1 flex flex-col  lg:flex-row ">
-          <div className="flex-1 border border-[#EAECF0] rounded-[24px]">
+        <div className="  flex-1 flex flex-col  lg:flex-row ">
+          <div className="flex-1 border w-[2rem] border-[#EAECF0] rounded-[24px]">
             <ConversationDetailColumn
               providerName={selectedConversation.providerName}
               providerLogoUrl={null}
@@ -352,7 +352,7 @@ function PaCodePageContent() {
           </div>
         </div>
       ) : (
-        <div className="flex-1">
+        <div className="flex-1 ">
           <ConversationDetailEmptyState onCreateNew={() => {}} />
         </div>
       )}
