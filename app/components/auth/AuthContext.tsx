@@ -1,7 +1,7 @@
 "use client";
 
-import React, { createContext, useState, useContext, useEffect } from 'react';
-// import LoadingSpinner from '../LoadingSpinner';
+import React, { createContext, useState, useContext, useEffect } from "react";
+// import LoadingSpinner from "../LoadingSpinner";
 
 interface User {
   id: string;
@@ -21,9 +21,9 @@ interface AuthContextType {
 
 // Create a logout function that can be used both inside and outside the context
 const logout = () => {
-  localStorage.removeItem('auth_token');
-  localStorage.removeItem('user');
-  window.location.href = '/login';
+  localStorage.removeItem("auth_token");
+  localStorage.removeItem("user");
+  window.location.href = "/login";
 };
 
 export { logout };
@@ -37,7 +37,9 @@ const AuthContext = createContext<AuthContextType>({
   logout,
 });
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
@@ -47,18 +49,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const checkSession = async () => {
       try {
         setIsLoading(true);
-        const token = localStorage.getItem('auth_token');
+        const token = localStorage.getItem("auth_token");
         if (token) {
-          // Simulate token validation 
+          // Simulate token validation
           // In a real app, this would be a call to your backend
-          const storedUser = localStorage.getItem('user');
+          const storedUser = localStorage.getItem("user");
           if (storedUser) {
             setUser(JSON.parse(storedUser));
             setIsAuthenticated(true);
           }
         }
       } catch (error) {
-        console.error('Session check failed', error);
+        console.error("Session check failed", error);
         setIsAuthenticated(false);
       } finally {
         // Simulate a minimum loading time to show spinner
@@ -75,11 +77,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       setIsLoading(true);
       // Simulated login - replace with actual backend authentication
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate network delay
 
       // Check for admin credentials
-      const isAdmin = email === 'admin@demo.com' && password === 'admin123';
-      
+      const isAdmin = email === "admin@demo.com" && password === "admin123";
+
       // Only allow login for admin users
       if (!isAdmin) {
         return false;
@@ -88,8 +90,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const mockUser = {
         id: Date.now().toString(),
         email: email,
-        name: 'Admin User',
-        role: 'admin'
+        name: "Admin User",
+        role: "admin",
       };
 
       // Set authentication state
@@ -97,30 +99,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(mockUser);
 
       // Store in localStorage for persistence
-      localStorage.setItem('auth_token', 'mock_token_' + Date.now());
-      localStorage.setItem('user', JSON.stringify(mockUser));
+      localStorage.setItem("auth_token", "mock_token_" + Date.now());
+      localStorage.setItem("user", JSON.stringify(mockUser));
 
       // Redirect to dashboard
       return true;
     } catch (error) {
-      console.error('Login failed', error);
+      console.error("Login failed", error);
       return false;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const signup = async (email: string, _password: string, name: string): Promise<boolean> => {
+  const signup = async (
+    email: string,
+    _password: string,
+    name: string
+  ): Promise<boolean> => {
     try {
       setIsLoading(true);
       // Simulated signup - replace with actual backend registration
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate network delay
 
       const mockUser = {
         id: Date.now().toString(),
         email: email,
         name: name,
-        role: 'user'
+        role: "user",
       };
 
       // Set authentication state
@@ -128,13 +134,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(mockUser);
 
       // Store in localStorage for persistence
-      localStorage.setItem('auth_token', 'mock_token_' + Date.now());
-      localStorage.setItem('user', JSON.stringify(mockUser));
+      localStorage.setItem("auth_token", "mock_token_" + Date.now());
+      localStorage.setItem("user", JSON.stringify(mockUser));
 
       // Redirect to dashboard
       return true;
     } catch (error) {
-      console.error('Signup failed', error);
+      console.error("Signup failed", error);
       return false;
     } finally {
       setIsLoading(false);
@@ -149,12 +155,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(null);
 
       // Remove stored items
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('user');
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("user");
 
       // Redirect to login
     } catch (error) {
-      console.error('Logout failed', error);
+      console.error("Logout failed", error);
     } finally {
       setIsLoading(false);
     }
@@ -166,17 +172,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // }
 
   return (
-    <AuthContext.Provider value={{ 
-      isAuthenticated, 
-      isLoading, 
-      user, 
-      login, 
-      signup, 
-      logout 
-    }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        isLoading,
+        user,
+        login,
+        signup,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext); 
+export const useAuth = () => useContext(AuthContext);

@@ -6,14 +6,14 @@ const cards = [
     value: "35,985",
     icon: "plus",
     status: null,
-    iconBg: "bg-cyan-100",
+    iconBg: "",
   },
   {
     title: "HMOs",
     value: "17",
     icon: "doc",
     status: null,
-    iconBg: "bg-cyan-100",
+    iconBg: "bg-[#027FA31A]",
   },
   {
     title: "Average Response Time",
@@ -23,21 +23,21 @@ const cards = [
       text: "+3%",
       color: "text-[#027FA3] bg-[#027FA31A] text-sm px-2 py-0.5 rounded-full",
     },
-    iconBg: "bg-cyan-100",
+    iconBg: "bg-[#027FA31A]",
   },
   {
     title: "Approved Claims",
     value: "29,761",
     icon: "check",
     status: null,
-    iconBg: "bg-cyan-100",
+    iconBg: "bg-[#027FA31A]",
   },
   {
     title: "Queried Claims",
     value: "5,429",
     icon: "cross",
     status: null,
-    iconBg: "bg-cyan-100",
+    iconBg: "bg-[#027FA31A]",
   },
   {
     title: "Unattended Claims",
@@ -47,7 +47,7 @@ const cards = [
       text: "18 Overdue",
       color: "text-red-500 bg-red-50 px-2 py-0.5 rounded text-xs ml-2",
     },
-    iconBg: "bg-cyan-100",
+    iconBg: "bg-[#027FA31A]",
   },
 ];
 
@@ -114,11 +114,11 @@ function getIcon(icon: string) {
 
 export default function DashboardCards() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4 bg-[#ffffff] ">
       {cards.map((card) => (
         <div
           key={card.title}
-          className="bg-[#fff] rounded-xl border-[1px] border-gray-200 p-4 flex items-center gap-[12px]"
+          className="bg-[#ffffff] rounded-xl border-[1px] border-[#EAECF0] p-[16px] flex items-center gap-[12px]"
         >
           <div className="flex-1">
             <div className="flex items-center gap-2">
@@ -141,7 +141,7 @@ export default function DashboardCards() {
             </div>
           </div>
           <span
-            className={`w-12 h-12 p-1 flex items-center justify-center rounded-full ${card.iconBg}`}
+            className={`w-12 h-12 p-[11px] flex items-center text-[#027FA3] bg-[#027FA31A] justify-center rounded-full ${card.iconBg}`}
           >
             {getIcon(card.icon)}
           </span>

@@ -160,7 +160,7 @@ function HMOsPage() {
   ) => {
     const newHMO: HMO = {
       id: hmos.length + 1,
-      logo: formData.logo || "/Avatar.png", // Use default avatar if no logo provided
+      logo: formData.logo || "/Avatar.png",
       name: formData.name,
       plans: 0,
       tariffUpdate: "Set up tariff",

@@ -32,7 +32,7 @@ export default function LoginPage() {
   return (
     <AuthLayout
       logo={
-        <div className="flex items-center w-[15%] justify-center mb-2">
+        <div className="flex items-center w-[30%] justify-center mb-2">
           <Logo />
         </div>
       }

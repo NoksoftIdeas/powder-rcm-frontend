@@ -42,7 +42,7 @@ export default function LoginForm() {
       )}
       <div className="mb-2 bg-cyan-50 border border-cyan-100 rounded p-2 text-xs text-gray-600 text-center">
         <span className="font-semibold">Demo Admin Login:</span> <br />
-        Email: <span className="font-mono">admin@demo.com</span> &nbsp;|&nbsp; Password: <span className="font-mono">admin123</span>
+        Email: <span className="font-medium">admin@demo.com</span> &nbsp;|&nbsp; Password: <span className="font-medium">admin123</span>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -84,7 +84,7 @@ export default function LoginForm() {
           Demo Admin Login
         </button>
 
-        <p className="text-xs text-[#475467] text-center">
+        <p className="text-xs text-[#43464a] text-center">
           By continuing, you agree to this{" "}
           <a href="/terms" className="underline">Terms & Usage Policy</a> and acknowledge the{" "}
           <a href="/privacy" className="underline">Privacy Policy</a>.

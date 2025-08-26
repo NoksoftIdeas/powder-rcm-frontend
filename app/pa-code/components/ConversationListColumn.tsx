@@ -2,13 +2,13 @@
 
 import React, { useMemo, useState } from "react";
 import {
-  Mail,
+
   MessageCircle,
   Search,
   ChevronDown,
   Clock,
   CheckCircle,
-  MessageSquare,
+ 
 } from "lucide-react";
 
 type Channel = "All" | "WhatsApp" | "Email" | "SMS";
@@ -117,7 +117,7 @@ export default function ConversationListColumn({
         <div className="mb-2">
           <div className="relative inline-block w-full">
             <select
-              className="w-full  py-2 bg-[#F8F8F8] border border-[#D0D5DD] rounded-[12px] text-sm focus:outline-none text-[#344054] focus:border-transparent appearance-none"
+              className="w-full pl-2 py-2 bg-[#F8F8F8] border border-[#D0D5DD] rounded-[12px] text-sm focus:outline-none text-[#344054] focus:border-transparent appearance-none"
               value={channelFilter}
               onChange={(e) => setChannelFilter(e.target.value as Channel)}
             >
@@ -130,7 +130,7 @@ export default function ConversationListColumn({
           </div>
         </div>
 
-        <div className="flex items-center space-x-2 text-[#B4B4B4] overflow-x-auto pb-1">
+        <div className="flex items-center space-x-1 text-[#B4B4B4] pb-1">
           {["All", "Unread", "Overdue", "Resolved"].map((tab) => {
             // Count conversations for each tab
             const count =
@@ -152,7 +152,7 @@ export default function ConversationListColumn({
             return (
               <button
                 key={tab}
-                className={`py-1 px-1.5 text-[16px] font-normal rounded-[6px] whitespace-nowrap flex items-center   ${
+                className={`py-1 px-1 text-[16px] font-normal rounded-[6px] whitespace-nowrap flex items-center   ${
                   statusFilter === tab
                     ? "text-[#027FA3] bg-[#027FA31A] "
                     : "text-[#B4B4B4] hover:text-gray-700"
@@ -226,13 +226,14 @@ export default function ConversationListColumn({
                             );
                           case "Overdue":
                             return (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-red-100 text-red-800">
-                                <Clock className="h-2.5 w-2.5 mr-1" /> Overdue
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium  text-[#FF6058]">
+                                {/* <Clock className="h-2.5 w-2.5 mr-1" /> */}
+                                 Overdue
                               </span>
                             );
                           case "Resolved":
                             return (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-blue-100 text-blue-800">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium b text-blue-800">
                                 <CheckCircle className="h-2.5 w-2.5 mr-1" />{" "}
                                 Resolved
                               </span>
@@ -240,7 +241,7 @@ export default function ConversationListColumn({
                           case "Read":
                           default:
                             return (
-                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-800">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium  text-gray-800">
                                 Read
                               </span>
                             );

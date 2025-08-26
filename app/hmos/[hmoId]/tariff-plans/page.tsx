@@ -543,7 +543,7 @@ export default function TariffPlansPage() {
           </div>
         </div>
       )}
-      {verifyModalOpen && (
+      {/* {verifyModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-end bg-black/30"
           onClick={() => setVerifyModalOpen(false)}
@@ -592,7 +592,7 @@ export default function TariffPlansPage() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
       <EditTariffModal
         isOpen={!!editingTariff}
         onClose={() => setEditingTariff(null)}

@@ -1,14 +1,8 @@
 "use client";
 
-import React from "react";
-import {
-  Mail,
-  MessageCircle,
-  Paperclip,
-  Send,
-  Timer,
-  ArrowRight,
-} from "lucide-react";
+import React, { useState } from "react";
+import { Paperclip, Timer, ArrowRight } from "lucide-react";
+import ProcessCodeModal from "@/app/components/modals/ProcessCodeModal";
 
 export type ConversationMessage =
   | {
@@ -51,6 +45,7 @@ export function ConversationDetailColumn({
   channel,
   messages,
   onProcess,
+  referenceCode = "CGGEFI98398092HJE", // Default value if not provided
 }: {
   providerName: string;
   providerLogoUrl?: string | null;
@@ -59,11 +54,26 @@ export function ConversationDetailColumn({
   channel: "WhatsApp" | "Email" | "SMS";
   messages: ConversationMessage[];
   onProcess?: () => void;
+  referenceCode?: string;
 }) {
+  const [isProcessModalOpen, setIsProcessModalOpen] = useState(false);
+
+  const handleProcessClick = () => {
+    if (onProcess) {
+      onProcess();
+    }
+    setIsProcessModalOpen(true);
+  };
+
+  const handleProcessSubmit = (items: any) => {
+    console.log("Processed items:", items);
+    // Handle the processed items here
+    setIsProcessModalOpen(false);
+  };
   return (
     <section className="flex-1 w-full flex flex-col h-full bg-[#FFFFFF] border-t border-[#EAECF0] rounded-[24px] animate-fade-in">
       {/* Header */}
-      <div className="flex flex-row items-center justify-between px-4 py-3 border-b border-gray-200">
+      <div className="flex flex-row items-center justify-between px-1 py-3 border-b border-gray-200">
         <div className="flex items-center gap-1">
           {providerLogoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -74,14 +84,14 @@ export function ConversationDetailColumn({
             </div>
           )}
           <div className="flex items-center">
-            <p className="font-meduium text-[#344054]">{providerName}</p>
-            <span className="inline-flex items-center text-xs font-medium text-white bg-red-500 px-2 rounded-full">
+            <p className="font-normal text-[#344054]">{providerName}</p>
+            <span className="inline-flex items-center text-xs font-medium text-[#FF6058] bg-red-50  rounded-full">
               <Timer className="h-1 w-1" /> {timer}
             </span>
           </div>
         </div>
-        <div className="flex">
-          <p className="text-xs text-gray-500"> {policyNumber}</p>
+        <div className="flex justify-center items-center">
+          <p className="text-[11px] text-[#344054] "> {policyNumber}</p>
           <div>
             {channel === "WhatsApp" ? (
               <img src="/icons/Vector.png" alt="whatsapp" />
@@ -119,6 +129,7 @@ export function ConversationDetailColumn({
               </div>
             );
           }
+
           if (m.type === "admin") {
             return (
               <div key={m.id} className="max-w-xl  ">
@@ -129,36 +140,40 @@ export function ConversationDetailColumn({
               </div>
             );
           }
+
           if (m.type === "code") {
             return (
               <div
                 key={m.id}
-                className="max-w-sm rounded-2xl p-3 bg-cyan-700 text-white shadow"
+                className=" max-w-4xl  px-3 pt-1.5 bg-[#F1F1F1] text-[#344054] mt-[-2.3rem]  border-gray-200 rounded-tl-[18px] rounded-tr-[18px] rounded-br-[18px] "
               >
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between ">
                   <span className="text-xs uppercase tracking-wide opacity-80">
                     PA Code
                   </span>
-                </div>
-                <div className="mt-1 text-lg font-semibold tracking-wider">
-                  {m.code}
-                </div>
-                <p className="mt-1 text-[10px] opacity-80">{m.timestamp}</p>
+                  </div> */}
+                <div className=" text-sm font-normal  ">{m.code}</div>
+                <p className="mt-[2px] text-[10px] text-gray-900 opacity-80">
+                  {m.timestamp}{" "}
+                </p>
               </div>
             );
           }
           return (
             <button
               key={m.id}
-              className="max-w-xs bg-[#027FA3] text-white rounded-2xl px-3 py-2 inline-flex items-center gap-2 "
-              onClick={() => onProcess?.()}
+              className=" w-full h-11 flex items-center justify-center border bg-cyan-700 text-white  rounded-tl-[18px] rounded-tr-[18px] rounded-br-[18px]  "
+              onClick={handleProcessClick}
             >
-              <span className="text-sm font-medium">{m.text}</span>
-              <ArrowRight className="h-4 w-4" />
+              <span className="text-sm font-normal flex item-center justify-center mt-[-1.5rem] ">
+                {m.text}
+                <ArrowRight className="h-4 w-4 mt-1 gap-1" />
+              </span>
             </button>
           );
         })}
       </div>
+
       {/* Input */}
       <div className="border-b border-[#EAECF0] rounded-[24px]  p-3 bg-white">
         <div className="flex flex-col  items-start gap-2 bg-[#FFFFFF] rounded-[15px] border border-[#EAECF0] px-3 py-5">
@@ -166,17 +181,28 @@ export function ConversationDetailColumn({
             placeholder="Type something here..."
             className="flex-1 outline-none text-sm placeholder:text-gray-400"
           />
-          <div className="flex flex-1 gap-[15rem] mt-4 ">
-            <button className="h-8 w-8 inline-flex items-center justify-center rounded-full hover:bg-gray-100">
-              <Paperclip className="h-4 w-4 text-gray-500" />
-            </button>
-
-            <button className="h-8 w-8 inline-flex items-center justify-center rounded-full bg-[#E5F2F6]">
-              <img src="/icons/send-2.svg" alt="message" />
-            </button>
+          <div className="  mt-4 ">
+            <div>
+              <button className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-gray-100">
+                <Paperclip className="h-4 w-4 text-gray-500" />
+              </button>
+            </div>
+            <div>
+              <button className="h-8 w-8 flex items-center justify-center rounded-full bg-[#E5F2F6]">
+                <img src="/icons/send-2.svg" alt="message" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Process Code Modal */}
+      <ProcessCodeModal
+        isOpen={isProcessModalOpen}
+        onClose={() => setIsProcessModalOpen(false)}
+        referenceCode={referenceCode}
+        onSubmit={handleProcessSubmit}
+      />
     </section>
   );
 }

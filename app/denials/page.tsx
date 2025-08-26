@@ -3,7 +3,6 @@
 import { useState } from "react";
 import DenialsFilters from "../components/dashboard/DenialsFilters";
 import DenialsSummaryCards from "../components/dashboard/DenialsSummaryCards";
-import ReprocessModal from "../../components/ReprocessModal";
 import DenialsTable, { Denial } from "../components/dashboard/DenialsTable";
 import Pagination from "@/app/components/ui/Pagination";
 
@@ -221,12 +220,6 @@ export default function DenialsPage() {
           onReprocess={handleReprocessClick}
         />
 
-        <ReprocessModal
-          isOpen={isReprocessModalOpen}
-          onClose={() => setIsReprocessModalOpen(false)}
-          onReprocess={handleReprocess}
-          loading={isProcessing}
-        />
         {/* Pagination */}
         <div className="px-6 py-4">
           <Pagination

@@ -81,7 +81,7 @@ export default function ChannelsPage() {
                   />
                 </div>
               </div>
-              <div className="text-xs text-[#344054] mt-1">
+              <div className="text-xs text-[#344054] mt-2 ml-[8rem]">
                 Your hospital's preferred number to send text messages to HMOs
               </div>
             </div>
@@ -106,7 +106,7 @@ export default function ChannelsPage() {
                   />
                 </div>
               </div>
-              <div className="text-xs text-gray-500 mt-2 ml-[9rem] items-center">
+              <div className="text-xs text-[#344054] mt-2 ml-[8rem] items-center">
                 The HMO's number
               </div>
             </div>

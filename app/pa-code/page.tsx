@@ -3,6 +3,7 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { withAuth } from "../components/auth/withAuth";
+import { NewRequestSlideOver } from "./components/modal/NewRequestSlideOver";
 import ConversationListColumn, {
   ConversationSummary,
 } from "./components/ConversationListColumn";
@@ -107,6 +108,7 @@ function PaCodePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isNewRequestOpen, setIsNewRequestOpen] = useState(false);
   const [conversations, setConversations] = useState<ConversationSummary[]>(
     INITIAL_CONVERSATIONS
   );
@@ -259,15 +261,31 @@ function PaCodePageContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
+  // Generate a process code
+  const [currentProcessCode, setCurrentProcessCode] = useState("");
+
+  // Generate a new process code
+  const generateProcessCode = (): string => {
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let out = "CG";
+    for (let i = 0; i < 14; i += 1) {
+      out += alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+    return out;
+  };
+
   // Handle processing code click
   const handleProcessCode = () => {
     if (!selectedId) return;
-    const code = generateProcessCode();
+    const newCode = generateProcessCode();
+    setCurrentProcessCode(newCode);
+    
     const now = new Date();
     const timestamp = now.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
+    
     setMessageMap((prev) => ({
       ...prev,
       [selectedId]: [
@@ -275,32 +293,28 @@ function PaCodePageContent() {
         {
           id: `${selectedId}-code-${now.getTime()}`,
           type: "code",
-          code,
+          code: newCode,
           timestamp,
         },
       ],
     }));
   };
 
-  function generateProcessCode(): string {
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let out = "CG";
-    for (let i = 0; i < 14; i += 1) {
-      out += alphabet[Math.floor(Math.random() * alphabet.length)];
-    }
-    return out;
-  }
-
   return (
-    <div className="flex overflow-hidden min-h-[40vh]">
+    <>
+      <NewRequestSlideOver 
+        isOpen={isNewRequestOpen} 
+        onClose={() => setIsNewRequestOpen(false)} 
+      />
+      <div className="flex overflow-hidden min-h-[40vh]">
       {/* Left */}
       <div className="w-20 sm:w-[17rem] ">
-        <ConversationListColumn
-          conversations={conversations}
-          selectedId={selectedId}
-          onSelect={setSelectedId}
-          onCreateNew={() => {}}
-        />
+          <ConversationListColumn
+            conversations={conversations}
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            onCreateNew={() => setIsNewRequestOpen(true)}
+          />
       </div>
 
       {/* Middle + Right depending on state */}
@@ -319,6 +333,7 @@ function PaCodePageContent() {
               channel={selectedConversation.channel}
               messages={messages}
               onProcess={handleProcessCode}
+              referenceCode={currentProcessCode}
             />
           </div>
           <div className=" ml-1 lg:">
@@ -357,6 +372,7 @@ function PaCodePageContent() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

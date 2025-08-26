@@ -52,7 +52,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
     const data = payload[0].payload as ChartData;
     const displayLabel = (label as string) || data?.month || '';
     return (
-      <div className="bg-[#212123] p-3 border border-gray-200 rounded-lg shadow-lg text-sm">
+      <div className="bg-[#212123] p-3 border border-gray-200 rounded-lg text-sm">
         <p className="font-medium mb-1 text-[#868686]">{displayLabel}</p>
         <p className="text-[#FCFCFC]">
           {/* <span className="font-medium">Claims: </span> */}

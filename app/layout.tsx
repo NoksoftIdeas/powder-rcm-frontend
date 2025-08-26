@@ -23,16 +23,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body>
         <AuthProvider>
-          <div className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-            <LayoutContent>
-              {children}
-            </LayoutContent>
-          </div>        
+          <div className={`${geistSans.variable} ${geistMono.variable} `}>
+            <LayoutContent>{children}</LayoutContent>
+          </div>
         </AuthProvider>
       </body>
     </html>
