@@ -49,7 +49,7 @@ export default function LoginForm() {
           <label className="text-sm font-medium">Email</label>
           <input
             type="email"
-            className="w-full border rounded px-4 py-2 mt-1"
+            className="w-full border border-[#D0D5DD] rounded px-4 py-2 mt-1 bg-[#FFFFFF]"
             placeholder="admin@domain.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -61,7 +61,7 @@ export default function LoginForm() {
           <label className="text-sm font-medium">Password</label>
           <input
             type="password"
-            className="w-full border rounded px-4 py-2 mt-1"
+            className="w-full border border-[#D0D5DD] rounded px-4 py-2 mt-1 bg-[#FFFFFF]"
             placeholder="********"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

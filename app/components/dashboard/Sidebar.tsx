@@ -128,8 +128,8 @@ export default function Sidebar() {
                     )}
                     {item.icon === "inbox" && (
                       <Image
-                        src="/icons/avatar.svg"
-                        alt="User"
+                        src="/icons/add.svg"
+                        alt="Requests"
                         width={32}
                         height={32}
                         className="w-8 h-8 rounded-full"
