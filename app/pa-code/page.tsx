@@ -12,17 +12,17 @@ import ConversationDetailColumn, {
   ConversationMessage,
 } from "./components/ConversationDetailColumn";
 import PatientActionPanel from "./components/PatientActionPanel";
-import { PaCodeProvider, usePaCode } from "./context/PaCodeContext";
+import { usePaCode } from "./context/PaCodeContext";
 import { Patient } from "./context/PaCodeContext";
 
 // Convert Patient to ConversationSummary
 const mapPatientToConversation = (patient: Patient): ConversationSummary => {
   // Ensure we have valid values for required fields
-  const status = (['New', 'Read', 'Overdue', 'Resolved'] as const).includes(patient.status as any) 
+  const status = (['New', 'Read', 'Overdue', 'Resolved'] as const).includes(patient.status as 'New' | 'Read' | 'Overdue' | 'Resolved') 
     ? patient.status as 'New' | 'Read' | 'Overdue' | 'Resolved'
     : 'New';
     
-  const channel = (['Email', 'WhatsApp', 'SMS'] as const).includes(patient.channel as any)
+  const channel = (['Email', 'WhatsApp', 'SMS'] as const).includes(patient.channel as 'Email' | 'WhatsApp' | 'SMS')
     ? patient.channel as 'Email' | 'WhatsApp' | 'SMS'
     : 'Email';
 
@@ -93,7 +93,7 @@ function PaCodePageContent() {
   const searchParams = useSearchParams();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isNewRequestOpen, setIsNewRequestOpen] = useState(false);
-  const { patients, updatePatientStatus } = usePaCode();
+  const { patients } = usePaCode();
   const [conversations, setConversations] = useState<ConversationSummary[]>([]);
 
   // Update conversations when patients change

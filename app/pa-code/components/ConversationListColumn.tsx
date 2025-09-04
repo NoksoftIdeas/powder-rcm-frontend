@@ -1,15 +1,8 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import {
-
-  MessageCircle,
-  Search,
-  ChevronDown,
-  Clock,
-  CheckCircle,
- 
-} from "lucide-react";
+import Image from "next/image";
+import { Search, ChevronDown, CheckCircle } from "lucide-react";
 
 type Channel = "All" | "WhatsApp" | "Email" | "SMS";
 type StatusTab = "All" | "Unread" | "Overdue" | "Resolved";
@@ -83,15 +76,15 @@ export default function ConversationListColumn({
     const channelLower = channel.toLowerCase();
     
     if (channelLower.includes('whatsapp')) {
-      return <img src="/icons/Vector.png" alt="WhatsApp" className="h-5 w-5" />;
+      return <Image src="/icons/Vector.png" alt="WhatsApp" width={20} height={20} className="h-5 w-5" />;
     } else if (channelLower.includes('email') || channelLower.includes('gmail')) {
-      return <img src="/icons/gmail.png" alt="Email" className="h-5 w-5" />;
+      return <Image src="/icons/gmail.png" alt="Email" width={20} height={20} className="h-5 w-5" />;
     } else if (channelLower.includes('sms') || channelLower.includes('text')) {
-      return <img src="/icons/mail.svg" alt="SMS" className="h-5 w-5" />;
+      return <Image src="/icons/mail.svg" alt="SMS" width={20} height={20} className="h-5 w-5" />;
     }
     
     // Default to email icon if channel is not recognized
-    return <img src="/icons/gmail.png" alt="Email" className="h-5 w-5" />;
+    return <Image src="/icons/gmail.png" alt="Email" width={20} height={20} className="h-5 w-5" />;
   };
 
   return (

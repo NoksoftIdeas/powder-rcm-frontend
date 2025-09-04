@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import {  useEffect } from 'react';
 import { CheckCircleIcon, ExclamationCircleIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { ArrowPathIcon } from '@heroicons/react/20/solid';
 import type { Patient, EligibilityStatus } from './types';
@@ -96,7 +96,7 @@ export function PatientSection({
     }, 400);
 
     return () => clearTimeout(timer);
-  }, [patientId]);
+  }, [patientId ]);
 
   return (
     <div className="space-y-2">

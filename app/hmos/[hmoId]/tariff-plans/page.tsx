@@ -113,10 +113,10 @@ export default function TariffPlansPage() {
   const itemsPerPage = 10;
 
   // Function to handle adding new tariff items
-  const handleAddTariffItems = useCallback((items: Array<{ name: string; category: string; cost: string }>) => {
+  const handleAddTariffItems = useCallback((items: { name: string; category: string; cost: string }[]) => {
     const newTariffs = items.map((item, index) => ({
-      id: tariffs.length > 0 ? Math.max(...tariffs.map(t => t.id)) + index + 1 : 1,
-      service: item.name || 'Unnamed Service',
+      id: tariffs.length + index + 1,
+      service: item.name || 'Service',
       category: item.category || 'Service',
       cost: item.cost ? `₦${parseFloat(item.cost).toLocaleString()}` : '₦0',
       status: 'Approved',
@@ -124,7 +124,7 @@ export default function TariffPlansPage() {
 
     setTariffs(prevTariffs => [...prevTariffs, ...newTariffs]);
     setVerifyModalOpen(true);
-  }, [tariffs.length > 0]);
+  }, [tariffs.length]);
 
   const handleEditTariff = useCallback(
     (tariff: {

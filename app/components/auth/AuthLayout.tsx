@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface AuthLayoutProps {
   logo: React.ReactNode;
@@ -25,7 +26,13 @@ export default function AuthLayout({
             <span className="text-[#3C4043] text-[12.89px] leading-[18.42px] font-light ">
               {supportEmail}
             </span>
-            <img src="/icons/mail.svg" alt="mailIcon" />
+            <Image 
+              src="/icons/mail.svg" 
+              alt="mailIcon" 
+              width={20} 
+              height={20}
+              className="w-5 h-5"
+            />
           </div>
           
         )}
@@ -33,7 +40,16 @@ export default function AuthLayout({
 
       <section className="w-full lg:w-1/2 h-fit flex items-center rounded-[27.62px] justify-center  bg-cover bg-center text-white ">
         <div className="w-full max-w-lg  flex flex-col items-center">
-            <img src="/logoImg.png" alt="logiimg" width={420} />
+            <div className="relative w-full max-w-[420px] h-auto aspect-[4/3]">
+              <Image 
+                src="/logoImg.png" 
+                alt="logo" 
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-contain"
+                priority
+              />
+            </div>
         </div>
       </section>
     </main>

@@ -5,7 +5,6 @@ import { Search, ChevronDown } from "lucide-react";
 import { NewRequestModal } from "@/app/components/modals/NewRequestModal";
 import Pagination from "@/app/components/ui/Pagination";
 import { usePaCode } from "@/app/pa-code/context/PaCodeContext";
-import type { PatientChannel } from "@/app/pa-code/context/PaCodeContext";
 
 type RequestStatus = "Process" | "Processed" | "Overdue";
 
@@ -40,22 +39,30 @@ export default function RequestsPage() {
 
   const { addPatient } = usePaCode();
 
-  const handleSubmitRequest = (services: any, channel: string) => {
+  interface Service {
+    id: string;
+    name: string;
+    // Add other service properties as needed
+  }
+
+  const handleSubmitRequest = (services: Service[], channel: string) => {
     if (!selectedRequest) return;
     
     // Add the patient to the PaCode page with the selected channel
-    addPatient({
+    const newPatient = {
       name: `${selectedRequest.firstName} ${selectedRequest.lastName}`,
       providerName: selectedRequest.requestedBy,
-      patientType: 'Principal',
+      patientType: 'Principal' as const,
       isOverdue: false,
       enrolleeId: selectedRequest.id,
       hmo: selectedRequest.hmo,
       reason: 'New request submitted',
       lastMessage: `New request with ${services.length} service(s) via ${channel}`,
       unreadCount: 1,
-      channel: channel as PatientChannel
-    } as any);
+      channel: channel as 'Email' | 'WhatsApp' | 'SMS'
+    };
+    
+    addPatient(newPatient);
     
     // Close the modal
     setSelectedRequest(null);

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { PlusIcon } from '@heroicons/react/24/outline';
 import type { Service } from './types';
 import { ServiceItem } from './ServiceItem';
 

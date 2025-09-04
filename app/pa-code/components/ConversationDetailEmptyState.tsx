@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 export function ConversationDetailEmptyState({
   onCreateNew,
@@ -15,7 +16,12 @@ export function ConversationDetailEmptyState({
 
           <div className="mx-auto mt-28 h-24 w-24 rounded-full bg-[#EDF0F3] flex items-center  justify-center relative">
             <div className="absolute inset-0 rounded-full " />
-            <img src="/icons/PaEmpty.png" alt="PAcodeemptystate" />
+            <Image 
+              src="/icons/PaEmpty.png" 
+              alt="PA code empty state" 
+              width={40}
+              height={40}
+            />
           </div>
 
           <h3 className="text-[#344054] text-[17.68px] font-medium">
@@ -45,7 +51,12 @@ export function ConversationDetailEmptyState({
             className="flex-1 outline-none text-sm placeholder:text-[#676767] font-light"
           />
           <button className="h-8 w-8 inline-flex items-center justify-center rounded-full bg-[#E5F2F6]">
-            <img src="/icons/send-2.svg" alt="message" />
+            <Image 
+              src="/icons/send-2.svg" 
+              alt="Send message" 
+              width={16}
+              height={16}
+            />
           </button>
         </div>
       </div>

@@ -53,7 +53,7 @@ export function PaCodeProvider({ children }: { children: ReactNode }) {
     const interval = setInterval(updateOverdueCount, 30000);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [ patients ]);
 
   const addPatient = (patientData: Omit<Patient, 'id' | 'timestamp' | 'status'> & { channel: PatientChannel }) => {
     if (!patientData.channel) {
@@ -76,7 +76,7 @@ export function PaCodeProvider({ children }: { children: ReactNode }) {
   const updatePatientStatus = (enrolleeId: string, newStatus: string) => {
     // Ensure the status is valid, default to 'Read' if invalid
     const status: PatientStatus = 
-      (['New', 'Read', 'Overdue', 'Resolved'] as const).includes(newStatus as any)
+      (['New', 'Read', 'Overdue', 'Resolved'] as const).includes(newStatus as PatientStatus)
         ? newStatus as PatientStatus
         : 'Read';
 

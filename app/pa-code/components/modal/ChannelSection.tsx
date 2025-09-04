@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import type { Channel } from './types';
 
 interface ChannelSectionProps {

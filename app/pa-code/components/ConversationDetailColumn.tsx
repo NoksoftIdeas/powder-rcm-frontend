@@ -2,7 +2,15 @@
 
 import React, { useState } from "react";
 import { Paperclip, Timer, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import ProcessCodeModal from "@/app/components/modals/ProcessCodeModal";
+
+type ProcessItem = {
+  id: string;
+  label: string;
+  checked: boolean;
+  type: "primary" | "secondary";
+};
 
 export type ConversationMessage =
   | {
@@ -65,7 +73,7 @@ export function ConversationDetailColumn({
     setIsProcessModalOpen(true);
   };
 
-  const handleProcessSubmit = (items: any) => {
+  const handleProcessSubmit = (items: ProcessItem[]) => {
     console.log("Processed items:", items);
     // Handle the processed items here
     setIsProcessModalOpen(false);
@@ -77,7 +85,13 @@ export function ConversationDetailColumn({
         <div className="flex items-center gap-1">
           {providerLogoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={providerLogoUrl} alt="logo" className="h-8 w-8 rounded" />
+            <Image 
+              src={providerLogoUrl} 
+              alt="logo" 
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded" 
+            />
           ) : (
             <div className="h-8 w-8 rounded bg-blue-50 flex items-center justify-center text-[#344054]  text-xs">
               {providerName.slice(0, 2).toUpperCase()}

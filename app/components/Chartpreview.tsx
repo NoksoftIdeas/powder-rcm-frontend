@@ -1,3 +1,6 @@
+import React from 'react';
+import Image from 'next/image';
+
 export default function ChartPreview() {
   return (
     <div className="flex flex-col items-center w-full max-w-xl">
@@ -62,7 +65,13 @@ export default function ChartPreview() {
           <span className="text-2xl font-bold text-[#101828]">₦18,941,144</span>
           <span className="text-xs text-[#017FA5] font-semibold mt-1">
             <span className="flex gap-1"> 
-              <img src="/icon.png" alt="Grapharrow" />
+              <Image 
+                src="/icon.png" 
+                alt="Grapharrow" 
+                width={16} 
+                height={16}
+                className="w-4 h-4"
+              />
                ₦3,145,264(+14%)
             </span>
           </span>

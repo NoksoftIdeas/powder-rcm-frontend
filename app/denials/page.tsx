@@ -156,8 +156,7 @@ export default function DenialsPage() {
   );
 
   const [selectedDenial, setSelectedDenial] = useState<Denial | null>(null);
-  const [isReprocessModalOpen, setIsReprocessModalOpen] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [, setIsReprocessModalOpen] = useState(false);
 
   const handleReprocessClick = (denial: Denial) => {
     setSelectedDenial(denial);
@@ -166,8 +165,6 @@ export default function DenialsPage() {
 
   const handleReprocess = async () => {
     if (!selectedDenial) return;
-
-    setIsProcessing(true);
 
     try {
       // Simulate API call
@@ -182,17 +179,11 @@ export default function DenialsPage() {
         )
       );
 
-      // Close the modal and reset state
+      console.log("Claim has been successfully reprocessed");
       setIsReprocessModalOpen(false);
-      setSelectedDenial(null);
-
-      // Show success message or notification
-      alert(`Successfully reprocessed denial for ${selectedDenial.enrolleeId}`);
     } catch (error) {
-      console.error("Error reprocessing denial:", error);
-      alert("Failed to reprocess denial. Please try again.");
-    } finally {
-      setIsProcessing(false);
+      console.error("Error reprocessing claim:", error);
+      console.error("Failed to reprocess claim. Please try again.");
     }
   };
 

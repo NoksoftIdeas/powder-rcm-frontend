@@ -27,7 +27,7 @@ export default function Sidebar() {
   try {
     const paCodeContext = usePaCode();
     overdueCount = paCodeContext.overdueCount;
-  } catch (error) {
+  } catch {
     // Context not available, use default value
   }
 
@@ -128,10 +128,11 @@ export default function Sidebar() {
                     )}
                     {item.icon === "inbox" && (
                       <Image
-                        src="/icons/add.svg"
-                        alt="Request"
-                        width={24}
-                        height={24}
+                        src="/icons/avatar.svg"
+                        alt="User"
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 rounded-full"
                       />
                     )}
                     {item.icon === "key" && (
@@ -200,7 +201,7 @@ export default function Sidebar() {
                     </span>
                   ) : (
                     <span className="ml-auto text-[#027FA3]">
-                      <img src="/icons/Container.png" alt="pacode checked" />
+                      <Image src="/icons/Container.png" alt="pacode checked" width={10} height={10} />
                     </span>
                   ))}
               </Link>
