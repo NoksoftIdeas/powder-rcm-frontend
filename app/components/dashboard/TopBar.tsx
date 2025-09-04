@@ -33,6 +33,7 @@ export default function TopBar() {
     const paCodeContext = usePaCode();
     overdueCount = paCodeContext.overdueCount;
   } catch (error) {
+    console.error("Error accessing PA Code context:", error);
     // Context not available, use default value
   }
 

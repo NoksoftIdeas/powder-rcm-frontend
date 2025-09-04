@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { FileText, Send } from "lucide-react";
 
 export function ConversationDetailEmptyState({
   onCreateNew,
@@ -11,18 +10,23 @@ export function ConversationDetailEmptyState({
   return (
     <section className="flex-1 flex flex-col  md:w-[480px] h-[100vh] border border-[#EAECF0] rounded-[24px]">
       <div className="flex-1 m-[-2rem]  flex items-center bg-[url('/icons/BackgroundEmpty.png')] bg-fit bg-no-repeat bg-center justify-center">
+
         <div className="text-center">
+
           <div className="mx-auto mt-28 h-24 w-24 rounded-full bg-[#EDF0F3] flex items-center  justify-center relative">
             <div className="absolute inset-0 rounded-full " />
             <img src="/icons/PaEmpty.png" alt="PAcodeemptystate" />
           </div>
+
           <h3 className="text-[#344054] text-[17.68px] font-medium">
             Feels empty here
           </h3>
+
           <p className=" text-[13.75px] font-normal text-[#344054] max-w-80">
             Select an interaction or create a new request to start communicating
             with a HMO.
           </p>
+          
           <div className="mt-3">
             <button
               onClick={onCreateNew}

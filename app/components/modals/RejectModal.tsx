@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import { X } from "lucide-react";
+// import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { addDenial } from "@/services/denials";
+// import { addDenial } from "@/services/denials";
 
 type RejectModalProps = {
   isOpen: boolean;

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Search, X, Plus, Minus, Trash2 } from "lucide-react";
+import React, { useState } from "react";
+import { X,  Trash2 } from "lucide-react";
 import { PatientChannel } from "@/app/pa-code/context/PaCodeContext";
 import { cn } from "@/lib/utils";
 
@@ -47,7 +47,7 @@ export function NewRequestModal({
   const [channelError, setChannelError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [services, setServices] = useState<Service[]>([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchResults, setSearchResults] = useState<Service[]>([]);
 
   // Available services for search
@@ -107,29 +107,29 @@ export function NewRequestModal({
     { label: "Services", value: ["N/A"] },
   ];
 
-  const sampleServices = [
-    {
-      id: "1",
-      name: "Drug3361 - TETANUS TOXOID INJ",
-      price: 700,
-      quantity: 1,
-      category: "Drugs",
-    },
-    {
-      id: "2",
-      name: "Lab Test - Complete Blood Count",
-      price: 1500,
-      quantity: 1,
-      category: "Lab",
-    },
-    {
-      id: "3",
-      name: "X-ray - Chest PA",
-      price: 2500,
-      quantity: 1,
-      category: "Radiology",
-    },
-  ];
+  // const sampleServices = [
+  //   {
+  //     id: "1",
+  //     name: "Drug3361 - TETANUS TOXOID INJ",
+  //     price: 700,
+  //     quantity: 1,
+  //     category: "Drugs",
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "Lab Test - Complete Blood Count",
+  //     price: 1500,
+  //     quantity: 1,
+  //     category: "Lab",
+  //   },
+  //   {
+  //     id: "3",
+  //     name: "X-ray - Chest PA",
+  //     price: 2500,
+  //     quantity: 1,
+  //     category: "Radiology",
+  //   },
+  // ];
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;

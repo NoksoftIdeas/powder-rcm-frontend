@@ -124,7 +124,7 @@ export default function TariffPlansPage() {
 
     setTariffs(prevTariffs => [...prevTariffs, ...newTariffs]);
     setVerifyModalOpen(true);
-  }, [tariffs.length]);
+  }, [tariffs.length > 0]);
 
   const handleEditTariff = useCallback(
     (tariff: {

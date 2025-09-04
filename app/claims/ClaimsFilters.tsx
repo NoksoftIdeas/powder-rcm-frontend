@@ -1,4 +1,3 @@
-import { Search } from "lucide-react";
 import React from "react";
 
 export interface ClaimsFilterState {

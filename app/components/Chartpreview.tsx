@@ -61,10 +61,9 @@ export default function ChartPreview() {
         <div className="absolute bottom-[-38px] right-0  bg-white rounded-xl shadow-md  py-3 flex flex-col items-center w-40 border border-white/30">
           <span className="text-2xl font-bold text-[#101828]">₦18,941,144</span>
           <span className="text-xs text-[#017FA5] font-semibold mt-1">
-            <span className="flex gap-1">
-
-          <img src="/icon.png" alt="Grapharrow" />
-            ₦3,145,264(+14%)
+            <span className="flex gap-1"> 
+              <img src="/icon.png" alt="Grapharrow" />
+               ₦3,145,264(+14%)
             </span>
           </span>
         </div>
