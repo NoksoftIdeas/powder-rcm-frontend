@@ -230,7 +230,7 @@ export default function ClaimsChartSection() {
   const trend = 5.2; // Static trend value for the design
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 bg-[#fff] rounded-xl border-[1px] border-gray-200 p-4 relative ">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 bg-[#fff] rounded-xl border-[1px] border-gray-200  relative ">
       {/* Main Chart Section */}
       <div className="lg:col-span-3 ">
         <Card className="p-6">

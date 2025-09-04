@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
+import { usePaCode } from "../../pa-code/context/PaCodeContext";
+import { useRouter } from "next/navigation";
 
 export interface Denial {
   sn: number;
@@ -19,6 +21,30 @@ interface DenialsTableProps {
 }
 
 export default function DenialsTable({ denials, onReprocess }: DenialsTableProps) {
+  const { addPatient } = usePaCode();
+  const router = useRouter();
+
+  const handleReprocess = useCallback((denial: Denial) => {
+    // Call the original onReprocess handler if provided
+    if (onReprocess) {
+      onReprocess(denial);
+    }
+    
+    // Add the patient to the PaCode page with proper typing
+    addPatient({
+      name: `Patient ${denial.enrolleeId}`,
+      providerName: denial.hmo,
+      patientType: 'Principal',
+      isOverdue: true,
+      enrolleeId: denial.enrolleeId,
+      hmo: denial.hmo,
+      reason: denial.reason,
+      channel: 'Email' as const  // Explicitly type as const to match PatientChannel type
+    });
+
+    // Navigate to the PaCode page
+    router.push('/pa-code');
+  }, [onReprocess, addPatient, router]);
   return (
     <div className="bg-white rounded-xl">
       <table className="min-w-full divide-y divide-gray-200 border-[1px] border-[#EAECF0]">
@@ -46,7 +72,7 @@ export default function DenialsTable({ denials, onReprocess }: DenialsTableProps
                 {denial.action === "Reprocess" ? (
                   <button
                     className="text-[#027FA3] hover:underline"
-                    onClick={() => onReprocess(denial)}
+                    onClick={() => handleReprocess(denial)}
                   >
                     Reprocess
                   </button>

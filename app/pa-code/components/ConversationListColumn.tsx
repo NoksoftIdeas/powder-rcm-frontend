@@ -80,16 +80,18 @@ export default function ConversationListColumn({
   }, [conversations, searchQuery, statusFilter, channelFilter]);
 
   const getChannelIcon = (channel: string) => {
-    switch (channel) {
-      case "WhatsApp":
-        return <img src="/icons/Vector.png" alt="whatsapp" />
-      case "Email":
-        return <img src="/icons/gmail.png" alt="Gmail" />
-      case "SMS":
-        return <img src="/icons/mail.svg" alt="" />
-      default:
-        return <MessageCircle className="h-5 w-5 text-gray-500" />;
+    const channelLower = channel.toLowerCase();
+    
+    if (channelLower.includes('whatsapp')) {
+      return <img src="/icons/Vector.png" alt="WhatsApp" className="h-5 w-5" />;
+    } else if (channelLower.includes('email') || channelLower.includes('gmail')) {
+      return <img src="/icons/gmail.png" alt="Email" className="h-5 w-5" />;
+    } else if (channelLower.includes('sms') || channelLower.includes('text')) {
+      return <img src="/icons/mail.svg" alt="SMS" className="h-5 w-5" />;
     }
+    
+    // Default to email icon if channel is not recognized
+    return <img src="/icons/gmail.png" alt="Email" className="h-5 w-5" />;
   };
 
   return (
@@ -173,7 +175,7 @@ export default function ConversationListColumn({
 
       <div className="flex-1 overflow-y-auto">
         {filteredConversations.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500 p-4 text-center">
+          <div className="flex flex-col items-center justify-center h-ful text-gray-500 p-4 mt-[-1.2rem] text-center">
             {/* <MessageCircle className="h-10 w-10 mb-2 opacity-30" /> */}
             <img src="/icons/Empty interactions.png" alt="emptystate" />
             {/* <p className="text-sm text-gray-400 mt-1">

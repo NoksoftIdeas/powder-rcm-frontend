@@ -266,7 +266,7 @@ function BillingPage() {
           <input
             type="text"
             placeholder="Search"
-            className="border-[1px] text-[#667085] ml-3 border-gray-300 rounded-xl px-4 py-2 text-sm w-full md:w-50"
+            className=" text-[#667085] ml-3 px-[14px] py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085] w-full md:w-50 focus:outline-none "
             value={filter.search}
             onChange={(e) =>
               setFilter((f) => ({ ...f, search: e.target.value }))
@@ -274,7 +274,7 @@ function BillingPage() {
           />
           <div className="flex flex-col md:flex-row items-center gap-4 mr-4  ">
             <select
-              className="border-[1px] text-[#667085] border-gray-300 rounded-xl px-2 py-2 text-sm w-full md:w-28"
+              className=" text-[#667085] px-[14px] py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085] w-full md:w-28"
               value={filter.hmo}
               onChange={(e) =>
                 setFilter((f) => ({ ...f, hmo: e.target.value }))
@@ -287,14 +287,14 @@ function BillingPage() {
             <input
               type="text"
               placeholder="₦0 - ₦99999999"
-              className="border-[1px] text-[#667085] border-gray-300 rounded-xl px-2 py-2 text-sm w-full md:w-24 focus:outline-none"
+              className=" text-[#667085] px-[14px] py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085] w-full md:w-24 focus:outline-none"
               value={filter.amount}
               onChange={(e) =>
                 setFilter((f) => ({ ...f, amount: e.target.value }))
               }
             />
             <select
-              className="border-[1px]  text-[#667085] border-gray-300 rounded-xl px-2 py-2 text-sm w-full md:w-28"
+              className="text-[#667085] px-[14px] py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085] w-full md:w-28"
               value={filter.status}
               onChange={(e) =>
                 setFilter((f) => ({ ...f, status: e.target.value }))
@@ -308,7 +308,7 @@ function BillingPage() {
               <input
                 type="text"
                 placeholder="Date Range    📅"
-                className="border-[1px]  text-[#667085] border-gray-300 rounded-xl px-2 py-2 text-sm w-full focus:outline-none  md:w-32"
+                className="  text-[#667085] px-[9px] py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085]  w-full focus:outline-none  md:w-32"
                 value={filter.startDate}
                 onChange={(e) =>
                   setFilter((f) => ({ ...f, startDate: e.target.value }))

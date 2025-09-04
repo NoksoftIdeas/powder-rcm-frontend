@@ -200,19 +200,19 @@ function HMOsPage() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-10 py-3 text-left text-xs  text-[#475467] uppercase">
-                HMO
+              <th className="px-10 py-3 text-left text-xs  text-[#475467] capitalize">
+                Provider
               </th>
-              <th className="px-3 py-3 text-left text-xs  text-[#475467] uppercase">
+              <th className="px-3 py-3 text-left text-xs  text-[#475467] capitalize">
                 Plans
               </th>
-              <th className="px-2 py-3 text-left text-xs  text-[#475467] uppercase">
+              <th className="px-2 py-3 text-left text-xs  text-[#475467] capitalize">
                 Tariff Update
               </th>
-              <th className="px-5 py-3 text-left text-xs  text-[#475467] uppercase">
+              <th className="px-5 py-3 text-left text-xs  text-[#475467] capitalize">
                 Channels
               </th>
-              <th className="px-5 py-3 text-left text-xs  text-[#475467] uppercase">
+              <th className="px-5 py-3 text-left text-xs  text-[#475467] capitalize">
                 Action
               </th>
             </tr>

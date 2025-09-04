@@ -12,7 +12,7 @@ const routeNameMap: Record<string, string> = {
   "/claims": "Claims",
   "/denials": "Denial Management",
   "/billing": "Billing",
-  "/hmos": "HMOs",
+  "/hmos": "Providers",
   "/patients": "Patients",
   "/settings": "Settings",
   "/tariff-plans": "Tariff Plans",

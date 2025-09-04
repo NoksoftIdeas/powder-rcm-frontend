@@ -30,7 +30,7 @@ const cards = (
 
 export default function DenialsSummaryCards(props: DenialsSummaryCardsProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
       {cards(props).map((card) => (
         <div
           key={card.title}

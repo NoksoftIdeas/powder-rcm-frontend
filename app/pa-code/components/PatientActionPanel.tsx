@@ -27,7 +27,9 @@ export function PatientActionPanel({
   const [list, setList] = useState(items);
   const [hasCheckedItems, setHasCheckedItems] = useState(false);
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
-  const [rejectedServices, setRejectedServices] = useState<RejectedService[]>([]);
+  const [rejectedServices, setRejectedServices] = useState<RejectedService[]>(
+    []
+  );
 
   const handleReject = async (rejectedServices: RejectedService[]) => {
     try {
@@ -41,17 +43,17 @@ export function PatientActionPanel({
           });
         }
       }
-      
+
       // Close the modal and reset the UI
       setIsRejectModalOpen(false);
-      setList(prev => prev.map(item => ({...item, completed: false})));
+      setList((prev) => prev.map((item) => ({ ...item, completed: false })));
       setHasCheckedItems(false);
-      
+
       // Show success message
-      alert('Services have been rejected and added to denials.');
+      alert("Services have been rejected and added to denials.");
     } catch (error) {
-      console.error('Error processing rejections:', error);
-      alert('Failed to process rejections. Please try again.');
+      console.error("Error processing rejections:", error);
+      alert("Failed to process rejections. Please try again.");
     }
   };
 
@@ -63,13 +65,13 @@ export function PatientActionPanel({
     <aside className="w-full animate-slide-in-right ">
       <div className="p-2 space-y-4 ">
         <div>
-          <label className="block text-xs text-gray-500 mb-1">
-            Assigned To
+          <label className="block text-[14px] font-normal leading-[24px] text-[#00000099] mb-1">
+            Assigned To:
           </label>
           <select
             value={assignee}
             onChange={(e) => setAssignee(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none"
+            className="w-full border text-[#344054] border-[#D0D5DD] rounded-[12px] px-[14px] py-[12px] text-sm focus:outline-none"
           >
             {assignees.map((a) => (
               <option key={a} value={a}>
@@ -80,8 +82,8 @@ export function PatientActionPanel({
         </div>
 
         {/* Tabs */}
-        <div className="border border-[#EAECF0]  rounded-[24px]">
-          <div className="flex items-center bg-[#F4F6F6] gap-6 border-b border-gray-200 px-1">
+        <div className=" ">
+          <div className="flex items-center bg-[#F4F6F6] gap-12 mb-2 px-3 pt-3 border-t  border-x border-[#EAECF0]  rounded-tl-[24px] rounded-tr-[24px] ">
             {(["Unprocessed", "Processed"] as const).map((tab) => {
               const isActive = activeTab === tab;
               return (
@@ -90,13 +92,13 @@ export function PatientActionPanel({
                   onClick={() => setActiveTab(tab)}
                   className={`relative py-2 text-sm font-medium ${
                     isActive
-                      ? "text-blue-600"
-                      : "text-gray-500 hover:text-gray-700"
+                      ? "bg-[#fff] py-[10px] text-[#027FA3] px-[12px] rounded-tl-[12px] rounded-tr-[12px] border-t border-l border-r border-[#EFF2F5] text-[14px] font-bold leading-[120%] "
+                      : "text-[#979797] leading-[120%] text-[14px] font-normal hover:text-gray-700"
                   }`}
                 >
                   {tab}
                   {isActive && (
-                    <span className="absolute left-0 -bottom-px h-0.5 w-full bg-blue-600" />
+                    <span className="absolute left-0 -bottom-px h-0.5 w-full b" />
                   )}
                 </button>
               );
@@ -120,7 +122,7 @@ export function PatientActionPanel({
                     );
                     setList(newList);
                     // Check if any items are checked in the Unprocessed tab
-                    const hasChecked = newList.some(item => item.completed);
+                    const hasChecked = newList.some((item) => item.completed);
                     setHasCheckedItems(hasChecked);
                   }}
                   className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
@@ -133,39 +135,38 @@ export function PatientActionPanel({
                 No items.
               </p>
             )}
-            
-            {activeTab === 'Unprocessed' && hasCheckedItems && (
-              <div className="mt-4 p-3">
-                <button 
-                  className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-                  onClick={() => {
-                    // Get all checked items and prepare them for rejection
-                    const checkedItems = list.filter(item => item.completed);
-                    setRejectedServices(
-                      checkedItems.map(item => ({
-                        id: item.id,
-                        label: item.label,
-                        reason: ''
-                      }))
-                    );
-                    setIsRejectModalOpen(true);
-                  }}
-                >
-                  Reject Selected
-                </button>
-              </div>
-            )}
           </div>
         </div>
       </div>
-      
+      {activeTab === "Unprocessed" && hasCheckedItems && (
+        <div className="mt-4 p-3">
+          <button
+            className="w-full py-2 px-4 bg-[#FF2E3B1A] text-[#FF2E3B] text-sm font-bold rounded-[12px] transition-colors leading-[120%] duration-200"
+            onClick={() => {
+              // Get all checked items and prepare them for rejection
+              const checkedItems = list.filter((item) => item.completed);
+              setRejectedServices(
+                checkedItems.map((item) => ({
+                  id: item.id,
+                  label: item.label,
+                  reason: "",
+                }))
+              );
+              setIsRejectModalOpen(true);
+            }}
+          >
+            Reject
+          </button>
+        </div>
+      )}
+
       <RejectModal
         isOpen={isRejectModalOpen}
         onClose={() => setIsRejectModalOpen(false)}
         rejectedServices={rejectedServices}
         onReasonChange={(id, reason) => {
-          setRejectedServices(prev => 
-            prev.map(service => 
+          setRejectedServices((prev) =>
+            prev.map((service) =>
               service.id === id ? { ...service, reason } : service
             )
           );

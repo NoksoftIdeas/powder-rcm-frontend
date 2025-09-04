@@ -41,7 +41,7 @@ export default function DenialsFilters({
         }
       />
       <select
-        className="border-[1px] text-[#667085] border-gray-300 rounded-xl px-4 py-2 text-sm"
+        className="border-[1px] md:w-36 text-[#667085] border-gray-300 rounded-xl px-4 py-2 text-sm"
         value={hmo}
         onChange={(e) =>
           onChange({ search, hmo: e.target.value, status, startDate, endDate })
@@ -55,7 +55,7 @@ export default function DenialsFilters({
         ))}
       </select>
       <select
-        className="border-[1px]  text-[#667085] border-gray-300 rounded-xl px-4 py-2 text-sm"
+        className="border-[1px] md:w-36  text-[#667085]  border-gray-300 rounded-xl px-4 py-2 text-sm"
         value={status}
         onChange={(e) =>
           onChange({ search, hmo, status: e.target.value, startDate, endDate })

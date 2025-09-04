@@ -25,11 +25,11 @@ export default function ClaimsFilters({
         <input
           type="text"
           placeholder="Patient ID/Name"
-          className="border-[1px]  border-gray-300 bg-[#F8F8F8] rounded-[12px] pl-[35px] py-[10px] text-sm w-48 focus:outline-none "
+          className="py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085] pl-[35px] w-48 focus:outline-none "
           value={filters.search}
           onChange={(e) => onChange({ ...filters, search: e.target.value })}
         />
-        <span className="absolute left-3 top-2.5 text-[#B4B4B4]  ">
+        <span className="absolute left-3 top-2.5 text-[#667085]  ">
           <svg
             width="18"
             height="18"
@@ -43,11 +43,11 @@ export default function ClaimsFilters({
         </span>
       </div>
       <select
-        className="border-[1px]  border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-40 focus:outline-none "
+        className="py-[10px] text-sm border shadow-xs shadow-[#1018280D] px-[14px]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] text-[#667085] w-40 focus:outline-none "
         value={filters.hmo}
         onChange={(e) => onChange({ ...filters, hmo: e.target.value })}
       >
-        <option value="" className="text-[#667085]">
+        <option value="">
           All HMOs
         </option>
         <option value="Ally Healthcare">Ally Healthcare</option>
@@ -60,14 +60,14 @@ export default function ClaimsFilters({
           type="text"
           min={0}
           placeholder="#0-#99999999"
-          className="border-[1px]  border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-24 focus:outline-none "
+          className="py-[10px] text-sm border shadow-xs shadow-[#1018280D] px-[14px] border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085] w-28 focus:outline-none "
           value={filters.maxAmount}
           onChange={(e) => onChange({ ...filters, maxAmount: e.target.value })}
         />
       </div>
 
       <select
-        className="border-[1px]  border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-36 focus:outline-none  "
+        className="py-[10px] text-sm border shadow-xs shadow-[#1018280D] px-[14px] border-[#0000001A] rounded-[12px] bg-[#FFFFFF] text-[#667085] w-36 focus:outline-none  "
         value={filters.status}
         onChange={(e) => onChange({ ...filters, status: e.target.value })}
       >
@@ -81,7 +81,7 @@ export default function ClaimsFilters({
       <input
         type="text"
         placeholder="Date range          📅"
-        className="border-[1px]  border-gray-300 bg-[#F8F8F8] rounded-[12px] px-[14px] py-[10px] text-sm w-40 focus:outline-none "
+        className="py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085] px-[14px] w-40 focus:outline-none "
         value={filters.date}
         onChange={(e) => onChange({ ...filters, date: e.target.value })}
         onFocus={(e) => (e.target.type = "date")}

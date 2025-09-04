@@ -9,8 +9,8 @@ export function ConversationDetailEmptyState({
   onCreateNew: () => void;
 }) {
   return (
-    <section className="flex-1 flex flex-col h-full border border-[#EAECF0] rounded-[24px]">
-      <div className="flex-1 m-[-2rem] flex items-center bg-[url('/icons/BackgroundEmpty.png')] bg-fit bg-no-repeat bg-center justify-center">
+    <section className="flex-1 flex flex-col  md:w-[480px] h-[100vh] border border-[#EAECF0] rounded-[24px]">
+      <div className="flex-1 m-[-2rem]  flex items-center bg-[url('/icons/BackgroundEmpty.png')] bg-fit bg-no-repeat bg-center justify-center">
         <div className="text-center">
           <div className="mx-auto mt-28 h-24 w-24 rounded-full bg-[#EDF0F3] flex items-center  justify-center relative">
             <div className="absolute inset-0 rounded-full " />

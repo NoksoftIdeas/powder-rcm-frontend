@@ -100,14 +100,14 @@ export function PatientSection({
 
   return (
     <div className="space-y-2">
-      <label htmlFor="patient-id" className="block text-sm font-medium text-gray-700">
+      <label htmlFor="patient-id" className="block text-[14.93px] leading-[21.33px] font-medium text-[#344054]">
         Patient ID
       </label>
       <div className="relative mt-1 rounded-md shadow-sm">
         <input
           type="text"
           id="patient-id"
-          className="block w-full rounded-md border-gray-300 pl-3 pr-10 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          className="block w-full rounded-[8.53px] border-[1.07px] border-[#D0D5DD]  shadow-[#1018280D] px-[14.93px] py-[10.67px]   sm:text-sm"
           placeholder="Search patient"
           value={patientId}
           onChange={(e) => setPatientId(e.target.value)}
@@ -123,7 +123,7 @@ export function PatientSection({
           </div>
         )}
       </div>
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-[#475467]">
         {!patient && eligibilityStatus !== 'not_found' 
           ? "Which patient would you like to create a request for?"
           : eligibilityStatus === 'not_found'

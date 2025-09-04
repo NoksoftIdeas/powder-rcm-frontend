@@ -55,29 +55,29 @@ export function ServicesSection({ services, setServices }: ServicesSectionProps)
 
   return (
     <div className="space-y-2">
-      <label htmlFor="services" className="block text-sm font-medium text-gray-700">
+      <label htmlFor="services" className="block text-[14.93px] leading-[21.33px] font-medium text-[#344054]">
         Services
       </label>
       <div className="flex space-x-2">
         <input
           type="text"
           id="services"
-          className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          className="block w-full rounded-[8.53px] border-[1.07px] border-[#D0D5DD]  shadow-[#1018280D] px-[14.93px] py-[10.67px] sm:text-sm"
           placeholder="Search services"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && searchQuery.trim() && addService()}
         />
-        <button
+        {/* <button
           type="button"
           onClick={addService}
           disabled={!searchQuery.trim()}
           className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <PlusIcon className="h-4 w-4" />
-        </button>
+        </button> */}
       </div>
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-[#475467]">
         Add services you wish to request for patient
       </p>
 

@@ -78,7 +78,7 @@ function ClaimsPage() {
     <div className="flex  py-2 border-[1px] border-gray-300 rounded-xl">
       <main className="flex-1  bg-gray-50 my-3 ">
         <div className="max-w-7xl mx-auto ">
-          <div className="text-1xl font-bold mb-4 ml-4 text-[#344054] flex items-center-safe  ">
+          <div className="text-1xl font-bold mb-4 ml-4 text-[#344054] flex items-center-safe ">
             {totalClaims.toLocaleString()} Claims
             <div className=" ml-4">
               <ClaimsFilters filters={filters} onChange={handleFiltersChange} />

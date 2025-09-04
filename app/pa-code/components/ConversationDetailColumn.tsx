@@ -10,7 +10,7 @@ export type ConversationMessage =
       type: "request";
       providerName: string;
       policyNumber: string;
-      channel: "WhatsApp" | "Email" | "SMS";
+      channel: string;
       patientName: string;
       patientType: string;
       procedure: string;
@@ -51,7 +51,7 @@ export function ConversationDetailColumn({
   providerLogoUrl?: string | null;
   timer: string; // 02:56
   policyNumber: string;
-  channel: "WhatsApp" | "Email" | "SMS";
+  channel: string;
   messages: ConversationMessage[];
   onProcess?: () => void;
   referenceCode?: string;
@@ -73,7 +73,7 @@ export function ConversationDetailColumn({
   return (
     <section className="flex-1 w-full flex flex-col h-full bg-[#FFFFFF] border-t border-[#EAECF0] rounded-[24px] animate-fade-in">
       {/* Header */}
-      <div className="flex flex-row items-center justify-between px-1 py-3 border-b border-gray-200">
+      <div className="flex flex-row items-center justify-between p-[16px] border-b border-gray-200">
         <div className="flex items-center gap-1">
           {providerLogoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -83,21 +83,23 @@ export function ConversationDetailColumn({
               {providerName.slice(0, 2).toUpperCase()}
             </div>
           )}
-          <div className="flex items-center">
-            <p className="font-normal text-[#344054]">{providerName}</p>
+          <div className="flex  items-center">
+            <p className="font-normal mr-1 text-[14px] text-[#344054]">
+              {providerName}
+            </p>
             <span className="inline-flex items-center text-xs font-medium text-[#FF6058] bg-red-50  rounded-full">
               <Timer className="h-1 w-1" /> {timer}
             </span>
           </div>
         </div>
         <div className="flex justify-center items-center">
-          <p className="text-[11px] text-[#344054] "> {policyNumber}</p>
+          <p className="text-[11px] text-[#344054] mr-1 "> {policyNumber}</p>
           <div>
-            {channel === "WhatsApp" ? (
+            {channel === "WhatsApp" && (
               <img src="/icons/Vector.png" alt="whatsapp" />
-            ) : (
-              <img src="/icons/gmail.png" alt="Gmail" />
             )}
+            {channel === "Email" && <img src="/icons/gmail.png" alt="gmail" />}
+            {channel === "SMS" && <img src="/icons/mail.svg" alt="SMS" />}
           </div>
         </div>
       </div>

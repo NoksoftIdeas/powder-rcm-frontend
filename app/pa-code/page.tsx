@@ -13,49 +13,33 @@ import ConversationDetailColumn, {
 } from "./components/ConversationDetailColumn";
 import PatientActionPanel from "./components/PatientActionPanel";
 import { PaCodeProvider, usePaCode } from "./context/PaCodeContext";
+import { Patient } from "./context/PaCodeContext";
 
-const INITIAL_CONVERSATIONS: ConversationSummary[] = [
-  {
-    id: "1",
-    patientName: "Rosemary Iheme",
-    providerName: "Songhai Health Trust",
-    patientType: "Principal",
-    status: "New",
-    channel: "WhatsApp",
-    timestamp: "02:56 PM",
-    isOverdue: true,
-  },
-  {
-    id: "2",
-    patientName: "Chidinma Isaac",
-    providerName: "Ally Healthcare",
-    patientType: "Spouse",
-    status: "Read",
-    channel: "Email",
-    timestamp: "11:30 AM",
-    isOverdue: false,
-  },
-  {
-    id: "3",
-    patientName: "Aisha Mohammed",
-    providerName: "Medicare Plus",
-    patientType: "Dependent",
-    status: "New",
-    channel: "WhatsApp",
-    timestamp: "09:15 AM",
-    isOverdue: true,
-  },
-  {
-    id: "4",
-    patientName: "John Doe",
-    providerName: "Health First",
-    patientType: "Principal",
-    status: "Read",
-    channel: "Email",
-    timestamp: "08:30 AM",
-    isOverdue: true,
-  },
-];
+// Convert Patient to ConversationSummary
+const mapPatientToConversation = (patient: Patient): ConversationSummary => {
+  // Ensure we have valid values for required fields
+  const status = (['New', 'Read', 'Overdue', 'Resolved'] as const).includes(patient.status as any) 
+    ? patient.status as 'New' | 'Read' | 'Overdue' | 'Resolved'
+    : 'New';
+    
+  const channel = (['Email', 'WhatsApp', 'SMS'] as const).includes(patient.channel as any)
+    ? patient.channel as 'Email' | 'WhatsApp' | 'SMS'
+    : 'Email';
+
+  return {
+    id: patient.id,
+    patientName: patient.name,
+    providerName: patient.providerName,
+    patientType: patient.patientType as 'Principal' | 'Spouse' | 'Dependent',
+    status,
+    channel,
+    timestamp: patient.timestamp,
+    isOverdue: patient.isOverdue,
+    lastMessage: patient.reason || 'New request',
+    unreadCount: status === 'New' ? 1 : 0,
+    dueDate: patient.isOverdue ? new Date().toISOString() : undefined
+  };
+};
 
 const INITIAL_MESSAGES: Record<string, ConversationMessage[]> = {
   "1": [
@@ -109,9 +93,13 @@ function PaCodePageContent() {
   const searchParams = useSearchParams();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isNewRequestOpen, setIsNewRequestOpen] = useState(false);
-  const [conversations, setConversations] = useState<ConversationSummary[]>(
-    INITIAL_CONVERSATIONS
-  );
+  const { patients, updatePatientStatus } = usePaCode();
+  const [conversations, setConversations] = useState<ConversationSummary[]>([]);
+
+  // Update conversations when patients change
+  useEffect(() => {
+    setConversations(patients.map(mapPatientToConversation));
+  }, [patients]);
   const [messageMap, setMessageMap] =
     useState<Record<string, ConversationMessage[]>>(INITIAL_MESSAGES);
   const { setOverdueCount } = usePaCode();
@@ -336,7 +324,7 @@ function PaCodePageContent() {
               referenceCode={currentProcessCode}
             />
           </div>
-          <div className=" ml-1 lg:">
+          <div className=" ml-1 border-b border-[#EAECF0]  rounded-[24px]">
             <PatientActionPanel
               assignees={["Hassan Garba", "Mary Abiola", "Samuel Umar"]}
               defaultAssignee="Hassan Garba"

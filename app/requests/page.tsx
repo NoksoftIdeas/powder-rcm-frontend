@@ -2,7 +2,10 @@
 
 import React, { useState } from "react";
 import { Search, ChevronDown } from "lucide-react";
+import { NewRequestModal } from "@/app/components/modals/NewRequestModal";
 import Pagination from "@/app/components/ui/Pagination";
+import { usePaCode } from "@/app/pa-code/context/PaCodeContext";
+import type { PatientChannel } from "@/app/pa-code/context/PaCodeContext";
 
 type RequestStatus = "Process" | "Processed" | "Overdue";
 
@@ -25,6 +28,41 @@ export default function RequestsPage() {
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
+
+  const handleRequestClick = (request: Request) => {
+    setSelectedRequest(request);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedRequest(null);
+  };
+
+  const { addPatient } = usePaCode();
+
+  const handleSubmitRequest = (services: any, channel: string) => {
+    if (!selectedRequest) return;
+    
+    // Add the patient to the PaCode page with the selected channel
+    addPatient({
+      name: `${selectedRequest.firstName} ${selectedRequest.lastName}`,
+      providerName: selectedRequest.requestedBy,
+      patientType: 'Principal',
+      isOverdue: false,
+      enrolleeId: selectedRequest.id,
+      hmo: selectedRequest.hmo,
+      reason: 'New request submitted',
+      lastMessage: `New request with ${services.length} service(s) via ${channel}`,
+      unreadCount: 1,
+      channel: channel as PatientChannel
+    } as any);
+    
+    // Close the modal
+    setSelectedRequest(null);
+    
+    // Optionally, you can show a success message or navigate to the PaCode page
+    // router.push('/pa-code');
+  };
 
   // Sample data - replace with actual API calls
   const requests: Request[] = [
@@ -222,86 +260,98 @@ export default function RequestsPage() {
     currentPage * itemsPerPage
   );
 
+  // Removed duplicate function declarations
+
   return (
-    <div className="container mx-auto px-4 py-4 border-[1px] border-gray-200 rounded-xl">
-      <div className=" rounded-lg border-b border-gray-200 mb-6 px-4 pb-3">
-        <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
-          {overdueCount > 0 && (
-            <div className="text-sm font-semibold text-[#FF2E3B]">
-              {overdueCount} Overdue
-            </div>
-          )}
-
-          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
-            <div className="relative flex-1 sm:flex-initial sm:w-48">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-4 w-4 text-gray-400" />
+    <div className=" mx-auto border-[#EAECF0] border rounded-[12px] ">
+      {selectedRequest && (
+        <NewRequestModal
+          isOpen={true}
+          onClose={handleCloseModal}
+          onSubmit={handleSubmitRequest}
+          request={selectedRequest}
+        />
+      )}
+      <div className="container mx-auto px-4 pt-4 ">
+        <div className=" mb-3 px-4 ">
+          <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+            {overdueCount > 0 && (
+              <div className="text-sm font-semibold text-[#FF2E3B]">
+                {overdueCount} Overdue
               </div>
-              <input
-                type="text"
-                className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-md bg-white placeholder-gray-400 focus:outline-none "
-                placeholder="Patient ID/Name"
-                value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  setCurrentPage(1); // Reset to first page when searching
-                }}
-              />
-            </div>
+            )}
 
-            <div className="relative flex-1 sm:flex-initial sm:w-40">
-              <select
-                className="appearance-none block w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md bg-white focus:outline-none "
-                value={hmoFilter}
-                onChange={(e) => {
-                  setHmoFilter(e.target.value);
-                  setCurrentPage(1);
-                }}
-              >
-                <option value="all">All HMOs</option>
-                {hmoOptions.map((hmo) => (
-                  <option key={hmo} value={hmo}>
-                    {hmo}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <ChevronDown className="h-4 w-4 text-gray-400" />
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
+              <div className="relative flex-1 sm:flex-initial sm:w-48">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-4 w-4 text-[#667085]" />
+                </div>
+                <input
+                  type="text"
+                  className="block w-full pl-9 pr-3 py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085] focus:outline-none "
+                  placeholder="Patient ID/Name"
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    setCurrentPage(1); // Reset to first page when searching
+                  }}
+                />
               </div>
-            </div>
 
-            <div className="relative flex-1 sm:flex-initial sm:w-40">
-              <select
-                className="appearance-none block w-full pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-md bg-white focus:outline-none "
-                value={statusFilter}
-                onChange={(e) => {
-                  setStatusFilter(e.target.value as RequestStatus | "all");
-                  setCurrentPage(1);
-                }}
-              >
-                {statusOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <ChevronDown className="h-4 w-4 text-gray-400" />
+              <div className="relative flex-1 sm:flex-initial sm:w-40">
+                <select
+                  className="appearance-none block w-full pl-3 pr-8 py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] text-[#667085] focus:outline-none "
+                  value={hmoFilter}
+                  onChange={(e) => {
+                    setHmoFilter(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                >
+                  <option value="all">All HMOs</option>
+                  {hmoOptions.map((hmo) => (
+                    <option key={hmo} value={hmo}>
+                      {hmo}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <ChevronDown className="h-4 w-4 text-[#667085]" />
+                </div>
               </div>
-            </div>
 
-            <div className="relative flex-1 sm:flex-initial sm:w-40">
-              <input
-                type="text"
-                placeholder="Date range       📅"
-                className="block w-full pl-4 pr-3 py-2 text-sm  border border-gray-300 rounded-md bg-white focus:outline-none"
-                value={selectedDate}
-                onChange={(e) => {
-                  setSelectedDate(e.target.value);
-                }}
-                onFocus={(e) => (e.target.type = "date")}
-                onBlur={(e) => (e.target.type = "text")}
-              />
+              <div className="relative flex-1 sm:flex-initial sm:w-40">
+                <select
+                  className="appearance-none block w-full pl-3 pr-8 py-[10px] text-sm border text-[#667085] shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] focus:outline-none "
+                  value={statusFilter}
+                  onChange={(e) => {
+                    setStatusFilter(e.target.value as RequestStatus | "all");
+                    setCurrentPage(1);
+                  }}
+                >
+                  {statusOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <ChevronDown className="h-4 w-4 text-[#667085]" />
+                </div>
+              </div>
+
+              <div className="relative flex-1 sm:flex-initial sm:w-40">
+                <input
+                  type="text"
+                  placeholder="Date range       📅"
+                  className="block w-full pl-4 pr-3 py-[10px] text-sm border shadow-xs shadow-[#1018280D]  border-[#0000001A] rounded-[12px] bg-[#FFFFFF] placeholder-[#667085]focus:outline-none"
+                  value={selectedDate}
+                  onChange={(e) => {
+                    setSelectedDate(e.target.value);
+                  }}
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => (e.target.type = "text")}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -369,20 +419,20 @@ export default function RequestsPage() {
                   })}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#101828]">
-                  <a
-                    href={`/pa-code?firstName=${encodeURIComponent(request.firstName)}&lastName=${encodeURIComponent(request.lastName)}&hmo=${encodeURIComponent(request.hmo)}&requestedBy=${encodeURIComponent(request.requestedBy)}&requestId=${encodeURIComponent(request.id)}&date=${encodeURIComponent(request.date)}`}
-                    className="hover:underline"
+                  <button
+                    onClick={() => handleRequestClick(request)}
+                    className="hover:underline w-full text-start"
                   >
                     {request.firstName}
-                  </a>
+                  </button>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#101828]">
-                  <a
-                    href={`/pa-code?firstName=${encodeURIComponent(request.firstName)}&lastName=${encodeURIComponent(request.lastName)}&hmo=${encodeURIComponent(request.hmo)}&requestedBy=${encodeURIComponent(request.requestedBy)}&requestId=${encodeURIComponent(request.id)}&date=${encodeURIComponent(request.date)}`}
-                    className="hover:underline"
+                  <button
+                    onClick={() => handleRequestClick(request)}
+                    className="hover:underline w-full text-start"
                   >
                     {request.lastName}
-                  </a>
+                  </button>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-[#979797]">
                   {request.hmo}
@@ -391,20 +441,17 @@ export default function RequestsPage() {
                   {request.requestedBy}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <a
-                    href={
-                      request.status === "Process"
-                        ? `/pa-code?firstName=${encodeURIComponent(request.firstName)}&lastName=${encodeURIComponent(request.lastName)}&hmo=${encodeURIComponent(request.hmo)}&requestedBy=${encodeURIComponent(request.requestedBy)}&requestId=${encodeURIComponent(request.id)}&date=${encodeURIComponent(request.date)}`
-                        : "#"
-                    }
+                  <button
+                    onClick={() => request.status === "Process" && handleRequestClick(request)}
+                    disabled={request.status !== "Process"}
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       request.status === "Process"
                         ? "text-[#027FA3] hover:underline"
-                        : "text-[#979797]"
+                        : "text-[#979797] cursor-not-allowed"
                     }`}
                   >
                     {request.status}
-                  </a>
+                  </button>
                 </td>
               </tr>
             ))}
@@ -430,5 +477,5 @@ export default function RequestsPage() {
         />
       </div>
     </div>
-  );
+  )
 }

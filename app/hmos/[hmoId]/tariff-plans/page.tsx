@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { AddTariffItemModal } from "@/app/components/modals/AddTariffItemModal";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { EditTariffModal } from "./components/modals/EditTariffModal";
 import { DeleteTariffModal } from "./components/modals/DeleteTariffModal";
@@ -112,6 +112,20 @@ export default function TariffPlansPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  // Function to handle adding new tariff items
+  const handleAddTariffItems = useCallback((items: Array<{ name: string; category: string; cost: string }>) => {
+    const newTariffs = items.map((item, index) => ({
+      id: tariffs.length > 0 ? Math.max(...tariffs.map(t => t.id)) + index + 1 : 1,
+      service: item.name || 'Unnamed Service',
+      category: item.category || 'Service',
+      cost: item.cost ? `₦${parseFloat(item.cost).toLocaleString()}` : '₦0',
+      status: 'Approved',
+    }));
+
+    setTariffs(prevTariffs => [...prevTariffs, ...newTariffs]);
+    setVerifyModalOpen(true);
+  }, [tariffs.length]);
+
   const handleEditTariff = useCallback(
     (tariff: {
       id: number;
@@ -182,7 +196,12 @@ export default function TariffPlansPage() {
       <div className="flex flex-row justify-between">
         <nav className="text-xs  mb-2 flex items-center gap-2">
           <span>
-            <Image src="/icons/Breadcrumb.png" alt="houseicon" width={16} height={16} />
+            <Image
+              src="/icons/Breadcrumb.png"
+              alt="houseicon"
+              width={16}
+              height={16}
+            />
           </span>
           <span
             className="hover:underline cursor-pointer"
@@ -228,7 +247,7 @@ export default function TariffPlansPage() {
       </div>
       <div className="bg-[#F9FAFB] rounded-xl border border-[#EAECF0] p-4 flex  justify-between flex-col md:flex-row md:items-center gap-2 mb-4">
         <div className="flex flex-col items-start gap-2">
-                    <span className="text-sm  text-[#344054]">Search for tarrif</span>
+          <span className="text-sm  text-[#344054]">Search for tarrif</span>
 
           <input
             type="text"
@@ -334,7 +353,9 @@ export default function TariffPlansPage() {
                   <td className="px-6 text-[#475467] py-4 whitespace-nowrap">
                     {item.category}
                   </td>
-                  <td className="px-6 py-4 text-[#475467] whitespace-nowrap">{item.cost}</td>
+                  <td className="px-6 py-4 text-[#475467] whitespace-nowrap">
+                    {item.cost}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`inline-block px-3 py-1 rounded-full text-xs  ${
@@ -378,7 +399,12 @@ export default function TariffPlansPage() {
                           }}
                         >
                           <span className="inline-flex text-[#344054] items-center gap-2">
-                            <Image src="/icons/edit-2.png" alt="EditIcon" width={16} height={16} />
+                            <Image
+                              src="/icons/edit-2.png"
+                              alt="EditIcon"
+                              width={16}
+                              height={16}
+                            />
                             Edit
                           </span>
                         </button>
@@ -395,7 +421,12 @@ export default function TariffPlansPage() {
                           }}
                         >
                           <span className="inline-flex text-[#344054] items-center gap-2">
-                            <Image src="/icons/trash.png" alt="DeleteIcon" width={16} height={16} />
+                            <Image
+                              src="/icons/trash.png"
+                              alt="DeleteIcon"
+                              width={16}
+                              height={16}
+                            />
                             Delete
                           </span>
                         </button>
@@ -410,22 +441,32 @@ export default function TariffPlansPage() {
               <td colSpan={5}>
                 <div className="px-6 py-4 border-t border-gray-200 bg-white">
                   <Pagination
-                    totalItems={tariffs.filter((item) => {
-                      const matchesSearch =
-                        item.service.toLowerCase().includes(search.toLowerCase()) ||
-                        item.category.toLowerCase().includes(search.toLowerCase());
-                      const matchesStatus = statusFilter === "All" || item.status === statusFilter;
-                      let matchesCost = true;
-                      if (costFilter) {
-                        const numericCost = parseFloat(item.cost.replace(/[^0-9.]/g, ""));
-                        if (costFilter === "low") {
-                          matchesCost = numericCost < 50000;
-                        } else if (costFilter === "high") {
-                          matchesCost = numericCost >= 50000;
+                    totalItems={
+                      tariffs.filter((item) => {
+                        const matchesSearch =
+                          item.service
+                            .toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                          item.category
+                            .toLowerCase()
+                            .includes(search.toLowerCase());
+                        const matchesStatus =
+                          statusFilter === "All" ||
+                          item.status === statusFilter;
+                        let matchesCost = true;
+                        if (costFilter) {
+                          const numericCost = parseFloat(
+                            item.cost.replace(/[^0-9.]/g, "")
+                          );
+                          if (costFilter === "low") {
+                            matchesCost = numericCost < 50000;
+                          } else if (costFilter === "high") {
+                            matchesCost = numericCost >= 50000;
+                          }
                         }
-                      }
-                      return matchesSearch && matchesStatus && matchesCost;
-                    }).length}
+                        return matchesSearch && matchesStatus && matchesCost;
+                      }).length
+                    }
                     itemsPerPage={itemsPerPage}
                     currentPage={currentPage}
                     onPageChange={setCurrentPage}
@@ -436,163 +477,12 @@ export default function TariffPlansPage() {
           </tfoot>
         </table>
       </div>
-      {modalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-end bg-[#014C654D] backdrop-blur-[0.3px]"
-          onClick={() => setModalOpen(false)}
-        >
-          <div
-            className="bg-white w-full max-w-md h-full shadow-2xl p-8 relative animate-fade-in flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
-              onClick={() => setModalOpen(false)}
-              aria-label="Close"
-            >
-              <svg
-                width="22"
-                height="22"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-            <h2 className="text-2xl font-bold mb-1">Add Item</h2>
-            <p className="text-gray-500 text-sm mb-6">
-              Add new items to the tariff plan
-            </p>
-            <p className="text-xs text-gray-400 mb-4">Tariff for Red Diamond</p>
-            <form
-              className="flex flex-col gap-4 flex-1 overflow-y-auto"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setModalOpen(false);
-                setVerifyModalOpen(true);
-              }}
-            >
-              {[0, 1].map((idx) => (
-                <div key={idx} className="bg-gray-50 rounded-lg p-4 mb-2">
-                  <div className="mb-2 text-xs font-semibold text-gray-500">
-                    {idx + 1}. Name
-                  </div>
-                  <input
-                    type="text"
-                    className="w-full rounded-md border px-4 py-2 mb-2 border-gray-300 focus:border-cyan-500"
-                    placeholder="Diamond - Corporate"
-                  />
-                  <label className="block text-sm font-medium mb-1">
-                    Service Category
-                  </label>
-                  <select className="w-full rounded-md border px-4 py-2 mb-2 border-gray-300 focus:border-cyan-500">
-                    <option>Pick one</option>
-                    <option>Consultation</option>
-                    <option>Service</option>
-                    <option>Drug</option>
-                    <option>Laboratory</option>
-                    <option>Radiology</option>
-                    <option>Nursing</option>
-                  </select>
-                  <label className="block text-sm font-medium mb-1">Cost</label>
-                  <input
-                    type="text"
-                    className="w-full rounded-md border px-4 py-2 border-gray-300 focus:border-cyan-500"
-                    placeholder="Diamond - Corporate 0"
-                  />
-                </div>
-              ))}
-              <button
-                type="button"
-                className="w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-2xl text-gray-500 hover:bg-gray-100 mb-2"
-              >
-                +
-              </button>
-              <div className="text-xs text-gray-500 mt-4 mb-2">
-                By submitting this form, I confirm that the information provided
-                is accurate and true. I understand that providing false
-                information may result in legal consequences and termination of
-                services. I agree to the{" "}
-                <a href="/terms" className="underline">
-                  Terms and Conditions
-                </a>
-                .
-              </div>
-              <div className="flex gap-2 mt-6">
-                <button
-                  type="button"
-                  className="flex-1 px-4 py-2 rounded-lg border bg-gray-50 text-gray-700 font-semibold hover:bg-gray-100"
-                  onClick={() => setModalOpen(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 px-4 py-2 rounded-lg bg-cyan-700 text-white font-semibold shadow hover:bg-cyan-800 transition"
-                >
-                  Confirm
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-      {/* {verifyModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-end bg-black/30"
-          onClick={() => setVerifyModalOpen(false)}
-        >
-          <div
-            className="bg-white w-full max-w-md h-full shadow-2xl p-8 relative animate-fade-in flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 className="text-2xl font-bold mb-1">Verify Tariff</h2>
-            <p className="text-gray-500 text-sm mb-6">
-              Confirm the new updates to the tariff plan
-            </p>
-            <div className="flex flex-col gap-4 mb-6">
-              {pendingTariffs.map((item, idx) => (
-                <div key={idx} className="border-b pb-2">
-                  <div className="font-semibold text-gray-800">{item.name}</div>
-                  <div className="text-gray-700">{item.cost}</div>
-                </div>
-              ))}
-            </div>
-            <div className="text-xs text-gray-500 mt-4 mb-2">
-              By submitting this form, I confirm that the information provided
-              is accurate and true. I understand that providing false
-              information may result in legal consequences and termination of
-              services. I agree to the{" "}
-              <a href="/terms" className="underline">
-                Terms and Conditions
-              </a>
-              .
-            </div>
-            <div className="flex gap-2 mt-6">
-              <button
-                type="button"
-                className="flex-1 px-4 py-2 rounded-lg border bg-gray-50 text-gray-700 font-semibold hover:bg-gray-100"
-                onClick={() => setVerifyModalOpen(false)}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="flex-1 px-4 py-2 rounded-lg bg-cyan-700 text-white font-semibold shadow hover:bg-cyan-800 transition"
-                onClick={() => setVerifyModalOpen(false)}
-              >
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
+      <AddTariffItemModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={handleAddTariffItems}
+      />
+
       <EditTariffModal
         isOpen={!!editingTariff}
         onClose={() => setEditingTariff(null)}
